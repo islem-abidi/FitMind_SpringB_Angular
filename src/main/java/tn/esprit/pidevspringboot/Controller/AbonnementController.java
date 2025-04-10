@@ -68,5 +68,40 @@ public class AbonnementController {
 
         return iAbonnementService.retrieveAllAbonnementsPaged(page, size, sortBy, direction);
     }
+    @GetMapping("/search")
+    public Page<Abonnement> searchAbonnements(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreation") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        return iAbonnementService.searchAbonnements(keyword, page, size, sortBy, direction);
+    }
+    @Operation(description = "Afficher les abonnements archivés")
+    @GetMapping("/retrieveArchivedAbonnements")
+    public List<Abonnement> getArchivedAbonnements() {
+        return iAbonnementService.retrieveArchivedAbonnements();
+    }
+
+    @GetMapping("/searchArchived")
+    public Page<Abonnement> searchArchived(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreation") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        return iAbonnementService.searchArchivedAbonnements(keyword, page, size, sortBy, direction);
+    }
+    @Operation(description = "Afficher les abonnements archivés avec pagination")
+    @GetMapping("/retrieveArchivedAbonnementsPaged")
+    public Page<Abonnement> getArchivedPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "dateCreation") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+        return iAbonnementService.retrieveArchivedAbonnementsPaged(page, size, sortBy, direction);
+    }
 
 }

@@ -21,8 +21,7 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<Plat> plats;
 
-    @ManyToMany(mappedBy = "menus")
-    private Set<Abonnement> abonnements;
+
 
     public Long getIdMenu() {
         return idMenu;
@@ -56,11 +55,5 @@ public class Menu {
         this.plats = plats;
     }
 
-    public Set<Abonnement> getAbonnements() {
-        return abonnements;
-    }
 
-    public void setAbonnements(Set<Abonnement> abonnements) {
-        this.abonnements = abonnements;
-    }
 }

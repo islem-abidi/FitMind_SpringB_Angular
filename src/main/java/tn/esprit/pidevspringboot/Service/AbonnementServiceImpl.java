@@ -80,8 +80,27 @@ public class AbonnementServiceImpl implements IAbonnementService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
         return abonnementRepository.findByArchivedFalse(pageable);
     }
+    public Page<Abonnement> searchAbonnements(String keyword, int page, int size, String sortBy, String direction) {
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+        return abonnementRepository.searchAbonnements(keyword, pageable);
+    }
 
+    @Override
+    public List<Abonnement> retrieveArchivedAbonnements() {
+        return abonnementRepository.findByArchivedTrue();
+    }
 
+    public Page<Abonnement> searchArchivedAbonnements(String keyword, int page, int size, String sortBy, String direction) {
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+        return abonnementRepository.searchArchivedAbonnements(keyword, pageable);
+    }
+    public Page<Abonnement> retrieveArchivedAbonnementsPaged(int page, int size, String sortBy, String direction) {
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+        return abonnementRepository.findByArchivedTrue(pageable);
+    }
 
 }
 

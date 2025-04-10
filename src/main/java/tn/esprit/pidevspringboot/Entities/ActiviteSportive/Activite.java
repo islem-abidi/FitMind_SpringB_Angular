@@ -30,8 +30,7 @@ public class Activite {
     @OneToMany(mappedBy = "activite")
     Set<Seance_sport> seance_sports;
 
-    @ManyToMany(mappedBy = "activites")
-    private Set<Abonnement> abonnements;
+
 
     public Long getId_activite() {
         return id_activite;
@@ -73,11 +72,5 @@ public class Activite {
         this.seance_sports = seance_sports;
     }
 
-    public Set<Abonnement> getAbonnements() {
-        return abonnements;
-    }
 
-    public void setAbonnements(Set<Abonnement> abonnements) {
-        this.abonnements = abonnements;
-    }
 }

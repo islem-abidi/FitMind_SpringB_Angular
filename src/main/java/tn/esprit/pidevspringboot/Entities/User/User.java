@@ -1,5 +1,6 @@
 package tn.esprit.pidevspringboot.Entities.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -63,6 +64,7 @@ public class User {
     Set<Activite> activite;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Abonnement> abonnements = new ArrayList<>();
 
     public Long getIdUser() {

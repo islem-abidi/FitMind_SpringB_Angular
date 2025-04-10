@@ -26,13 +26,7 @@ public class RendezVous {
     private String remarque;
     private boolean rappelEnvoye;
 
-    public Abonnement getAbonnement() {
-        return abonnement;
-    }
 
-    public void setAbonnement(Abonnement abonnement) {
-        this.abonnement = abonnement;
-    }
 
     public boolean isRappelEnvoye() {
         return rappelEnvoye;
@@ -82,8 +76,6 @@ public class RendezVous {
         this.idRendezVous = idRendezVous;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_abonnement")
-    private Abonnement abonnement;
+
 
 }

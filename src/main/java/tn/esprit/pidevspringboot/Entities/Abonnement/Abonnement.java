@@ -1,4 +1,5 @@
 package tn.esprit.pidevspringboot.Entities.Abonnement;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,32 +20,19 @@ public class Abonnement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAbonnement;
 
+
+
+
     @NotNull(message = "L'utilisateur est obligatoire")
     @ManyToOne
     @JoinColumn(name = "id_user")
+    @JsonIgnoreProperties("abonnements") // pour éviter la boucle infinie
     private User user;
 
-    // Jointure avec Activite (Sport)
-    @ManyToMany
-    @JoinTable(
-            name = "abonnement_activite",
-            joinColumns = @JoinColumn(name = "id_abonnement"),
-            inverseJoinColumns = @JoinColumn(name = "id_activite")
-    )
-    private Set<Activite> activites;
 
-    // Jointure avec Menu (Restauration)
-    @ManyToMany
-    @JoinTable(
-            name = "abonnement_menu",
-            joinColumns = @JoinColumn(name = "id_abonnement"),
-            inverseJoinColumns = @JoinColumn(name = "id_menu")
-    )
-    private Set<Menu> menus;
 
-    // Jointure avec RendezVous (Nutrition)
-    @OneToMany(mappedBy = "abonnement")
-    private Set<RendezVous> rendezVous;
+
+
 
     @NotNull(message = "Le type  est obligatoire")
     @Enumerated(EnumType.STRING)
@@ -60,7 +48,8 @@ public class Abonnement {
 
     @NotNull(message = "Le statut est obligatoire")
     @Enumerated(EnumType.STRING)
-    private StatutAbonnement statut;
+    private StatutAbonnement statut = StatutAbonnement.ACTIF;
+
 
     private boolean archived = false;
     public boolean isArchived() {
@@ -72,32 +61,13 @@ public class Abonnement {
     }
 
 
-    public Set<Activite> getActivites() {
-        return activites;
-    }
 
-    public void setActivites(Set<Activite> activites) {
-        this.activites = activites;
-    }
 
-    public Set<Menu> getMenus() {
-        return menus;
-    }
 
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
-    }
-
-    public Set<RendezVous> getRendezVous() {
-        return rendezVous;
-    }
-
-    public void setRendezVous(Set<RendezVous> rendezVous) {
-        this.rendezVous = rendezVous;
-    }
 
     @Positive(message = "Le montant doit être positif")
     private float montant;
+
     private String modePaiement;
 
     public Long getIdAbonnement() {

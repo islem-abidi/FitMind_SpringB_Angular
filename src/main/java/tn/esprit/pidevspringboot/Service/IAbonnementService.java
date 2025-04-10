@@ -13,6 +13,11 @@ public interface IAbonnementService {
     void archiveAbonnement(Long id);
     void restoreAbonnement(Long id);
     Page<Abonnement> retrieveAllAbonnementsPaged(int page, int size, String sortBy, String direction);
+    public Page<Abonnement> searchAbonnements(String keyword, int page, int size, String sortBy, String direction);
+    List<Abonnement> retrieveArchivedAbonnements();
+    public Page<Abonnement> searchArchivedAbonnements(String keyword, int page, int size, String sortBy, String direction);
+    public Page<Abonnement> retrieveArchivedAbonnementsPaged(int page, int size, String sortBy, String direction);
+
 
 
 }
