@@ -12,6 +12,7 @@ import { loadStripe, Stripe, StripeCardElement } from '@stripe/stripe-js'; // St
 })
 export class AbonnementsComponent {
   idUser!: number;
+  userEmail: string = '';
   typeAbonnement = '';
   dureeAbonnement = '';
   montant!: number;
@@ -108,7 +109,9 @@ card!: StripeCardElement;
         montant: this.montant,
         modePaiement: this.modePaiement,
         statut: 'ACTIF',
-        user: { idUser: this.idUser }
+        user: { idUser: this.idUser,
+          email: this.userEmail
+        }
       };
     
       this.abonnementService.add(abonnement).subscribe({
