@@ -1,0 +1,59 @@
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Inscription</h2>
+    <form (ngSubmit)="register()" #form="ngForm" class="w-50 mx-auto">
+  
+      <div class="form-group mb-3">
+        <label>Nom</label>
+        <input type="text" name="nom" [(ngModel)]="user.nom" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Prénom</label>
+        <input type="text" name="prenom" [(ngModel)]="user.prenom" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Email</label>
+        <input type="email" name="email" [(ngModel)]="user.email" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Mot de passe</label>
+        <input type="password" name="password" [(ngModel)]="user.password" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Date de naissance</label>
+        <input type="date" name="dateNaissance" [(ngModel)]="user.dateNaissance" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Sexe</label>
+        <select name="sexe" [(ngModel)]="user.sexe" class="form-control" required>
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+        </select>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Numéro de téléphone</label>
+        <input type="number" name="numeroDeTelephone" [(ngModel)]="user.numeroDeTelephone" class="form-control" required>
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Photo Profil (URL)</label>
+        <input type="text" name="photoProfil" [(ngModel)]="user.photoProfil" class="form-control">
+      </div>
+  
+      <div class="form-group mb-3">
+        <label>Rôle (ID)</label>
+        <input type="number" name="id_role" [(ngModel)]="user.id_role" class="form-control" required>
+      </div>
+  
+      <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+    </form>
+  
+    <div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
+    <div *ngIf="successMsg" class="alert alert-success mt-3">{{ successMsg }}</div>
+  </div>
+  

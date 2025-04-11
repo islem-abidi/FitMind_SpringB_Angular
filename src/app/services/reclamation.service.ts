@@ -1,0 +1,43 @@
+// src/app/services/reclamation.service.ts
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ReclamationRequest, Reclamation } from '../models/reclamation.model'; // Adjust the path as needed
+
+@Injectable({ providedIn: 'root' })
+export class ReclamationService {
+  private apiUrl = 'http://localhost:8080/user/reclamations';
+
+  constructor(private http: HttpClient) {}
+
+  addReclamation(data: ReclamationRequest) {
+    return this.http.post(`${this.apiUrl}/save`, data);
+  }
+  
+  getAll(): Observable<Reclamation[]> {
+    return this.http.get<Reclamation[]>(`${this.apiUrl}/getall`);
+  }
+  updateReclamation(id: number, data: Partial<ReclamationRequest>) {
+    return this.http.put(`${this.apiUrl}/update/${id}`, data);
+  }
+
+
+  
+  getReclamationById(id: number): Observable<Reclamation> {
+    return this.http.get<Reclamation>(`${this.apiUrl}/get/${id}`);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
+
+
+
+  archive(id: number) {
+    return this.http.put(`${this.apiUrl}/archive/${id}`, {});
+  }
+
+  restore(id: number) {
+    return this.http.put(`${this.apiUrl}/restore/${id}`, {});
+  }
+}

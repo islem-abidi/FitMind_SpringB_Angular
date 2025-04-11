@@ -1,0 +1,29 @@
+<!-- src/app/components/ajout-reclamation/ajout-reclamation.component.html -->
+
+<form (ngSubmit)="submitForm()" #reclamationForm="ngForm">
+    <div class="form-group">
+      <label for="type">Type de réclamation</label>
+      <select class="form-control" id="type" [(ngModel)]="form.typeReclamation" name="typeReclamation" required>
+        <option [ngValue]="''" disabled selected>Sélectionnez un type</option>
+        <option [ngValue]="'Problème_Repas'">Problème de repas</option>
+        <option [ngValue]="'Problème_Salle_Sport'">Problème de salle de sport</option>
+      </select>
+    </div>
+  
+    <div class="form-group mt-2">
+      <label for="desc">Description</label>
+      <textarea class="form-control" id="desc" [(ngModel)]="form.description" name="description" required></textarea>
+    </div>
+  
+    <button type="submit" class="btn btn-primary mt-3" [disabled]="reclamationForm.invalid">
+      Envoyer
+    </button>
+  
+    <div *ngIf="successMsg" class="alert alert-success mt-3">
+      {{ successMsg }}
+    </div>
+    <div *ngIf="errorMsg" class="alert alert-danger mt-3">
+      {{ errorMsg }}
+    </div>
+  </form>
+  

@@ -1,0 +1,18 @@
+<div class="container mt-5 w-50 mx-auto">
+    <h2>Vérification du code</h2>
+  
+    <div class="form-group">
+      <label>Code reçu par email</label>
+      <input [(ngModel)]="code" type="text" class="form-control" required />
+    </div>
+  
+    <button class="btn btn-primary w-100 mt-3" (click)="onVerify()">Vérifier le code</button>
+  
+    <p *ngIf="error" class="text-danger mt-2">{{ error }}</p>
+    <p *ngIf="success" class="text-success mt-2">{{ success }}</p>
+  
+    <div class="text-center mt-3" *ngIf="showResend">
+      <button (click)="resendCode()" class="btn btn-link">🔁 Renvoyer le code</button>
+    </div>
+  </div>
+  

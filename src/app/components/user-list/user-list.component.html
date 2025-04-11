@@ -1,0 +1,45 @@
+<h2>Utilisateurs</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.nom }}</td>
+      <td>{{ user.prenom }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <button *ngIf="!user.archived" (click)="archiveUser(user.idUser)" class="btn btn-warning btn-sm">Archiver</button>
+        <button *ngIf="user.archived" (click)="restoreUser(user.idUser)" class="btn btn-success btn-sm">Restaurer</button>
+        <button (click)="openUpdateForm(user)" class="btn btn-primary btn-sm">Modifier</button>
+
+
+      </td>
+    </tr>
+    <div *ngIf="selectedUser" class="mt-4">
+        <h3>Modifier l'utilisateur</h3>
+        <form (ngSubmit)="updateUser()" #updateForm="ngForm">
+          <div class="mb-3">
+            <label>Nom</label>
+            <input [(ngModel)]="selectedUser.nom" name="nom" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>Prénom</label>
+            <input [(ngModel)]="selectedUser.prenom" name="prenom" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input [(ngModel)]="selectedUser.email" name="email" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-success">Mettre à jour</button>
+          <button type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Annuler</button>
+        </form>
+      </div>
+      
+  </tbody>
+</table>
