@@ -1,45 +1,88 @@
-<h2>Utilisateurs</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Prénom</th>
-      <th>Email</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.nom }}</td>
-      <td>{{ user.prenom }}</td>
-      <td>{{ user.email }}</td>
-      <td>
-        <button *ngIf="!user.archived" (click)="archiveUser(user.idUser)" class="btn btn-warning btn-sm">Archiver</button>
-        <button *ngIf="user.archived" (click)="restoreUser(user.idUser)" class="btn btn-success btn-sm">Restaurer</button>
-        <button (click)="openUpdateForm(user)" class="btn btn-primary btn-sm">Modifier</button>
+<div class="container mt-4">
+  <h3>Liste des utilisateurs</h3>
+
+  <!-- 🔍 Filtres -->
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="filterField" (change)="onFieldChange()">
+        <option value="">-- Filtrer par --</option>
+        <option value="nom">Nom</option>
+        <option value="prenom">Prénom</option>
+        <option value="sexe">Sexe</option>
+        <option value="archived">Statut</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <ng-container [ngSwitch]="filterField">
+        <input *ngSwitchCase="'nom'" type="text" class="form-control" [(ngModel)]="filterValue" placeholder="Nom à rechercher">
+        <input *ngSwitchCase="'prenom'" type="text" class="form-control" [(ngModel)]="filterValue" placeholder="Prénom à rechercher">
+
+        <select *ngSwitchCase="'sexe'" class="form-select" [(ngModel)]="filterValue">
+          <option value="">-- Sexe --</option>
+          <option value="Homme">Homme</option>
+          <option value="Femme">Femme</option>
+        </select>
+
+        <select *ngSwitchCase="'archived'" class="form-select" [(ngModel)]="filterValue">
+          <option value="">-- Statut --</option>
+          <option value="true">Archivé</option>
+          <option value="false">Actif</option>
+        </select>
+      </ng-container>
+    </div>
+
+    <div class="col-md-3">
+      <button class="btn btn-primary me-2" (click)="applyFilter()">Filtrer</button>
+      <button class="btn btn-secondary" (click)="clearFilter()">Réinitialiser</button>
+    </div>
+  </div>
 
 
-      </td>
-    </tr>
-    <div *ngIf="selectedUser" class="mt-4">
-        <h3>Modifier l'utilisateur</h3>
-        <form (ngSubmit)="updateUser()" #updateForm="ngForm">
-          <div class="mb-3">
-            <label>Nom</label>
-            <input [(ngModel)]="selectedUser.nom" name="nom" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label>Prénom</label>
-            <input [(ngModel)]="selectedUser.prenom" name="prenom" class="form-control" required>
-          </div>
-          <div class="mb-3">
-            <label>Email</label>
-            <input [(ngModel)]="selectedUser.email" name="email" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-success">Mettre à jour</button>
-          <button type="button" class="btn btn-secondary ms-2" (click)="cancelEdit()">Annuler</button>
-        </form>
-      </div>
-      
-  </tbody>
-</table>
+
+  <!-- 📋 Tableau utilisateurs -->
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Date Naissance</th>
+          <th>Sexe</th>
+          <th>Téléphone</th>
+          <th>Rôle</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.nom }}</td>
+          <td>{{ user.prenom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.dateNaissance | date:'yyyy-MM-dd' }}</td>
+          <td>{{ user.sexe }}</td>
+          <td>{{ user.numeroDeTelephone }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <span class="badge" [ngClass]="user.archived ? 'bg-danger' : 'bg-success'">
+              {{ user.archived ? 'Archivé' : 'Actif' }}
+            </span>
+          </td>
+          <td>
+            <button *ngIf="!user.archived" (click)="archiveUser(user.idUser)" class="btn btn-warning btn-sm">Archiver</button>
+            <button *ngIf="user.archived" (click)="restoreUser(user.idUser)" class="btn btn-success btn-sm">Restaurer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 🔁 Pagination -->
+  <div class="d-flex justify-content-between mt-3">
+    <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="page === 0">Précédent</button>
+    <span class="align-self-center">Page {{ page + 1 }} / {{ totalPages }}</span>
+    <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="page >= totalPages - 1">Suivant</button>
+  </div>
+</div>

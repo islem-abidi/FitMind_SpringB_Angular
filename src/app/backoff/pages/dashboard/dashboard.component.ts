@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
         this.totalUsers = res.totalUsers;
         this.countBySexe = res.countBySexe || {};
         this.countByRole = res.countByRole || {};
-        console.log("📊 Statistiques reçues :", res);
       },
       error: (err) => {
         console.error("❌ Erreur API statistiques :", err);

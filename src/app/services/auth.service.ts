@@ -1,14 +1,19 @@
 // src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject  } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/user/auth';
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
-
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
   login(credentials: { email: string; password: string }) {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
@@ -16,6 +21,7 @@ export class AuthService {
   saveSession(token: string, role: string): void {
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
+    this.isLoggedInSubject.next(true);
   }
   getUserId(): string | null {
     const token = this.getToken();
@@ -67,6 +73,12 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+    this.isLoggedInSubject.next(false);
     this.router.navigate(['/login']);
   }
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+  
+  
 }

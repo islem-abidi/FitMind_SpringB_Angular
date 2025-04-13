@@ -23,17 +23,25 @@ export class RegisterComponent {
   successMsg: string = '';
 
   constructor(private registerService: RegisterService, private router: Router) {}
+  selectedFile: File | null = null;
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+  
   register() {
-    this.registerService.registerUser(this.user).subscribe({
+    const formData = new FormData();
+    formData.append('user', new Blob([JSON.stringify(this.user)], { type: 'application/json' }));
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile);
+    }
+  
+    this.registerService.registerUser(formData).subscribe({
       next: (res) => {
         this.successMsg = 'Inscription réussie !';
-  
         localStorage.setItem('verifyEmail', this.user.email);
-  
+        localStorage.setItem('pendingEmail', this.user.email);
         this.router.navigate(['/verify-code']);
-  
-        this.errorMsg = '';
       },
       error: (err) => {
         this.errorMsg = err.error || 'Erreur lors de l’inscription';
@@ -41,5 +49,6 @@ export class RegisterComponent {
       }
     });
   }
+  
   
 }

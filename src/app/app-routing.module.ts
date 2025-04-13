@@ -33,16 +33,17 @@ const routes: Routes = [
     path: '',
     component: TemplateComponent,
     children: [
-      { path: 'abonnements', component: AbonnementsComponent },
-      { path: 'login', component: LoginComponent }, 
-      { path: 'register', component: RegisterComponent },
-      { path: 'verify-code', component: VerifyCodeComponent },
-      { path: 'reclamation', component: AjoutReclamationComponent },
+      // ✅ public : accessibles même sans être connecté
+{ path: 'login', component: LoginComponent },
+{ path: 'register', component: RegisterComponent },
+{ path: 'verify-code', component: VerifyCodeComponent },
 
-
-
+// 🔐 privés : accessibles uniquement si connecté
+{ path: 'abonnements', component: AbonnementsComponent, canActivate: [authGuard] },
+{ path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
 
     ]
+  
   },
 
   // 👉 Partie Back office (vue Argon Dashboard avec BacktempComponent)

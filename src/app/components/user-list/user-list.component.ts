@@ -7,73 +7,68 @@ import { UserService } from '../../services/user.service';
 })
 export class UserListComponent implements OnInit {
   users: any[] = [];
+  page: number = 0;
+  size: number = 5;
+  totalPages: number = 0;
+  filterField: string = '';
+  filterValue: string = '';
 
   constructor(private userService: UserService) {}
-  selectedUser: any = null;
 
-  openUpdateForm(user: any) {
-    this.selectedUser = { ...user }; // clone
-  }
-  
-  cancelEdit() {
-    this.selectedUser = null;
-  }
-  
-  updateUser() {
-    this.userService.updateUser(this.selectedUser.idUser, this.selectedUser).subscribe({
-      next: () => {
-        this.fetchAllUsers();
-        this.selectedUser = null;
-      },
-      error: (err) => console.error('Erreur de mise à jour', err)
-    });
-  }
-  
   ngOnInit(): void {
-    this.fetchAllUsers();
+    this.loadSortedUsers();
   }
 
-  fetchAllUsers() {
-    this.userService.getAllUsers().subscribe({
-      next: (res) => this.users = res,
+
+  loadSortedUsers() {
+    this.userService.getSortedUsers(this.page, this.size).subscribe({
+      next: (res) => {
+        this.users = res.content;
+        this.totalPages = res.totalPages;
+      },
       error: (err) => console.error('Erreur:', err)
     });
   }
 
-  deleteUser(id: number) {
-    this.userService.deleteUser(id).subscribe(() => this.fetchAllUsers());
+  nextPage() {
+    if (this.page < this.totalPages - 1) {
+      this.page++;
+      this.loadSortedUsers();
+    }
+  }
+
+  prevPage() {
+    if (this.page > 0) {
+      this.page--;
+      this.loadSortedUsers();
+    }
   }
 
   archiveUser(id: number) {
-    this.userService.archiveUser(id).subscribe(() => this.fetchAllUsers());
+    this.userService.archiveUser(id).subscribe(() => this.loadSortedUsers());
   }
 
   restoreUser(id: number) {
-    this.userService.restoreUser(id).subscribe(() => this.fetchAllUsers());
+    this.userService.restoreUser(id).subscribe(() => this.loadSortedUsers());
   }
-  
-  filterUsers(field: string, value: string) {
-    this.userService.filterByField(field, value).subscribe({
-      next: (res) => this.users = res,
-      error: (err) => console.error('Erreur:', err)
-    });
+
+  applyFilter() {
+    if (this.filterField && this.filterValue) {
+      this.userService.filterByField(this.filterField, this.filterValue).subscribe({
+        next: (res) => this.users = res,
+        error: (err) => console.error('Erreur filtre:', err)
+      });
+    } else {
+      this.loadSortedUsers();
+    }
   }
-  getSortedUsers(page: number = 0, size: number = 10) { 
-    this.userService.getSortedUsers(page, size).subscribe({
-      next: (res) => this.users = res,
-      error: (err) => console.error('Erreur:', err)
-    });
+
+  clearFilter() {
+    this.filterField = '';
+    this.filterValue = '';
+    this.loadSortedUsers();
   }
-  getUserStats() {
-    this.userService.getUserStats().subscribe({
-      next: (res) => console.log('Statistiques utilisateurs:', res),
-      error: (err) => console.error('Erreur:', err)
-    });
-  }
-  checkEmail(email: string) {
-    this.userService.checkEmail(email).subscribe({
-      next: (res) => console.log('Email vérifié:', res),
-      error: (err) => console.error('Erreur:', err)
-    });
+  onFieldChange() {
+    this.filterValue = '';
   }
 }

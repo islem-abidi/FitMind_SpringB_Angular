@@ -42,7 +42,8 @@
   
       <div class="form-group mb-3">
         <label>Photo Profil (URL)</label>
-        <input type="text" name="photoProfil" [(ngModel)]="user.photoProfil" class="form-control">
+        <input type="file" name="photoProfil" (change)="onFileSelected($event)" class="form-control" />
+
       </div>
   
       <div class="form-group mb-3">

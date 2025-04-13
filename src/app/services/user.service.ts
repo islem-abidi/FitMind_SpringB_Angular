@@ -40,15 +40,16 @@ export class UserService {
   }
 
   getSortedUsers(page: number = 0, size: number = 10): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/sorted?page=${page}&size=${size}`);
+    return this.http.get(`${this.apiUrl}/users/sorted?page=${page}&size=${size}`); 
   }
 
+  
   getUserStats(): Observable<UserStatsResponse> {
     return this.http.get<UserStatsResponse>(`${this.apiUrl}/users/stats`);
   }
   
 
   checkEmail(email: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/check-email`, { params: { email } });
+    return this.http.get(`${this.apiUrl}/users/check-email`, { params: { email } });
   }
 }

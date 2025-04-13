@@ -2,8 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReclamationRequest, Reclamation } from '../models/reclamation.model'; // Adjust the path as needed
-
+import { Reclamation, ReclamationRequest } from '../models/reclamation.model';
 @Injectable({ providedIn: 'root' })
 export class ReclamationService {
   private apiUrl = 'http://localhost:8080/user/reclamations';
