@@ -28,6 +28,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
 import { AjoutReclamationComponent } from './components/ajout-reclamation/ajout-reclamation.component';
 import { AdminReclamationsComponent } from './components/admin-reclamations/admin-reclamations.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +49,8 @@ import { AdminReclamationsComponent } from './components/admin-reclamations/admi
     VerifyCodeComponent,
     AjoutReclamationComponent,
     AdminReclamationsComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
     
   ],
   imports: [

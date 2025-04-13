@@ -27,6 +27,8 @@ import { roleGuard } from './guards/role.guard';
 import { VerifyCodeComponent } from './components/verify-code/verify-code.component'; // 🔹 Front
 import { AjoutReclamationComponent } from './components/ajout-reclamation/ajout-reclamation.component';
 import { AdminReclamationsComponent } from './components/admin-reclamations/admin-reclamations.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 const routes: Routes = [
   // 👉 Partie Front (site public)
   {
@@ -41,6 +43,8 @@ const routes: Routes = [
 // 🔐 privés : accessibles uniquement si connecté
 { path: 'abonnements', component: AbonnementsComponent, canActivate: [authGuard] },
 { path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
+{ path: 'forgot-password', component: ForgotPasswordComponent },
+{ path: 'reset-password', component: ResetPasswordComponent },
 
     ]
   

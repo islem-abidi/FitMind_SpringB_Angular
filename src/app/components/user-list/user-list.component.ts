@@ -10,8 +10,11 @@ export class UserListComponent implements OnInit {
   page: number = 0;
   size: number = 5;
   totalPages: number = 0;
+
   filterField: string = '';
   filterValue: string = '';
+  fieldOptions: string[] = ['nom', 'prenom', 'sexe', 'archived'];
+  valueOptions: string[] = [];
 
   constructor(private userService: UserService) {}
 
@@ -19,14 +22,14 @@ export class UserListComponent implements OnInit {
     this.loadSortedUsers();
   }
 
-
   loadSortedUsers() {
     this.userService.getSortedUsers(this.page, this.size).subscribe({
       next: (res) => {
+        console.log('📦 Pagination response:', res);
         this.users = res.content;
         this.totalPages = res.totalPages;
       },
-      error: (err) => console.error('Erreur:', err)
+      error: (err) => console.error('❌ Erreur pagination:', err)
     });
   }
 
@@ -55,8 +58,11 @@ export class UserListComponent implements OnInit {
   applyFilter() {
     if (this.filterField && this.filterValue) {
       this.userService.filterByField(this.filterField, this.filterValue).subscribe({
-        next: (res) => this.users = res,
-        error: (err) => console.error('Erreur filtre:', err)
+        next: (res) => {
+          this.users = res;
+          this.totalPages = 1;
+        },
+        error: (err) => console.error('❌ Erreur filtre:', err)
       });
     } else {
       this.loadSortedUsers();
@@ -66,9 +72,18 @@ export class UserListComponent implements OnInit {
   clearFilter() {
     this.filterField = '';
     this.filterValue = '';
+    this.valueOptions = [];
     this.loadSortedUsers();
   }
+
   onFieldChange() {
+    if (this.filterField === 'sexe') {
+      this.valueOptions = ['Homme', 'Femme'];
+    } else if (this.filterField === 'archived') {
+      this.valueOptions = ['true', 'false'];
+    } else {
+      this.valueOptions = [];
+    }
     this.filterValue = '';
   }
 }
