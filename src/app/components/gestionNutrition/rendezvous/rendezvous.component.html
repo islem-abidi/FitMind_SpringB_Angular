@@ -1,0 +1,44 @@
+<div class="container mt-4">
+    <h2>Demande de rendez-vous</h2>
+  
+    <!-- Formulaire ajout -->
+    <form (ngSubmit)="addRendezVous()" #rdvForm="ngForm">
+  
+      <!-- Date et heure -->
+      <div class="form-group">
+        <label for="dateHeure">Date et Heure</label>
+        <input type="datetime-local" class="form-control" id="dateHeure" required
+               [(ngModel)]="formData.dateHeure" name="dateHeure">
+      </div>
+  
+      <!-- Durée -->
+      <div class="form-group mt-2">
+        <label for="duree">Durée (en minutes)</label>
+        <input type="number" class="form-control" id="duree" required
+               [(ngModel)]="formData.duree" name="duree">
+      </div>
+  
+      <!-- Remarque -->
+      <div class="form-group mt-2">
+        <label for="remarque">Remarque</label>
+        <textarea class="form-control" id="remarque" rows="3"
+                  [(ngModel)]="formData.remarque" name="remarque"></textarea>
+      </div>
+  
+      <button type="submit" class="btn btn-primary mt-3">Ajouter le rendez-vous</button>
+    </form>
+  
+    <hr class="my-4">
+  
+    <!-- Liste des rendez-vous -->
+    <h3>Liste des rendez-vous</h3>
+    <ul class="list-group">
+      <li *ngFor="let rdv of rendezvousList" class="list-group-item">
+        <strong>Date :</strong> {{ rdv.dateHeure | date:'medium' }} <br>
+        <strong>Durée :</strong> {{ rdv.duree }} minutes <br>
+        <strong>Remarque :</strong> {{ rdv.remarque }} <br>
+        <strong>Statut :</strong> {{ rdv.statut }}
+      </li>
+    </ul>
+  </div>
+  

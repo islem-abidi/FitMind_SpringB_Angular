@@ -20,6 +20,7 @@ import { AbonnementsbackComponent } from './components/abonnementsback/abonnemen
 import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
+import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'dossier-nutritionniste', pathMatch: 'full' },
       { path: 'abonnements', component: AbonnementsComponent },
       { path: 'dossier-medical', component: DossierMedicalComponent },
-      { path: 'dossier-nutritionniste', component: DossierNComponent }
+      { path: 'dossier-nutritionniste', component: DossierNComponent },
+      { path: 'rendezvous', component: RendezvousComponent },
     ]
   },
   {

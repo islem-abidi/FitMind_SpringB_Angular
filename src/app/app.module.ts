@@ -23,7 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AdminDossiersComponent } from './components/gestionNutrition/admin-dossiers/admin-dossiers.component';
-import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
+import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component'
+import { RendezvousService } from './services/gestionNutrition/rendezvous.service';
+import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';  // Import du service
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossi
     DossierMedicalComponent,
     DossierListComponent,
     AdminDossiersComponent,
-    DossierNComponent
+    DossierNComponent,
+    RendezvousComponent
   ],
   imports: [
     BrowserModule,
