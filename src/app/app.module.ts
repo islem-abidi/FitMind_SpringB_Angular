@@ -24,7 +24,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AdminDossiersComponent } from './components/gestionNutrition/admin-dossiers/admin-dossiers.component';
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component'
 import { RendezvousService } from './services/gestionNutrition/rendezvous.service';
-import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';  // Import du service
+import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
+import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { RendezvousComponent } from './components/gestionNutrition/rendezvous/re
     DossierListComponent,
     AdminDossiersComponent,
     DossierNComponent,
-    RendezvousComponent
+    RendezvousComponent,
+    RendezvousNComponent
   ],
   imports: [
     BrowserModule,

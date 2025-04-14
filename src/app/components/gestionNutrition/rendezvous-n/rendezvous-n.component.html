@@ -1,0 +1,26 @@
+<h2>📅 Mes Rendez-vous</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date & Heure</th>
+      <th>Durée (min)</th>
+      <th>Remarque</th>
+      <th>Statut</th>
+      <th>Modifier le statut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rdv of rendezvousList">
+      <td>{{ rdv.dateHeure | date: 'short' }}</td>
+      <td>{{ rdv.duree }}</td>
+      <td>{{ rdv.remarque }}</td>
+      <td>{{ rdv.statut }}</td>
+      <td>
+        <select [(ngModel)]="rdv.statut" (ngModelChange)="updateStatut(rdv, $event)" class="form-select form-select-sm w-auto">
+          <option *ngFor="let s of statutOptions" [ngValue]="s">{{ s }}</option>
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>

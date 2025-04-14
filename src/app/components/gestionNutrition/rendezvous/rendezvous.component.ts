@@ -125,7 +125,7 @@ export class RendezvousComponent implements OnInit {
   }
 
   changerStatut(id: number, nouveauStatut: string): void {
-    this.rendezvousService.updateStatusRendezVous(id, { status: nouveauStatut }).subscribe({
+    this.rendezvousService.updateStatutRendezVous(id, { statut: nouveauStatut }).subscribe({
       next: () => {
         alert('Statut mis à jour avec succès.');
         this.loadAllRendezVous();

@@ -35,10 +35,11 @@ retrieveRendezVous(id: number): Observable<RendezVous> {
     return this.http.put<RendezVous>(`${this.baseUrl}/updateRendezVous/${id}`, rdv);
   }
 
-  // Mettre à jour uniquement le statut du rendez-vous
-  updateStatusRendezVous(id: number, updatedRdv: { status: string }): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/updateStatusRendezVous/${id}`, updatedRdv);
+  updateStatutRendezVous(id: number, updatedRdv: { statut: string }): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/updateStatutRendezVous/${id}`, updatedRdv);
   }
+  
+  
 
   // Archiver un rendez-vous (suppression logique)
   archiveRendezVous(id: number): Observable<void> {

@@ -21,7 +21,8 @@ import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layou
 import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
- 
+import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
+
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'dossier-medical', component: DossierMedicalComponent },
       { path: 'dossier-nutritionniste', component: DossierNComponent },
       { path: 'rendez-vous', component: RendezvousComponent },
+      { path: 'nutritionniste', component: RendezvousNComponent },
     ]
   },
   {
