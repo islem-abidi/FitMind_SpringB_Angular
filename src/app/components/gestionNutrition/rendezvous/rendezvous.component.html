@@ -1,64 +1,83 @@
-<div class="container">
-  <h2>Gestion des Rendez-vous</h2>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h2 class="card-title text-primary text-center mb-4">
+        {{ editMode ? 'Modifier un Rendez-vous' : 'Ajouter un Rendez-vous' }}
+      </h2>
 
-  <!-- Message d'erreur désactivé temporairement -->
-<div *ngIf="false" class="alert alert-danger">
-  Erreur ici (placeholder)
-</div>
+      <form (ngSubmit)="submitForm()" #form="ngForm">
+        <div class="row g-3">
 
+          <!-- Date et Heure -->
+          <div class="col-md-6">
+            <label class="form-label">Date et Heure</label>
+            <input type="datetime-local" [(ngModel)]="rendezVous.dateHeure" name="dateHeure"
+              class="form-control" required #dateHeure="ngModel" />
+            <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="form-text text-danger">
+              Ce champ est requis.
+            </div>
+          </div>
 
-  <!-- Formulaire d'ajout/modification -->
-  <div class="add-rendezvous">
-    <h3>{{ isEditMode ? 'Modifier le Rendez-vous' : 'Ajouter un Nouveau Rendez-vous' }}</h3>
+          <!-- Durée -->
+          <div class="col-md-6">
+            <label class="form-label">Durée (en minutes)</label>
+            <input type="number" [(ngModel)]="rendezVous.duree" name="duree"
+              class="form-control" required min="1" #duree="ngModel" />
+            <div *ngIf="duree.invalid && (duree.dirty || duree.touched)" class="form-text text-danger">
+              Durée requise (min. 1 min).
+            </div>
+          </div>
 
-    <form (ngSubmit)="onSubmit()" #rendezvousForm="ngForm">
+          <!-- Remarque -->
+          <div class="col-12">
+            <label class="form-label">Remarque</label>
+            <textarea [(ngModel)]="rendezVous.remarque" name="remarque" class="form-control"
+              rows="3" placeholder="Ajouter des remarques..." required #remarque="ngModel"></textarea>
+            <div *ngIf="remarque.invalid && (remarque.dirty || remarque.touched)" class="form-text text-danger">
+              Ce champ est requis.
+            </div>
+          </div>
 
-      <!-- Date et heure -->
-      <div class="form-group">
-        <label for="dateHeure">Date et Heure</label>
-        <input type="datetime-local"
-               id="dateHeure"
-               [(ngModel)]="rendezVous.dateHeure"
-               name="dateHeure"
-               class="form-control"
-               required />
-      </div>
+          <!-- Rappel -->
+          <div class="col-md-6">
+            <label class="form-label">Rappel</label>
+            <select [(ngModel)]="rendezVous.rappel" name="rappel" class="form-select" required>
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </div>
 
-      <!-- Durée -->
-      <div class="form-group">
-        <label for="duree">Durée (minutes)</label>
-        <input type="number"
-               id="duree"
-               [(ngModel)]="rendezVous.duree"
-               name="duree"
-               class="form-control"
-               required />
-      </div>
+        </div>
 
-      <!-- Remarque -->
-      <div class="form-group">
-        <label for="remarque">Remarque</label>
-        <textarea id="remarque"
-                  [(ngModel)]="rendezVous.remarque"
-                  name="remarque"
-                  class="form-control"
-                  required></textarea>
-      </div>
+        <!-- Boutons -->
+        <div class="mt-4 d-flex justify-content-center gap-3">
+          <button type="submit" class="btn btn-success">
+            {{ editMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-      <!-- Rappel -->
-      <div class="form-group form-check">
-        <input type="checkbox"
-               class="form-check-input"
-               id="rappel"
-               [(ngModel)]="rendezVous.rappel"
-               name="rappel" />
-        <label class="form-check-label" for="rappel">Activer un rappel</label>
-      </div>
-
-      <!-- Bouton -->
-      <button type="submit" class="btn btn-primary">
-        {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
-      </button>
-    </form>
+  <!-- Liste des rendez-vous -->
+  <div class="card mt-5 shadow border-0">
+    <div class="card-body">
+      <h3 class="text-center text-secondary mb-4">Liste des Rendez-vous</h3>
+      <div *ngIf="allRendezVous.length === 0" class="text-center text-muted">Aucun rendez-vous trouvé.</div>
+      <ul class="list-group" *ngIf="allRendezVous.length > 0">
+        <li *ngFor="let rdv of allRendezVous" class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Date :</strong> {{ rdv.dateHeure | date: 'short' }}<br>
+            <strong>Durée :</strong> {{ rdv.duree }} min<br>
+            <strong>Remarque :</strong> {{ rdv.remarque }}<br>
+            <strong>Statut :</strong> {{ rdv.statut }}
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-outline-primary btn-sm" (click)="editRendezVous(rdv)" [disabled]="rdv.archived">Modifier</button>
+            
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
