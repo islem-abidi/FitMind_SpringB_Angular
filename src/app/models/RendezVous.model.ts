@@ -1,13 +1,18 @@
-import { User } from 'src/app/models/user.model';
-
 export interface RendezVous {
-  idRendezVous: number;
-  nutritioniste: User;
-  etudiant: User;
-  dateHeure: Date;
+  dateHeure: string;
   duree: number;
   remarque: string;
-  rappel: boolean;
-  statut: string;
+  etudiant: { idUser: number };
+  nutritioniste: { idUser: number };
+  statut: StatutRendezVous; // ⚠️ utilise l'enum ici
   archived: boolean;
+  rappel: boolean;
 }
+
+
+export enum StatutRendezVous {
+  EN_COURS = 'EN_COURS',
+  TERMINE = 'TERMINE',
+  ANNULE = 'ANNULE'
+}
+  

@@ -21,17 +21,17 @@ import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layou
 import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
+ 
 
 const routes: Routes = [
   {
     path: '',
     component: TemplateComponent,
     children: [
-      { path: '', redirectTo: 'dossier-nutritionniste', pathMatch: 'full' },
       { path: 'abonnements', component: AbonnementsComponent },
       { path: 'dossier-medical', component: DossierMedicalComponent },
       { path: 'dossier-nutritionniste', component: DossierNComponent },
-      { path: 'rendezvous', component: RendezvousComponent },
+      { path: 'rendez-vous', component: RendezvousComponent },
     ]
   },
   {
@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'abonnementsback', component: AbonnementsbackComponent },
-      { path: 'dossiers', component: AdminDossiersComponent },
+      { path: 'dossier', component: AdminDossiersComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

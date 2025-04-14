@@ -1,32 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RendezVous } from 'src/app/models/RendezVous.model'; // Assurez-vous que le chemin est correct
-import { User } from 'src/app/models/user.model'; // Assurez-vous que le chemin est correct
+import { RendezVous } from 'src/app/models/RendezVous.model';  // Assurez-vous que le chemin est correct
 
 @Injectable({
   providedIn: 'root'
 })
 export class RendezvousService {
 
-  private apiUrl = 'http://localhost:8080/PIdev/rendezvous';
-
+  private baseUrl = 'http://localhost:8080/PIdev/rendezvous';
+  
   constructor(private http: HttpClient) { }
 
-  getAllRendezVous(): Observable<RendezVous[]> {
-    return this.http.get<RendezVous[]>(`${this.apiUrl}/retrieveAllRendezVous`);
+  // Récupérer tous les rendez-vous
+  retrieveAllRendezVous(): Observable<RendezVous[]> {
+    return this.http.get<RendezVous[]>(`${this.baseUrl}/retrieveAllRendezVous`);
   }
 
-  getRendezVousById(id: number): Observable<RendezVous> {
-    return this.http.get<RendezVous>(`${this.apiUrl}/retrieveRendezVous/${id}`);
+  // Récupérer un rendez-vous par son ID
+  retrieveRendezVous(id: number): Observable<RendezVous> {
+    return this.http.get<RendezVous>(`${this.baseUrl}/retrieveRendezVous/${id}`);
   }
 
-  addRendezVous(rendezvous: RendezVous): Observable<RendezVous> {
-    return this.http.post<RendezVous>(`${this.apiUrl}/addRendezVous`, rendezvous);
+  // Ajouter un rendez-vous
+  addRendezVous(rendezVous: RendezVous): Observable<RendezVous> {
+    console.log('Envoi du rendez-vous:', rendezVous);
+    return this.http.post<RendezVous>(`${this.baseUrl}/addRendezVous`, rendezVous);
+}
+
+  // Mettre à jour un rendez-vous existant
+  updateRendezVous(id: number, rdv: RendezVous): Observable<RendezVous> {
+    return this.http.put<RendezVous>(`${this.baseUrl}/updateRendezVous/${id}`, rdv);
   }
 
-  updateRendezVous(id: number, rendezvous: RendezVous): Observable<RendezVous> {
-    return this.http.put<RendezVous>(`${this.apiUrl}/updateRendezVous/${id}`, rendezvous);
+  // Mettre à jour uniquement le statut du rendez-vous
+  updateStatusRendezVous(id: number, updatedRdv: { status: string }): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/updateStatusRendezVous/${id}`, updatedRdv);
   }
-  
+
+  // Archiver un rendez-vous (suppression logique)
+  archiveRendezVous(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/archiveRendezVous/${id}`);
+  }
 }

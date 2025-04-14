@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { TemplateComponent } from './template/template.component';
 import { AbonnementsComponent } from './components/abonnements/abonnements.component';
 import { NavbarfrontComponent } from './components/navbarfront/navbarfront.component';
