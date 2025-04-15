@@ -15,9 +15,14 @@
     <textarea class="form-control" id="desc" [(ngModel)]="form.description" name="description" required></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary mt-3" [disabled]="reclamationForm.invalid">
-    Envoyer
+  <button type="submit" class="btn btn-primary mt-3" [disabled]="reclamationForm.invalid || loading">
+    <span *ngIf="!loading">Envoyer</span>
+    <span *ngIf="loading">
+      <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+      Envoi en cours...
+    </span>
   </button>
+  
 
   <div *ngIf="successMsg" class="alert alert-success mt-3">
     {{ successMsg }}

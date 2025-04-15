@@ -51,9 +51,20 @@
         <input type="number" name="id_role" [(ngModel)]="user.id_role" class="form-control" required>
       </div>
   
-      <button type="submit" class="btn btn-success w-100">S'inscrire</button>
-    </form>
-  
+      <button type="submit" class="btn btn-success w-100" [disabled]="loading">
+        <span *ngIf="!loading">S'inscrire</span>
+        <span *ngIf="loading">
+          <span class="spinner-border spinner-border-sm" role="status"></span>
+          Traitement en cours...
+        </span>
+      </button>
+          </form>
+          <div *ngIf="captchaValid" class="alert alert-info mt-3">
+            ✅ Test de sécurité Google reCAPTCHA validé !
+          </div>          
+          <div *ngIf="!captchaValid" class="alert alert-danger mt-3">
+            ❌ Test de sécurité Google reCAPTCHA non validé !
+          </div>
     <div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
     <div *ngIf="successMsg" class="alert alert-success mt-3">{{ successMsg }}</div>
   </div>

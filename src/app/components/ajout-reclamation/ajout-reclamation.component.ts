@@ -19,6 +19,8 @@ export class AjoutReclamationComponent {
   errorMsg = '';
 
   constructor(private reclamationService: ReclamationService) {}
+  loading = false;
+
   ngOnInit(): void {
     this.loadMesReclamations();
   }
@@ -30,6 +32,7 @@ export class AjoutReclamationComponent {
   }
   
   submitForm(): void {
+    this.loading = true;
     this.reclamationService.addReclamation(this.form).subscribe({
       next: () => {
         this.successMsg = '✅ Réclamation ajoutée avec succès.';
@@ -38,11 +41,15 @@ export class AjoutReclamationComponent {
           typeReclamation: TypeReclamation.Problème_Repas,
           description: ''
         };
+        this.loadMesReclamations();
+        this.loading = false;
       },
       error: err => {
         this.errorMsg = '❌ Erreur : ' + (err.error?.message || 'Impossible d\'ajouter la réclamation');
         this.successMsg = '';
+        this.loading = false;
       }
     });
   }
+  
 }

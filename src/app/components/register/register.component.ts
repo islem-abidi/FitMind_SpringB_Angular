@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { RegisterService } from '../../services/register.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,34 +22,49 @@ export class RegisterComponent {
 
   errorMsg: string = '';
   successMsg: string = '';
-
-  constructor(private registerService: RegisterService, private router: Router) {}
   selectedFile: File | null = null;
+  captchaValid: boolean = false;
+  loading: boolean = false;
+
+  constructor(
+    private registerService: RegisterService,
+    private router: Router,
+    private recaptchaV3Service: ReCaptchaV3Service
+  ) {}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
+
+  register(): void {
+    this.loading = true;
+    this.captchaValid = false;
   
-  register() {
-    const formData = new FormData();
-    formData.append('user', new Blob([JSON.stringify(this.user)], { type: 'application/json' }));
-    if (this.selectedFile) {
-      formData.append('photo', this.selectedFile);
-    }
+    this.recaptchaV3Service.execute('register').subscribe((token: string) => {
+      this.captchaValid = true; // ✅ Montre le message dès que Google valide
+      const formData = new FormData();
+      const fullPayload = { ...this.user, captchaToken: token };
   
-    this.registerService.registerUser(formData).subscribe({
-      next: (res) => {
-        this.successMsg = 'Inscription réussie !';
-        localStorage.setItem('verifyEmail', this.user.email);
-        localStorage.setItem('pendingEmail', this.user.email);
-        this.router.navigate(['/verify-code']);
-      },
-      error: (err) => {
-        this.errorMsg = err.error || 'Erreur lors de l’inscription';
-        this.successMsg = '';
+      formData.append('user', new Blob([JSON.stringify(fullPayload)], { type: 'application/json' }));
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile);
       }
+  
+      this.registerService.registerUser(formData).subscribe({
+        next: () => {
+          this.successMsg = 'Inscription réussie !';
+          localStorage.setItem('verifyEmail', this.user.email);
+          localStorage.setItem('pendingEmail', this.user.email);
+          this.router.navigate(['/verify-code']);
+          this.loading = false;
+        },
+        error: (err) => {
+          this.errorMsg = err.error || 'Erreur lors de l’inscription';
+          this.successMsg = '';
+          this.loading = false;
+        }
+      });
     });
   }
-  
   
 }

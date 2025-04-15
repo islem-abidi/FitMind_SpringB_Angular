@@ -32,6 +32,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { UserprofileeComponent } from './components/user-profilee/user-profilee.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,11 +68,13 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     BrowserAnimationsModule,
     NgbModule,
     ClipboardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RecaptchaV3Module
 
     
   ],
-  providers: [  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  providers: [  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LfWBBorAAAAALrnLVY567pNpMmE4DqFHRJLR4Jq'}
   ],
   bootstrap: [AppComponent]
 })

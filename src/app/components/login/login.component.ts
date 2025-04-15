@@ -12,20 +12,25 @@ export class LoginComponent {
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
+  loading = false;
 
   onLogin(): void {
+    this.loading = true;
+  
     const loginPayload = {
       email: this.email,
       password: this.password
     };
-
+  
     this.authService.login(loginPayload).subscribe({
       next: (res: any) => {
         const token = res.token;
         const role = res.role;
-
+  
         this.authService.saveSession(token, role);
         localStorage.setItem('jwt_token', token);
+        this.loading = false;
+  
         if (role === 'Admin') {
           this.router.navigate(['/admin/dashboard']);
         } else if (role === 'Etudiant') {
@@ -37,7 +42,9 @@ export class LoginComponent {
       error: (err) => {
         console.error("❌ Erreur de connexion :", err);
         alert("Identifiants invalides");
+        this.loading = false;
       }
     });
   }
+  
 }

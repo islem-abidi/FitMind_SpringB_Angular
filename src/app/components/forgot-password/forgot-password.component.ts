@@ -12,19 +12,26 @@ export class ForgotPasswordComponent {
 
   constructor(private http: HttpClient) {}
 
-  onSubmit() {
-    const payload = { email: this.email };
-  
-    this.http.post('http://localhost:8080/user/auth/forgot-password', payload, { responseType: 'text' }).subscribe({
-      next: (res) => {
-        this.successMsg = '📩 E-mail envoyé avec succès. Vérifie ta boîte mail.';
-        this.errorMsg = '';
-      },
-      error: (err) => {
-        this.errorMsg = '❌ Adresse email invalide ou introuvable.';
-        this.successMsg = '';
-      }
-    });
-  }
+  loading: boolean = false;
+
+onSubmit() {
+  this.loading = true;
+
+  const payload = { email: this.email };
+
+  this.http.post('http://localhost:8080/user/auth/forgot-password', payload, { responseType: 'text' }).subscribe({
+    next: (res) => {
+      this.successMsg = '📩 E-mail envoyé avec succès. Vérifie ta boîte mail.';
+      this.errorMsg = '';
+      this.loading = false;
+    },
+    error: (err) => {
+      this.errorMsg = '❌ Adresse email invalide ou introuvable.';
+      this.successMsg = '';
+      this.loading = false;
+    }
+  });
+}
+
   
 }

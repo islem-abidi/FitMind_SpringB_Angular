@@ -76,6 +76,10 @@ export class AuthService {
     return this.getRole() === 'ADMIN';
   }
 
+  register(payload: any) {
+    return this.http.post('http://localhost:8080/auth/registration', payload);
+  }
+
   isEtudiant(): boolean {
     return this.getRole() === 'ETUDIANT';
   }

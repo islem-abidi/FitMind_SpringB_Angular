@@ -27,7 +27,8 @@ export class VerifyCodeComponent {
       console.log('📩 Email utilisé pour vérification :', this.email);
     });
   }
-
+  loadingVerify = false;
+  loadingResend = false;
   
   onVerify() {
     if (!this.code || this.code.trim().length !== 6) {
@@ -36,41 +37,44 @@ export class VerifyCodeComponent {
       return;
     }
   
+    this.loadingVerify = true;
+  
     this.http.post('http://localhost:8080/user/auth/verify-code', {
       email: this.email,
       code: this.code.trim()
-    }, { responseType: 'text' }) // 👈 important
-    .subscribe({
+    }, { responseType: 'text' }).subscribe({
       next: () => {
         this.success = '✔️ Vérification réussie. Redirection...';
         this.error = '';
+        this.loadingVerify = false;
         localStorage.removeItem('pendingEmail');
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
-        console.error('❌ BACK ERROR:', err);
         this.error = err?.error || '❌ Code invalide ou expiré.';
+        this.success = '';
+        this.loadingVerify = false;
         this.showResend = true;
       }
     });
   }
   
-  
-
-  
-
   resendCode() {
-    this.http.post('http://localhost:8080/user/auth/resend-code', { email: this.email })
-      .subscribe({
-        next: () => {
-          this.success = '📩 Nouveau code envoyé par mail.';
-          this.error = '';
-        },
-        error: () => {
-          this.error = '❌ Échec d’envoi. Vérifie ton email.';
-          this.success = '';
-        }
-      });
-  }
-}
+    this.loadingResend = true;
   
+    this.http.post('http://localhost:8080/user/auth/resend-code', { email: this.email }).subscribe({
+      next: () => {
+        this.success = '📩 Nouveau code envoyé par mail.';
+        this.error = '';
+        this.loadingResend = false;
+      },
+      error: () => {
+        this.error = '❌ Échec d’envoi. Vérifie ton email.';
+        this.success = '';
+        this.loadingResend = false;
+      }
+    });
+  }
+  
+  
+}
