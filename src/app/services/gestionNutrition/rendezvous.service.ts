@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RendezVous } from 'src/app/models/RendezVous.model';  // Assurez-vous que le chemin est correct
-
+import { HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,11 +34,14 @@ retrieveRendezVous(id: number): Observable<RendezVous> {
     return this.http.put<RendezVous>(`${this.baseUrl}/updateRendezVous/${id}`, rdv);
   }
 
-  // Méthode dans le service pour mettre à jour le statut du rendez-vous
-  updateStatutRendezVous(id: number, statut: string): Observable<RendezVous> {
-    const payload = { statut: statut };
-    return this.http.put<RendezVous>(`${this.baseUrl}/updateStatutRendezVous/${id}`, payload);
+  updateStatutRendezvous(id: number, statut: string): Observable<RendezVous> {
+    const url = `${this.baseUrl}/updateStatutRendezVous/${id}`;
+    // Envoyer le statut comme paramètre de requête ou dans le corps selon ce que le backend attend
+    return this.http.patch<RendezVous>(url, { statut }, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
   }
+
   
   // Archiver un rendez-vous (suppression logique)
   archiveRendezVous(id: number): Observable<void> {

@@ -9,7 +9,7 @@ import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
 })
 export class RendezvousNComponent implements OnInit {
   rendezvousList: RendezVous[] = [];
-  statutOptions = Object.values(StatutRendezVous);
+  statutOptions = Object.values(StatutRendezVous); // ["EN_ATTENTE", "ACCEPTE", "REFUSE", etc.]
 
   constructor(private rendezvousService: RendezvousService) {}
 
@@ -23,28 +23,37 @@ export class RendezvousNComponent implements OnInit {
         this.rendezvousList = data;
       },
       error: (err) => {
-        console.error('Erreur lors du chargement des rendez-vous:', err);
+        console.error('❌ Erreur lors du chargement des rendez-vous:', err);
       }
     });
   }
 
+  onAccepterRendezvous(id: number): void {
+    this.rendezvousService.updateStatutRendezvous(id, 'ACCEPTE').subscribe({
+      next: () => {
+        console.log('✅ Statut mis à jour avec succès');
+        // Recharge la liste pour voir la mise à jour
+        this.loadRendezVous();
+      },
+      error: (err) => {
+        console.error('❌ Erreur lors de la mise à jour du statut :', err);
+      }
+    });
+  }
+
+  // Bonus : méthode générique
   updateStatut(rdv: RendezVous, newStatut: string): void {
-    if (!rdv.idRendezVous || rdv.statut === newStatut) {
+    if (!rdv.idRendezVous || newStatut === rdv.statut) {
       return;
     }
 
-    this.rendezvousService.updateStatutRendezVous(rdv.idRendezVous, newStatut).subscribe({
-      next: (updatedRdv) => {
+    this.rendezvousService.updateStatutRendezvous(rdv.idRendezVous, newStatut).subscribe({
+      next: () => {
         rdv.statut = newStatut as StatutRendezVous;
-        console.log('Statut mis à jour avec succès');
+        console.log(`✅ Statut mis à jour en ${newStatut}`);
       },
       error: (err) => {
-        console.error('Erreur lors de la mise à jour du statut:', err);
-        // Revert the change in UI if the request fails
-        const selectElement = document.querySelector(`select[ng-reflect-model="${newStatut}"]`) as HTMLSelectElement;
-        if (selectElement) {
-          selectElement.value = rdv.statut || '';
-        }
+        console.error(`❌ Erreur lors de la mise à jour du statut :`, err);
       }
     });
   }

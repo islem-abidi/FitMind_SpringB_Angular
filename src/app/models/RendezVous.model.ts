@@ -13,7 +13,7 @@ export interface RendezVous {
 
 export enum StatutRendezVous {
   EN_COURS = 'EN_COURS',
-  TERMINE = 'TERMINE',
-  ANNULE = 'ANNULE'
+  TERMINE = 'ACCEPTE',
+  ANNULE = 'REFUSE'
 }
   
