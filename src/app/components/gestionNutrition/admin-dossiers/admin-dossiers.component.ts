@@ -7,11 +7,13 @@ interface Dossier {
   objectifSante: string;
   traitements: string;
   poids: number;
-  taille: number;
+  tailles: number;
   groupeSanguin: string;
   allergies: string;
   rdvRecommande: boolean;
   archive: boolean;
+  imc?: number;
+
 }
 
 @Component({
@@ -30,23 +32,23 @@ export class AdminDossiersComponent implements OnInit {
   }
 
   retrieveAllDossiers(): void {
-    // Vérification : Appel de retrieveAllDossiers
     console.log('Appel à retrieveAllDossiers');
 
+    // Récupérer les dossiers non archivés
     this.http.get<Dossier[]>(`${this.apiUrl}/retrieveAllDossiers`).subscribe({
       next: (nonArchives) => {
         console.log('Dossiers non archivés récupérés :', nonArchives);
 
-        // Appel à retrieveArchivedDossiers
+        // Récupérer les dossiers archivés
         this.http.get<Dossier[]>(`${this.apiUrl}/retrieveArchivedDossiers`).subscribe({
           next: (archives) => {
             console.log('Dossiers archivés récupérés :', archives);
-            this.dossiers = [...nonArchives, ...archives]; // Fusion
+            this.dossiers = [...nonArchives, ...archives]; // Fusionner les non archivés et archivés
             console.log('Tous les dossiers fusionnés :', this.dossiers);
           },
           error: (err) => {
             console.error('Erreur chargement dossiers archivés:', err);
-            this.dossiers = nonArchives; // afficher au moins les non archivés
+            this.dossiers = nonArchives; // Afficher au moins les non archivés si l'appel échoue
           }
         });
       },
@@ -57,9 +59,9 @@ export class AdminDossiersComponent implements OnInit {
   }
 
   archiveDossier(id: number): void {
-    if (confirm("Archiver ce dossier ?")) {
+    if (confirm('Archiver ce dossier ?')) {
       this.http.put(`${this.apiUrl}/archiveDossier/${id}`, {}).subscribe(() => {
-        this.retrieveAllDossiers(); // recharge
+        this.retrieveAllDossiers(); // Recharge la liste après archivage
       });
     }
   }

@@ -48,7 +48,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'abonnementsback', component: AbonnementsbackComponent },
-      { path: 'dossier', component: AdminDossiersComponent },
+      { path: 'dossiers', component: AdminDossiersComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

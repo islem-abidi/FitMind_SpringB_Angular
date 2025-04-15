@@ -1,51 +1,52 @@
 <div class="container mt-4">
-    <h2 class="mb-4">Administration des Dossiers Médicaux</h2>
-  
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Maladies</th>
-          <th>Objectif Santé</th>
-          <th>Traitements</th>
-          <th>Poids</th>
-          <th>Taille</th>
-          <th>Groupe Sanguin</th>
-          <th>Allergies</th>
-          <th>RDV Recommandé ?</th>
-          <th>Archivé ?</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let dossier of dossiers">
-          <td>{{ dossier.maladies }}</td>
-          <td>{{ dossier.objectifSante }}</td>
-          <td>{{ dossier.traitements }}</td>
-          <td>{{ dossier.poids }}</td>
-          <td>{{ dossier.taille }}</td>
-          <td>{{ dossier.groupeSanguin }}</td>
-          <td>{{ dossier.allergies }}</td>
-          <td>
-            <span [class.text-primary]="dossier.rdvRecommande" [class.text-muted]="!dossier.rdvRecommande">
-              {{ dossier.rdvRecommande ? 'Oui' : 'Non' }}
-            </span>
-          </td>
-          <td>
-            <span [class.text-success]="dossier.archive" [class.text-danger]="!dossier.archive">
-              {{ dossier.archive ? 'Oui' : 'Non' }}
-            </span>
-          </td>
-          <td>
-            <button
-              class="btn btn-sm btn-outline-secondary"
-              [disabled]="dossier.archive"
-              (click)="archiveDossier(dossier.idDossier)"
-            >
-              Archiver
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <h2 class="mb-4">Administration des Dossiers Médicaux</h2>
+
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Maladies</th>
+        <th>Objectif Santé</th>
+        <th>Traitements</th>
+        <th>Poids</th>
+        <th>Tailles</th>
+        <th>Groupe Sanguin</th>
+        <th>Allergies</th>
+        <th>IMC</th>
+        <th>RDV Recommandé ?</th>
+        <th>Archivé ?</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dossier of dossiers">
+        <td>{{ dossier.maladies }}</td>
+        <td>{{ dossier.objectifSante }}</td>
+        <td>{{ dossier.traitements }}</td>
+        <td>{{ dossier.poids }}</td>
+        <td>{{ dossier.tailles }}</td>
+        <td>{{ dossier.groupeSanguin }}</td>
+        <td>{{ dossier.allergies }}</td>
+        <td>{{ dossier.imc || 'N/A' }}</td>
+        <td>
+          <span [class.text-primary]="dossier.rdvRecommande" [class.text-muted]="!dossier.rdvRecommande">
+            {{ dossier.rdvRecommande ? 'Oui' : 'Non' }}
+          </span>
+        </td>
+        <td>
+          <span [class.text-success]="dossier.archive" [class.text-danger]="!dossier.archive">
+            {{ dossier.archive ? 'Oui' : 'Non' }}
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [disabled]="dossier.archive"
+            (click)="archiveDossier(dossier.idDossier)"
+          >
+            Archiver
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
