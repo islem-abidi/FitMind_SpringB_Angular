@@ -35,9 +35,11 @@ retrieveRendezVous(id: number): Observable<RendezVous> {
     return this.http.put<RendezVous>(`${this.baseUrl}/updateRendezVous/${id}`, rdv);
   }
 
-  updateStatutRendezVous(id: number, updatedRdv: { statut: string }): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/updateStatutRendezVous/${id}`, updatedRdv);
-  }
+  // Méthode dans le service pour mettre à jour le statut du rendez-vous
+updateStatutRendezVous(id: number, updatedStatus: { statut: string }): Observable<void> {
+  return this.http.put<void>(`${this.baseUrl}/updateStatutRendezVous/${id}`, updatedStatus);
+}
+
   
   
 

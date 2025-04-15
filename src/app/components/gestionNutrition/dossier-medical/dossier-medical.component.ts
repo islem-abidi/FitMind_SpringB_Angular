@@ -30,14 +30,24 @@ export class DossierMedicalComponent implements OnInit {
       alert("Veuillez remplir tous les champs !");
       return;
     }
-
+  
     if (this.dossier.poids < 30) {
       alert("Le poids doit être supérieur ou égal à 30 kg.");
       return;
     }
-
+  
+    if (this.dossier.tailles < 30) {
+      alert("La taille doit être supérieure ou égale à 30 cm.");
+      return;
+    }
+  
+    // Calcul de l'IMC
+    if (this.dossier.tailles && this.dossier.poids) {
+      this.dossier.imc = this.dossier.poids / Math.pow(this.dossier.tailles / 100, 2);
+    }
+  
     this.dossier.user = { idUser: 2 }; 
-
+  
     if (this.editMode && this.dossier.idDossier) {
       this.dossierService.updateDossier(this.dossier).subscribe({
         next: () => this.resetAndReload(),
@@ -56,6 +66,7 @@ export class DossierMedicalComponent implements OnInit {
       });
     }
   }
+  
 
   editDossier(d: DossierMedical): void {
     if (d.archived) {

@@ -31,4 +31,5 @@ export interface DossierMedical {
   groupeSanguin: GroupSanguin;
   allergies: Allergie;
   archived?: boolean;
+  imc?: number;
 }

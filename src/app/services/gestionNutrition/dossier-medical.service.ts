@@ -15,6 +15,7 @@ export interface DossierMedical {
   allergies: string;
   archived: boolean;
   rdvRecommande: boolean;
+  imc?: number;
 }
 
 @Injectable({

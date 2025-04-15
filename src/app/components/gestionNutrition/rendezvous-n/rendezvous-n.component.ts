@@ -10,7 +10,7 @@ import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
 export class RendezvousNComponent implements OnInit {
 
   rendezvousList: RendezVous[] = [];
-  statutOptions: string[] = Object.values(StatutRendezVous);
+  statutOptions: string[] = Object.values(StatutRendezVous);  // Assurez-vous que l'énumération est correcte
 
   constructor(private rendezvousService: RendezvousService) {}
 
@@ -31,13 +31,19 @@ export class RendezvousNComponent implements OnInit {
   }
 
   updateStatut(rdv: RendezVous, newStatut: StatutRendezVous): void {
-    // Structure correcte de l'objet envoyé au backend
+    // Vérifier si le nouveau statut est le même que l'ancien
+    if (rdv.statut === newStatut) {
+      return; // Pas besoin de mettre à jour si le statut n'a pas changé
+    }
+
+    // Créer la payload avec le statut à mettre à jour
     const updatePayload = { statut: newStatut };
 
+    // Appel au service pour mettre à jour le statut
     this.rendezvousService.updateStatutRendezVous(rdv.idRendezVous!, updatePayload)
       .subscribe({
         next: () => {
-          rdv.statut = newStatut; // Mise à jour locale du statut
+          rdv.statut = newStatut; // Mise à jour du statut localement
           alert('✅ Statut mis à jour avec succès !');
         },
         error: (err) => {
@@ -46,5 +52,4 @@ export class RendezvousNComponent implements OnInit {
         }
       });
   }
-
 }
