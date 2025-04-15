@@ -1,42 +1,46 @@
 <div class="container">
-    <h1>Liste des Dossiers Médicaux</h1>
-  
-    <!-- Afficher les dossiers s'ils existent -->
-    <div *ngIf="dossiers.length > 0; else noDossiers">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Maladies</th>
-            <th>Objectif Santé</th>
-            <th>Traitements</th>
-            <th>Groupe Sanguin</th>
-            <th>Allergies</th>
-            <th>Rendez-vous recommandé</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let dossier of dossiers">
-            <td>{{ dossier.maladies }}</td>
-            <td>{{ dossier.objectifSante }}</td>
-            <td>{{ dossier.traitements }}</td>
-            <td>{{ dossier.groupeSanguin }}</td>
-            <td>{{ dossier.allergies }}</td>
-            <td>{{ dossier.rdvRecommande ? 'Oui' : 'Non' }}</td> <!-- Affichage de "Oui" ou "Non" pour le RDV -->
-            <td>
-              <button class="btn btn-warning" (click)="updateRdvRecommande(dossier)">
-                {{ dossier.rdvRecommande ? 'Annuler RDV' : 'Recommander RDV' }}
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <!-- Message si aucun dossier n'est disponible -->
-    <ng-template #noDossiers>
-      <p>Aucun dossier médical disponible.</p>
-    </ng-template>
+  <h1>Liste des Dossiers Médicaux</h1>
+
+  <!-- Afficher les dossiers s'ils existent -->
+  <div *ngIf="dossiers.length > 0; else noDossiers">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Maladies</th>
+          <th>Objectif Santé</th>
+          <th>Traitements</th>
+          <th>Groupe Sanguin</th>
+          <th>Allergies</th>
+          <th>Poids</th>
+          <th>Tailles</th>
+          <th>IMC</th>
+          <th>Rendez-vous recommandé</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dossier of dossiers">
+          <td>{{ dossier.maladies }}</td>
+          <td>{{ dossier.objectifSante }}</td>
+          <td>{{ dossier.traitements }}</td>
+          <td>{{ dossier.groupeSanguin }}</td>
+          <td>{{ dossier.allergies }}</td>
+          <td>{{ dossier.poids }}</td>
+          <td>{{ dossier.tailles }}</td>
+          <td>{{ dossier.imc || 'N/A' }}</td> <!-- Afficher 'N/A' si l'IMC est absent -->
+          <td>{{ dossier.rdvRecommande ? 'Oui' : 'Non' }}</td> <!-- Affichage de "Oui" ou "Non" pour le RDV -->
+          <td>
+            <button class="btn btn-warning" (click)="updateRdvRecommande(dossier)">
+              {{ dossier.rdvRecommande ? 'Annuler RDV' : 'Recommander RDV' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
-  
+
+  <!-- Message si aucun dossier n'est disponible -->
+  <ng-template #noDossiers>
+    <p>Aucun dossier médical disponible.</p>
+  </ng-template>
+</div>
