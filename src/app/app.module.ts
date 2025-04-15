@@ -30,6 +30,8 @@ import { AjoutReclamationComponent } from './components/ajout-reclamation/ajout-
 import { AdminReclamationsComponent } from './components/admin-reclamations/admin-reclamations.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UserprofileeComponent } from './components/user-profilee/user-profilee.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AdminReclamationsComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    UserprofileeComponent,
+    ChangePasswordComponent
     
   ],
   imports: [

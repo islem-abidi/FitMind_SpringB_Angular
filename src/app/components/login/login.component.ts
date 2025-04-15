@@ -25,7 +25,7 @@ export class LoginComponent {
         const role = res.role;
 
         this.authService.saveSession(token, role);
-
+        localStorage.setItem('jwt_token', token);
         if (role === 'Admin') {
           this.router.navigate(['/admin/dashboard']);
         } else if (role === 'Etudiant') {

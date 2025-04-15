@@ -29,20 +29,29 @@ export class AuthService {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.sub; 
   }
+  getCurrentUserEmail(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub; // c'est l'email
+  }
+  
   getCurrentUser() {
     const token = localStorage.getItem('token');
-    return this.http.get('http://localhost:8080/auth/me', {
+    return this.http.get('http://localhost:8080/user/user/me', {
       headers: { Authorization: `Bearer ${token}` }
     });
   }
-  getCurrentUserId() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub; 
-    }
-    return null;
+  getCurrentUserId(): string | null {
+    const tokenPayload = this.getDecodedToken(); // méthode à toi
+    return tokenPayload?.id ?? null;
   }
+  getDecodedToken(): any {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload));
+  }  
   getCurrentUserRole() {
     const token = localStorage.getItem('token');
     if (token) {

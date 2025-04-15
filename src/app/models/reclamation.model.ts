@@ -28,11 +28,22 @@ export interface Reclamation {
   statut: StatutReclamation;
   dateResolution?: Date;
   archived: boolean;
-  user: {
+  nomUtilisateur?: string;
+
+  user?: {
     id: number;
     email: string;
     nom?: string;
     prenom?: string;
   };
 
+}
+
+export interface ReclamationResponseDTO {
+  id: number;
+  nomUtilisateur: string;
+  typeReclamation: string;
+  description: string;
+  dateReclamation: Date;
+  statut: string;
 }

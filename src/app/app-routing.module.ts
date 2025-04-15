@@ -10,7 +10,7 @@ import {  RegisterComponent } from './components/register/register.component'; /
 // Auth / Admin layouts (chargés dynamiquement)
 import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
-
+import { ChangePasswordComponent } from './components/change-password/change-password.component'; // 🔹 Front
 // Back office affichage type Argon
 import { BacktempComponent } from './components/backtemp/backtemp.component';
 import { DashboardComponent } from './backoff/pages/dashboard/dashboard.component';
@@ -29,6 +29,7 @@ import { AjoutReclamationComponent } from './components/ajout-reclamation/ajout-
 import { AdminReclamationsComponent } from './components/admin-reclamations/admin-reclamations.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UserprofileeComponent } from './components/user-profilee/user-profilee.component';
 const routes: Routes = [
   // 👉 Partie Front (site public)
   {
@@ -38,6 +39,8 @@ const routes: Routes = [
       // ✅ public : accessibles même sans être connecté
 { path: 'login', component: LoginComponent },
 { path: 'register', component: RegisterComponent },
+{ path: 'userprofilee', component: UserprofileeComponent }
+,
 { path: 'verify-code', component: VerifyCodeComponent },
 
 // 🔐 privés : accessibles uniquement si connecté
@@ -45,6 +48,8 @@ const routes: Routes = [
 { path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
 { path: 'forgot-password', component: ForgotPasswordComponent },
 { path: 'reset-password', component: ResetPasswordComponent },
+{ path: 'change-password', component: ChangePasswordComponent },
+
 
     ]
   

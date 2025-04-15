@@ -19,6 +19,8 @@ export class NavbarfrontComponent implements OnInit {
       this.role = this.authService.getRole();
       this.checkLoginStatus();
       window.addEventListener('storage', () => this.checkLoginStatus());
+      this.isLoggedIn = !!localStorage.getItem('token');
+
     
     });
   }

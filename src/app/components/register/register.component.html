@@ -57,4 +57,9 @@
     <div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
     <div *ngIf="successMsg" class="alert alert-success mt-3">{{ successMsg }}</div>
   </div>
+  <div class="text-center mt-3">
+    <span>Déjà un compte ?</span>
+    <a [routerLink]="['/login']" class="text-decoration-none">Se connecter</a>
+  </div>
+  
   

@@ -13,12 +13,22 @@ export class AjoutReclamationComponent {
     typeReclamation: TypeReclamation.Problème_Repas,
     description: ''
   };
+  mesReclamations: any[] = [];
 
   successMsg = '';
   errorMsg = '';
 
   constructor(private reclamationService: ReclamationService) {}
-
+  ngOnInit(): void {
+    this.loadMesReclamations();
+  }
+  loadMesReclamations(): void {
+    this.reclamationService.getMyReclamations().subscribe({
+      next: (data) => this.mesReclamations = data,
+      error: (err) => console.error('Erreur lors du chargement des réclamations perso', err)
+    });
+  }
+  
   submitForm(): void {
     this.reclamationService.addReclamation(this.form).subscribe({
       next: () => {
