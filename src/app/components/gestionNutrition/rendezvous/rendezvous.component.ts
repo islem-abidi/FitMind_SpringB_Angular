@@ -12,7 +12,15 @@ export class RendezvousComponent implements OnInit {
   rendezVous: RendezVous = this.resetForm();
   allRendezVous: RendezVous[] = [];
   editMode = false;
-  statutOptions = Object.values(StatutRendezVous);
+  loading = false;
+  statutUpdating: { [key: number]: boolean } = {};
+  StatutRendezVous = StatutRendezVous;
+
+  statutOptions = [
+    StatutRendezVous.EN_COURS,
+    StatutRendezVous.ACCEPTE,
+    StatutRendezVous.REFUSE
+  ];
 
   constructor(
     private rendezvousService: RendezvousService,
@@ -23,25 +31,66 @@ export class RendezvousComponent implements OnInit {
   ngOnInit(): void {
     const paramId = this.route.snapshot.paramMap.get('id');
 
-    if (paramId !== null && Number(paramId) > 0) {
-      const id = Number(paramId);
+    if (paramId && Number(paramId) > 0) {
       this.editMode = true;
-
-      this.rendezvousService.retrieveRendezVous(id).subscribe({
-        next: (data) => {
-          data.dateHeure = this.formatDateTimeLocal(data.dateHeure);
-          this.rendezVous = data;
-        },
-        error: (err) => {
-          console.error('Erreur lors du chargement du rendez-vous :', err);
-        }
-      });
+      this.loadRendezVous(Number(paramId));
     } else {
       this.editMode = false;
       this.rendezVous.dateHeure = this.formatDateTimeLocal(new Date());
     }
 
     this.loadAllRendezVous();
+  }
+
+  loadRendezVous(id: number): void {
+    this.rendezvousService.retrieveRendezVous(id).subscribe({
+      next: (data) => {
+        data.dateHeure = this.formatDateTimeLocal(data.dateHeure);
+        this.rendezVous = data;
+      },
+      error: (err) => console.error('Erreur lors du chargement du rendez-vous :', err)
+    });
+  }
+
+  loadAllRendezVous(): void {
+    this.loading = true;
+    this.rendezvousService.retrieveAllRendezVous().subscribe({
+      next: (data) => {
+        this.allRendezVous = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des rendez-vous :', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  submitForm(): void {
+    if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
+      return;
+    }
+
+    if (this.editMode && this.rendezVous.idRendezVous) {
+      this.rendezvousService.updateRendezVous(this.rendezVous.idRendezVous, this.rendezVous).subscribe({
+        next: () => this.resetAndReload(),
+        error: (err) => console.error('Erreur modification :', err)
+      });
+    } else {
+      this.rendezvousService.addRendezVous(this.rendezVous).subscribe({
+        next: () => this.resetAndReload(),
+        error: (err) => console.error('Erreur ajout :', err)
+      });
+    }
+  }
+
+  editRendezVous(rdv: RendezVous): void {
+    if (rdv.archived) return;
+
+    this.rendezVous = JSON.parse(JSON.stringify(rdv));
+    this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
+    this.editMode = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   resetForm(): RendezVous {
@@ -58,6 +107,12 @@ export class RendezvousComponent implements OnInit {
     };
   }
 
+  resetAndReload(): void {
+    this.rendezVous = this.resetForm();
+    this.editMode = false;
+    this.loadAllRendezVous();
+  }
+
   formatDateTimeLocal(dateStr: string | Date): string {
     const date = new Date(dateStr);
     const offset = date.getTimezoneOffset();
@@ -65,68 +120,16 @@ export class RendezvousComponent implements OnInit {
     return localDate.toISOString().slice(0, 16);
   }
 
-  submitForm(): void {
-    if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
-      return;
+  getStatutLabel(statut: StatutRendezVous): string {
+    switch (statut) {
+      case StatutRendezVous.EN_COURS: return 'En cours';
+      case StatutRendezVous.ACCEPTE: return 'Accepté';
+      case StatutRendezVous.REFUSE:  return 'Refusé';
+      default: return statut;
     }
-
-    if (this.editMode && this.rendezVous.idRendezVous) {
-      this.rendezvousService.updateRendezVous(this.rendezVous.idRendezVous, this.rendezVous).subscribe({
-        next: () => {
-          this.resetAndReload();
-        },
-        error: (err) => {
-          console.error('Erreur modification :', err);
-        }
-      });
-    } else {
-      this.rendezvousService.addRendezVous(this.rendezVous).subscribe({
-        next: () => {
-          this.resetAndReload();
-        },
-        error: (err) => {
-          console.error('Erreur ajout :', err);
-        }
-      });
-    }
-  }
-
-  resetAndReload(): void {
-    this.rendezVous = this.resetForm();
-    this.editMode = false;
-    this.loadAllRendezVous();
-  }
-
-  loadAllRendezVous(): void {
-    this.rendezvousService.retrieveAllRendezVous().subscribe({
-      next: (data) => {
-        this.allRendezVous = data;
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement des rendez-vous :', err);
-      }
-    });
-  }
-
-  editRendezVous(rdv: RendezVous): void {
-    if (rdv.archived) return;
-    
-    this.rendezVous = JSON.parse(JSON.stringify(rdv));
-    this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
-    this.editMode = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   hasRendezVousEnCours(): boolean {
-    return this.allRendezVous.some(rdv => rdv.statut === 'EN_COURS');
-  }
-
-  getStatutLabel(statut: StatutRendezVous): string {
-    switch(statut) {
-      case StatutRendezVous.EN_COURS: return 'En cours';
-      case StatutRendezVous.TERMINE: return 'Terminé';
-      case StatutRendezVous.ANNULE: return 'Annulé';
-      default: return statut;
-    }
+    return this.allRendezVous.some(rdv => rdv.statut === StatutRendezVous.EN_COURS);
   }
 }

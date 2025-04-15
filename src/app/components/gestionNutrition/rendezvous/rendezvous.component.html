@@ -1,4 +1,5 @@
 <div class="container mt-5">
+  <!-- Formulaire -->
   <div class="card shadow-lg border-0">
     <div class="card-body">
       <h2 class="card-title text-primary text-center mb-4">
@@ -46,11 +47,16 @@
             </select>
           </div>
 
-          <!-- Statut -->
-          <div class="col-md-6" *ngIf="editMode && rendezVous.statut === 'EN_COURS'">
+          <!-- Affichage statut (lecture seule) -->
+          <div class="col-md-6" *ngIf="editMode">
             <label class="form-label">Statut</label>
             <div class="form-control-plaintext">
-              <span class="badge bg-warning">
+              <span class="badge" 
+                    [ngClass]="{
+                      'bg-warning': rendezVous.statut === StatutRendezVous.EN_COURS,
+                      'bg-success': rendezVous.statut === StatutRendezVous.ACCEPTE,
+                      'bg-danger': rendezVous.statut === StatutRendezVous.REFUSE
+                    }">
                 {{ getStatutLabel(rendezVous.statut) }}
               </span>
             </div>
@@ -75,12 +81,21 @@
   <div class="card mt-5 shadow border-0">
     <div class="card-body">
       <h3 class="text-center text-secondary mb-4">Liste des Rendez-vous</h3>
-      
-      <div *ngIf="allRendezVous.length === 0" class="text-center text-muted py-4">
+
+      <!-- Loading spinner -->
+      <div *ngIf="loading && allRendezVous.length === 0" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+
+      <!-- Aucune donnée -->
+      <div *ngIf="!loading && allRendezVous.length === 0" class="text-center text-muted py-4">
         <i class="bi bi-calendar-x fs-1 d-block"></i>
         <p class="mt-2 mb-0">Aucun rendez-vous trouvé</p>
       </div>
-      
+
+      <!-- Tableau -->
       <div class="table-responsive" *ngIf="allRendezVous.length > 0">
         <table class="table table-hover">
           <thead>
@@ -88,8 +103,8 @@
               <th>Date</th>
               <th>Durée</th>
               <th>Remarque</th>
-              <th *ngIf="hasRendezVousEnCours()">Statut</th>
-              <th class="text-end">Actions</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -99,22 +114,23 @@
               <td class="text-truncate" style="max-width: 150px;" [title]="rdv.remarque">
                 {{ rdv.remarque }}
               </td>
-              
-              <td *ngIf="hasRendezVousEnCours()">
-                <span *ngIf="rdv.statut === 'EN_COURS'" class="badge bg-warning">
+              <td>
+                <span class="badge" 
+                      [ngClass]="{
+                        'bg-warning': rdv.statut === StatutRendezVous.EN_COURS,
+                        'bg-success': rdv.statut === StatutRendezVous.ACCEPTE,
+                        'bg-danger': rdv.statut === StatutRendezVous.REFUSE
+                      }">
                   {{ getStatutLabel(rdv.statut) }}
                 </span>
               </td>
-              
-              <td class="text-end">
-                <div class="d-flex gap-2 justify-content-end">
-                  <button class="btn btn-sm btn-outline-primary" 
-                          (click)="editRendezVous(rdv)" 
-                          [disabled]="rdv.archived"
-                          title="Modifier">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                </div>
+              <td>
+                <button class="btn btn-sm btn-primary" 
+                        (click)="editRendezVous(rdv)"
+                        [disabled]="rdv.archived"
+                        title="Modifier">
+                  <i class="bi bi-pencil"></i> Modifier
+                </button>
               </td>
             </tr>
           </tbody>
