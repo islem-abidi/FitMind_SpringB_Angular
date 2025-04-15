@@ -1,25 +1,62 @@
-<div class="col-xl-3 col-lg-6">
-  <div class="card card-stats mb-4 mb-xl-0">
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <h5 class="card-title text-uppercase text-muted mb-0">Total utilisateurs</h5>
-          <span class="h2 font-weight-bold mb-0">{{ totalUsers || 0 }}</span>
-        </div>
-        <div class="col-auto">
-          <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-            <i class="fas fa-users"></i>
+<div class="container mt-4">
+  <!-- Statistique utilisateur + connexions -->
+  <div class="row mb-4">
+    <div class="col-lg-4 col-md-6 mb-3">
+      <div class="card card-stats shadow h-100">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title text-muted text-uppercase mb-2">Total utilisateurs</h5>
+              <h2 class="mb-0">{{ totalUsers || 0 }}</h2>
+              <small class="text-muted">👨 {{ countBySexe['Homme'] || 0 }} / 👩 {{ countBySexe['Femme'] || 0 }}</small>
+            </div>
+            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <p class="mb-1"><strong>Rôles :</strong></p>
+            <p class="mb-0 text-sm">
+              👨‍🎓 Étudiants : {{ countByRole['Etudiant'] || 0 }}<br>
+              🛠 Admins : {{ countByRole['Admin'] || 0 }}
+            </p>
           </div>
         </div>
       </div>
-      <p class="mt-3 mb-0 text-muted text-sm">
-          <span class="text-info mr-2">
-            👨 {{ countBySexe['Homme'] || 0 }} / 👩 {{ countBySexe['Femme'] || 0 }}
-          </span>
-      </p>
     </div>
 
+    <div class="col-lg-8 col-md-6 mb-3">
+      <div class="card shadow h-100">
+        <div class="card-header bg-white border-0">
+          <h6 class="mb-0 text-primary">📊 Connexions par jour</h6>
+        </div>
+        <div class="card-body">
+          <canvas id="chart-logins" height="150"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
-  <button class="btn btn-outline-light" (click)="logout()">Se déconnecter</button>
 
+  <!-- Activité + bouton logout -->
+  <div class="row">
+    <div class="col-lg-6 mb-3">
+      <div class="card shadow h-100">
+        <div class="card-header bg-white border-0">
+          <h6 class="mb-0 text-success">🔥 Utilisateurs actifs (7 derniers jours)</h6>
+        </div>
+        <div class="card-body">
+          <canvas id="chart-activity" height="150"></canvas>
+        </div>
+        <div class="card-footer text-center">
+          <span class="badge bg-info text-dark">
+            📅 Dernière activité moyenne : {{ avgLastSeenDays.toFixed(1) }} jours
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 mb-3 d-flex align-items-end">
+      <button class="btn btn-outline-danger w-100" (click)="logout()">🚪 Se déconnecter</button>
+    </div>
+  </div>
 </div>
