@@ -11,10 +11,16 @@
           <!-- Date et Heure -->
           <div class="col-md-6">
             <label for="dateHeure" class="form-label">Date et Heure</label>
-            <input type="datetime-local" id="dateHeure" [(ngModel)]="rendezVous.dateHeure" name="dateHeure"
-              class="form-control" required #dateHeure="ngModel" />
+            <input type="datetime-local" id="dateHeure" 
+                   [(ngModel)]="rendezVous.dateHeure" 
+                   name="dateHeure"
+                   class="form-control" 
+                   required 
+                   #dateHeure="ngModel"
+                   [min]="minDate" />
             <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="text-danger small mt-1">
-              Ce champ est requis.
+              <div *ngIf="dateHeure.errors?.['required']">Ce champ est requis.</div>
+              <div *ngIf="dateHeure.errors?.['min']">La date ne peut pas être dans le passé.</div>
             </div>
           </div>
 
@@ -22,7 +28,7 @@
           <div class="col-md-6">
             <label for="duree" class="form-label">Durée (minutes)</label>
             <input type="number" id="duree" [(ngModel)]="rendezVous.duree" name="duree"
-              class="form-control" required min="30" max="120" #duree="ngModel" />
+                   class="form-control" required min="30" max="120" #duree="ngModel" />
             <div *ngIf="duree.invalid && (duree.dirty || duree.touched)" class="text-danger small mt-1">
               Durée requise (30-120 min).
             </div>
@@ -31,8 +37,8 @@
           <!-- Remarque -->
           <div class="col-12">
             <label for="remarque" class="form-label">Remarque</label>
-            <textarea id="remarque" [(ngModel)]="rendezVous.remarque" name="remarque" class="form-control"
-              rows="3" required #remarque="ngModel"></textarea>
+            <textarea id="remarque" [(ngModel)]="rendezVous.remarque" name="remarque" 
+                      class="form-control" rows="3" required #remarque="ngModel"></textarea>
             <div *ngIf="remarque.invalid && (remarque.dirty || remarque.touched)" class="text-danger small mt-1">
               Ce champ est requis.
             </div>

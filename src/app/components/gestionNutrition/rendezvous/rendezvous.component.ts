@@ -13,20 +13,19 @@ export class RendezvousComponent implements OnInit {
   allRendezVous: RendezVous[] = [];
   editMode = false;
   loading = false;
-  statutUpdating: { [key: number]: boolean } = {};
+  minDate: string;
   StatutRendezVous = StatutRendezVous;
+  
 
-  statutOptions = [
-    StatutRendezVous.EN_COURS,
-    StatutRendezVous.ACCEPTE,
-    StatutRendezVous.REFUSE
-  ];
 
   constructor(
     private rendezvousService: RendezvousService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    // Définir la date minimale comme date/heure actuelle
+    this.minDate = this.formatDateTimeLocal(new Date());
+  }
 
   ngOnInit(): void {
     const paramId = this.route.snapshot.paramMap.get('id');
@@ -36,7 +35,7 @@ export class RendezvousComponent implements OnInit {
       this.loadRendezVous(Number(paramId));
     } else {
       this.editMode = false;
-      this.rendezVous.dateHeure = this.formatDateTimeLocal(new Date());
+      this.rendezVous.dateHeure = this.minDate; // Initialiser avec la date minimale
     }
 
     this.loadAllRendezVous();
@@ -67,7 +66,16 @@ export class RendezvousComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
+    if (!this.validateForm()) {
+      return;
+    }
+
+    // Vérification de la date
+    const selectedDate = new Date(this.rendezVous.dateHeure);
+    const now = new Date();
+    
+    if (selectedDate < now) {
+      alert("La date du rendez-vous ne peut pas être dans le passé");
       return;
     }
 
@@ -84,9 +92,17 @@ export class RendezvousComponent implements OnInit {
     }
   }
 
+  private validateForm(): boolean {
+    if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
+      alert("Veuillez remplir tous les champs obligatoires");
+      return false;
+    }
+    return true;
+  }
+
   editRendezVous(rdv: RendezVous): void {
     if (rdv.archived) return;
-
+    
     this.rendezVous = JSON.parse(JSON.stringify(rdv));
     this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
     this.editMode = true;
@@ -96,7 +112,7 @@ export class RendezvousComponent implements OnInit {
   resetForm(): RendezVous {
     return {
       idRendezVous: undefined,
-      dateHeure: '',
+      dateHeure: this.minDate, // Utiliser la date minimale
       duree: 30,
       remarque: '',
       etudiant: { idUser: 2 },
@@ -121,10 +137,10 @@ export class RendezvousComponent implements OnInit {
   }
 
   getStatutLabel(statut: StatutRendezVous): string {
-    switch (statut) {
+    switch(statut) {
       case StatutRendezVous.EN_COURS: return 'En cours';
       case StatutRendezVous.ACCEPTE: return 'Accepté';
-      case StatutRendezVous.REFUSE:  return 'Refusé';
+      case StatutRendezVous.REFUSE: return 'Refusé';
       default: return statut;
     }
   }
