@@ -20,21 +20,21 @@ export class DossierNComponent implements OnInit {
       (dossiers: any[]) => {
         this.dossiers = dossiers.map(dossier => {
           const poids = parseFloat(dossier.poids);
-          const tailles = parseFloat(dossier.tailles); // Correction ici
+          const tailles = parseFloat(dossier.tailles);
 
-          let imc = 0; // Initialiser à 0 au lieu de null
+          let imc = 0;
 
           if (!isNaN(poids) && !isNaN(tailles) && tailles > 0) {
             const tailleEnMetres = tailles / 100;
             imc = poids / (tailleEnMetres * tailleEnMetres);
-            imc = parseFloat(imc.toFixed(2)); // Limite à 2 décimales
+            imc = parseFloat(imc.toFixed(2));
           }
 
           return {
             ...dossier,
-            poids: poids || 0,  // Définir à 0 si NaN
-            tailles: tailles || 0,  // Définir à 0 si NaN
-            imc: imc  // Utiliser le calcul de l'IMC
+            poids: poids || 0,
+            tailles: tailles || 0,
+            imc: imc
           };
         });
       },

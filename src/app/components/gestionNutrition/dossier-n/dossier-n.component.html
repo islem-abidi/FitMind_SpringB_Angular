@@ -1,7 +1,6 @@
 <div class="container">
   <h1>Liste des Dossiers Médicaux</h1>
 
-  <!-- Afficher les dossiers s'ils existent -->
   <div *ngIf="dossiers.length > 0; else noDossiers">
     <table class="table">
       <thead>
@@ -27,8 +26,8 @@
           <td>{{ dossier.allergies }}</td>
           <td>{{ dossier.poids }}</td>
           <td>{{ dossier.tailles }}</td>
-          <td>{{ dossier.imc || 'N/A' }}</td> <!-- Afficher 'N/A' si l'IMC est absent -->
-          <td>{{ dossier.rdvRecommande ? 'Oui' : 'Non' }}</td> <!-- Affichage de "Oui" ou "Non" pour le RDV -->
+          <td>{{ dossier.imc || 'N/A' }}</td>
+          <td>{{ dossier.rdvRecommande ? 'Oui' : 'Non' }}</td>
           <td>
             <button class="btn btn-warning" (click)="updateRdvRecommande(dossier)">
               {{ dossier.rdvRecommande ? 'Annuler RDV' : 'Recommander RDV' }}
@@ -39,7 +38,6 @@
     </table>
   </div>
 
-  <!-- Message si aucun dossier n'est disponible -->
   <ng-template #noDossiers>
     <p>Aucun dossier médical disponible.</p>
   </ng-template>

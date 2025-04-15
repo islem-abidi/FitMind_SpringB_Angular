@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DossierMedical, DossierMedicalService } from 'src/app/services/gestionNutrition/dossier-medical.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dossier-medical',
@@ -10,10 +11,14 @@ export class DossierMedicalComponent implements OnInit {
   dossiers: DossierMedical[] = [];
   dossier: DossierMedical = this.resetForm();
   editMode = false;
-  isAdmin = false; // Simule ton rôle ici ou récupère depuis un AuthService
-  isRdvRecommended: boolean = false; // Statut pour savoir si le RDV est recommandé
+  isAdmin = false;
+  isRdvRecommended: boolean = false;
+  recommendedDossier: DossierMedical | null = null;
 
-  constructor(private dossierService: DossierMedicalService) {}
+  constructor(
+    private dossierService: DossierMedicalService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchAllDossiers();
@@ -22,7 +27,21 @@ export class DossierMedicalComponent implements OnInit {
   fetchAllDossiers(): void {
     this.dossierService.getAllDossiers().subscribe(data => {
       this.dossiers = this.isAdmin ? data : data.filter(d => !d.archived);
+      this.checkRecommendedRdv();
     });
+  }
+
+  checkRecommendedRdv(): void {
+    this.isRdvRecommended = false;
+    this.recommendedDossier = null;
+    
+    for (const d of this.dossiers) {
+      if (d.rdvRecommande) {
+        this.isRdvRecommended = true;
+        this.recommendedDossier = d;
+        break;
+      }
+    }
   }
 
   submitForm(): void {
@@ -41,7 +60,6 @@ export class DossierMedicalComponent implements OnInit {
       return;
     }
   
-    // Calcul de l'IMC
     if (this.dossier.tailles && this.dossier.poids) {
       this.dossier.imc = this.dossier.poids / Math.pow(this.dossier.tailles / 100, 2);
     }
@@ -66,7 +84,6 @@ export class DossierMedicalComponent implements OnInit {
       });
     }
   }
-  
 
   editDossier(d: DossierMedical): void {
     if (d.archived) {
@@ -106,27 +123,9 @@ export class DossierMedicalComponent implements OnInit {
     this.fetchAllDossiers();
   }
 
-  // Méthode pour gérer la recommandation de rendez-vous
-  fetchDossierAndCheckRdv(): void {
-    this.dossierService.getAllDossiers().subscribe(data => {
-      this.dossiers = data;
-      this.dossiers.forEach(d => {
-        if (d.rdvRecommande) {
-          this.isRdvRecommended = true;
-        }
-      });
-    });
-  }
-
-  // Méthode pour réserver un rendez-vous
-  reserverRdv(): void {
-    if (!this.isRdvRecommended) {
-      alert('Aucun rendez-vous recommandé pour ce dossier.');
-      return;
+  navigateToRendezVous(): void {
+    if (this.isRdvRecommended) {
+      this.router.navigate(['/rendez-vous']);
     }
-
-    // Logique pour réserver un rendez-vous (par exemple, appel à un service de réservation)
-    console.log('Rendez-vous réservé');
-    alert('Le rendez-vous a été réservé avec succès.');
   }
 }

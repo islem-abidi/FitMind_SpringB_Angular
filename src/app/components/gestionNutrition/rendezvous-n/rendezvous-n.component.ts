@@ -8,9 +8,8 @@ import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
   styleUrls: ['./rendezvous-n.component.css']
 })
 export class RendezvousNComponent implements OnInit {
-
   rendezvousList: RendezVous[] = [];
-  statutOptions: string[] = Object.values(StatutRendezVous);  // Assurez-vous que l'énumération est correcte
+  statutOptions = Object.values(StatutRendezVous);
 
   constructor(private rendezvousService: RendezvousService) {}
 
@@ -25,31 +24,28 @@ export class RendezvousNComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur lors du chargement des rendez-vous:', err);
-        alert('❌ Erreur lors du chargement des rendez-vous.');
       }
     });
   }
 
-  updateStatut(rdv: RendezVous, newStatut: StatutRendezVous): void {
-    // Vérifier si le nouveau statut est le même que l'ancien
-    if (rdv.statut === newStatut) {
-      return; // Pas besoin de mettre à jour si le statut n'a pas changé
+  updateStatut(rdv: RendezVous, newStatut: string): void {
+    if (!rdv.idRendezVous || rdv.statut === newStatut) {
+      return;
     }
 
-    // Créer la payload avec le statut à mettre à jour
-    const updatePayload = { statut: newStatut };
-
-    // Appel au service pour mettre à jour le statut
-    this.rendezvousService.updateStatutRendezVous(rdv.idRendezVous!, updatePayload)
-      .subscribe({
-        next: () => {
-          rdv.statut = newStatut; // Mise à jour du statut localement
-          alert('✅ Statut mis à jour avec succès !');
-        },
-        error: (err) => {
-          console.error('Erreur lors de la mise à jour du statut :', err);
-          alert('❌ Erreur de mise à jour du statut.');
+    this.rendezvousService.updateStatutRendezVous(rdv.idRendezVous, newStatut).subscribe({
+      next: (updatedRdv) => {
+        rdv.statut = newStatut as StatutRendezVous;
+        console.log('Statut mis à jour avec succès');
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour du statut:', err);
+        // Revert the change in UI if the request fails
+        const selectElement = document.querySelector(`select[ng-reflect-model="${newStatut}"]`) as HTMLSelectElement;
+        if (selectElement) {
+          selectElement.value = rdv.statut || '';
         }
-      });
+      }
+    });
   }
 }

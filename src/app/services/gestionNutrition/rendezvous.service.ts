@@ -23,7 +23,6 @@ retrieveRendezVous(id: number): Observable<RendezVous> {
   return this.http.get<RendezVous>(`${this.baseUrl}/retrieveRendezVous/${id}`);
 }
 
-
   // Ajouter un rendez-vous
   addRendezVous(rendezVous: RendezVous): Observable<RendezVous> {
     console.log('Envoi du rendez-vous:', rendezVous);
@@ -36,13 +35,11 @@ retrieveRendezVous(id: number): Observable<RendezVous> {
   }
 
   // Méthode dans le service pour mettre à jour le statut du rendez-vous
-updateStatutRendezVous(id: number, updatedStatus: { statut: string }): Observable<void> {
-  return this.http.put<void>(`${this.baseUrl}/updateStatutRendezVous/${id}`, updatedStatus);
-}
-
+  updateStatutRendezVous(id: number, statut: string): Observable<RendezVous> {
+    const payload = { statut: statut };
+    return this.http.put<RendezVous>(`${this.baseUrl}/updateStatutRendezVous/${id}`, payload);
+  }
   
-  
-
   // Archiver un rendez-vous (suppression logique)
   archiveRendezVous(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/archiveRendezVous/${id}`);

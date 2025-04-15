@@ -7,52 +7,64 @@
 
       <form (ngSubmit)="submitForm()" #form="ngForm">
         <div class="row g-3">
-
           <!-- Date et Heure -->
           <div class="col-md-6">
-            <label class="form-label">Date et Heure</label>
-            <input type="datetime-local" [(ngModel)]="rendezVous.dateHeure" name="dateHeure"
+            <label for="dateHeure" class="form-label">Date et Heure</label>
+            <input type="datetime-local" id="dateHeure" [(ngModel)]="rendezVous.dateHeure" name="dateHeure"
               class="form-control" required #dateHeure="ngModel" />
-            <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="form-text text-danger">
+            <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="text-danger small mt-1">
               Ce champ est requis.
             </div>
           </div>
 
           <!-- Durée -->
           <div class="col-md-6">
-            <label class="form-label">Durée (en minutes)</label>
-            <input type="number" [(ngModel)]="rendezVous.duree" name="duree"
-              class="form-control" required min="1" #duree="ngModel" />
-            <div *ngIf="duree.invalid && (duree.dirty || duree.touched)" class="form-text text-danger">
-              Durée requise (min. 1 min).
+            <label for="duree" class="form-label">Durée (minutes)</label>
+            <input type="number" id="duree" [(ngModel)]="rendezVous.duree" name="duree"
+              class="form-control" required min="30" max="120" #duree="ngModel" />
+            <div *ngIf="duree.invalid && (duree.dirty || duree.touched)" class="text-danger small mt-1">
+              Durée requise (30-120 min).
             </div>
           </div>
 
           <!-- Remarque -->
           <div class="col-12">
-            <label class="form-label">Remarque</label>
-            <textarea [(ngModel)]="rendezVous.remarque" name="remarque" class="form-control"
-              rows="3" placeholder="Ajouter des remarques..." required #remarque="ngModel"></textarea>
-            <div *ngIf="remarque.invalid && (remarque.dirty || remarque.touched)" class="form-text text-danger">
+            <label for="remarque" class="form-label">Remarque</label>
+            <textarea id="remarque" [(ngModel)]="rendezVous.remarque" name="remarque" class="form-control"
+              rows="3" required #remarque="ngModel"></textarea>
+            <div *ngIf="remarque.invalid && (remarque.dirty || remarque.touched)" class="text-danger small mt-1">
               Ce champ est requis.
             </div>
           </div>
 
           <!-- Rappel -->
           <div class="col-md-6">
-            <label class="form-label">Rappel</label>
-            <select [(ngModel)]="rendezVous.rappel" name="rappel" class="form-select" required>
-              <option [value]="true">Oui</option>
-              <option [value]="false">Non</option>
+            <label for="rappel" class="form-label">Rappel</label>
+            <select id="rappel" [(ngModel)]="rendezVous.rappel" name="rappel" class="form-select">
+              <option [ngValue]="true">Oui</option>
+              <option [ngValue]="false">Non</option>
             </select>
           </div>
 
+          <!-- Statut -->
+          <div class="col-md-6" *ngIf="editMode && rendezVous.statut === 'EN_COURS'">
+            <label class="form-label">Statut</label>
+            <div class="form-control-plaintext">
+              <span class="badge bg-warning">
+                {{ getStatutLabel(rendezVous.statut) }}
+              </span>
+            </div>
+          </div>
         </div>
 
         <!-- Boutons -->
         <div class="mt-4 d-flex justify-content-center gap-3">
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid">
+            <i class="bi" [class.bi-save]="editMode" [class.bi-plus-lg]="!editMode"></i>
             {{ editMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+          <button type="button" class="btn btn-outline-secondary px-4" (click)="resetAndReload()" *ngIf="editMode">
+            <i class="bi bi-x-lg"></i> Annuler
           </button>
         </div>
       </form>
@@ -63,21 +75,51 @@
   <div class="card mt-5 shadow border-0">
     <div class="card-body">
       <h3 class="text-center text-secondary mb-4">Liste des Rendez-vous</h3>
-      <div *ngIf="allRendezVous.length === 0" class="text-center text-muted">Aucun rendez-vous trouvé.</div>
-      <ul class="list-group" *ngIf="allRendezVous.length > 0">
-        <li *ngFor="let rdv of allRendezVous" class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong>Date :</strong> {{ rdv.dateHeure | date: 'short' }}<br>
-            <strong>Durée :</strong> {{ rdv.duree }} min<br>
-            <strong>Remarque :</strong> {{ rdv.remarque }}<br>
-            <strong>Statut :</strong> {{ rdv.statut }}
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm" (click)="editRendezVous(rdv)" [disabled]="rdv.archived">Modifier</button>
-            
-          </div>
-        </li>
-      </ul>
+      
+      <div *ngIf="allRendezVous.length === 0" class="text-center text-muted py-4">
+        <i class="bi bi-calendar-x fs-1 d-block"></i>
+        <p class="mt-2 mb-0">Aucun rendez-vous trouvé</p>
+      </div>
+      
+      <div class="table-responsive" *ngIf="allRendezVous.length > 0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Durée</th>
+              <th>Remarque</th>
+              <th *ngIf="hasRendezVousEnCours()">Statut</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rdv of allRendezVous" [class.bg-light]="rdv.archived">
+              <td>{{ rdv.dateHeure | date:'medium' }}</td>
+              <td>{{ rdv.duree }} min</td>
+              <td class="text-truncate" style="max-width: 150px;" [title]="rdv.remarque">
+                {{ rdv.remarque }}
+              </td>
+              
+              <td *ngIf="hasRendezVousEnCours()">
+                <span *ngIf="rdv.statut === 'EN_COURS'" class="badge bg-warning">
+                  {{ getStatutLabel(rdv.statut) }}
+                </span>
+              </td>
+              
+              <td class="text-end">
+                <div class="d-flex gap-2 justify-content-end">
+                  <button class="btn btn-sm btn-outline-primary" 
+                          (click)="editRendezVous(rdv)" 
+                          [disabled]="rdv.archived"
+                          title="Modifier">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

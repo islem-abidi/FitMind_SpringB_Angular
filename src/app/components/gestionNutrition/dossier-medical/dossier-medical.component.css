@@ -1,84 +1,40 @@
-/* Style de base */
-.form-control, .form-select {
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  padding: 0.75rem;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+.alert-info {
+  background-color: #e7f5ff;
+  border-color: #d0ebff;
+  color: #1864ab;
 }
 
-/* Style pour les boutons */
-.btn {
-  margin-right: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-weight: bold;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s;
+.btn-primary {
+  background-color: #1c7ed6;
+  border-color: #1c7ed6;
 }
 
-.btn:hover {
-  background-color: #5a8f7d;
+.btn-primary:hover {
+  background-color: #1971c2;
+  border-color: #1864ab;
 }
 
-/* Style pour la table */
-.table-responsive {
-  margin-top: 1rem;
-  background-color: #f9f9f9;
+/* Styles existants */
+.container {
+  padding: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
   border-radius: 10px;
-  padding: 1rem;
 }
 
 .table {
-  font-size: 1rem;
-  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-.table th, .table td {
-  padding: 0.75rem;
-  text-align: center;
+.btn-success {
+  background-color: #2b8a3e;
+  border-color: #2b8a3e;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f2f2f2;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #d6e6f1;
-}
-
-.table-primary {
-  background-color: #c8e6f1;
-  color: #007bff;
-}
-
-/* Style pour la carte */
-.card {
-  border-radius: 15px;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-  padding: 2rem;
-  background-color: #ffffff;
-}
-
-.card-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
-.card-body h2, h4 {
-  color: #007bff;
-}
-
-.card-body form {
-  border-radius: 15px;
-  background-color: #f7f7f7;
-  padding: 2rem;
-}
-
-.is-loading {
-  opacity: 0.7;
-  cursor: not-allowed;
+.btn-warning {
+  background-color: #e67700;
+  border-color: #e67700;
+  color: white;
 }

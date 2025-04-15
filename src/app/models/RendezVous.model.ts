@@ -5,13 +5,15 @@ export interface RendezVous {
   remarque: string;
   etudiant: { idUser: number };
   nutritioniste: { idUser: number };
-  statut: StatutRendezVous; // ⚠️ utilise l'enum ici
+  statut?: StatutRendezVous; // ⚠️ utilise l'enum ici
   archived: boolean;
   rappel: boolean;
 }
+
 
 export enum StatutRendezVous {
   EN_COURS = 'EN_COURS',
   TERMINE = 'TERMINE',
   ANNULE = 'ANNULE'
 }
+  

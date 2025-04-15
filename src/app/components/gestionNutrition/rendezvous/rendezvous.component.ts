@@ -9,10 +9,10 @@ import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
   styleUrls: ['./rendezvous.component.css']
 })
 export class RendezvousComponent implements OnInit {
-
   rendezVous: RendezVous = this.resetForm();
   allRendezVous: RendezVous[] = [];
   editMode = false;
+  statutOptions = Object.values(StatutRendezVous);
 
   constructor(
     private rendezvousService: RendezvousService,
@@ -34,7 +34,6 @@ export class RendezvousComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erreur lors du chargement du rendez-vous :', err);
-          alert('Erreur lors du chargement du rendez-vous.');
         }
       });
     } else {
@@ -68,30 +67,25 @@ export class RendezvousComponent implements OnInit {
 
   submitForm(): void {
     if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
-      alert('Veuillez remplir tous les champs obligatoires.');
       return;
     }
 
     if (this.editMode && this.rendezVous.idRendezVous) {
       this.rendezvousService.updateRendezVous(this.rendezVous.idRendezVous, this.rendezVous).subscribe({
         next: () => {
-          alert('Rendez-vous modifié avec succès.');
           this.resetAndReload();
         },
         error: (err) => {
           console.error('Erreur modification :', err);
-          alert('Erreur lors de la modification.');
         }
       });
     } else {
       this.rendezvousService.addRendezVous(this.rendezVous).subscribe({
         next: () => {
-          alert('Rendez-vous ajouté avec succès.');
           this.resetAndReload();
         },
         error: (err) => {
           console.error('Erreur ajout :', err);
-          alert('Erreur lors de l\'ajout.');
         }
       });
     }
@@ -115,38 +109,24 @@ export class RendezvousComponent implements OnInit {
   }
 
   editRendezVous(rdv: RendezVous): void {
-    if (rdv.archived) {
-      alert("Ce rendez-vous est archivé.");
-      return;
-    }
-    this.rendezVous = { ...rdv };
+    if (rdv.archived) return;
+    
+    this.rendezVous = JSON.parse(JSON.stringify(rdv));
     this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
     this.editMode = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  changerStatut(id: number, nouveauStatut: string): void {
-    this.rendezvousService.updateStatutRendezVous(id, { statut: nouveauStatut }).subscribe({
-      next: () => {
-        alert('Statut mis à jour avec succès.');
-        this.loadAllRendezVous();
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour du statut :', err);
-      }
-    });
+  hasRendezVousEnCours(): boolean {
+    return this.allRendezVous.some(rdv => rdv.statut === 'EN_COURS');
   }
 
-  archiverRendezVous(id: number): void {
-    if (confirm('Voulez-vous vraiment archiver ce rendez-vous ?')) {
-      this.rendezvousService.archiveRendezVous(id).subscribe({
-        next: () => {
-          alert('Rendez-vous archivé.');
-          this.loadAllRendezVous();
-        },
-        error: (err) => {
-          console.error('Erreur lors de l’archivage :', err);
-        }
-      });
+  getStatutLabel(statut: StatutRendezVous): string {
+    switch(statut) {
+      case StatutRendezVous.EN_COURS: return 'En cours';
+      case StatutRendezVous.TERMINE: return 'Terminé';
+      case StatutRendezVous.ANNULE: return 'Annulé';
+      default: return statut;
     }
   }
 }

@@ -17,8 +17,10 @@
       <td>{{ rdv.remarque }}</td>
       <td>{{ rdv.statut }}</td>
       <td>
-        <select [(ngModel)]="rdv.statut" (ngModelChange)="updateStatut(rdv, $event)" class="form-select form-select-sm w-auto">
-          <option *ngFor="let s of statutOptions" [ngValue]="s">{{ s }}</option>
+        <select class="form-select form-select-sm w-auto"
+                [(ngModel)]="rdv.statut"
+                (ngModelChange)="updateStatut(rdv, $event)">
+          <option *ngFor="let s of statutOptions" [value]="s">{{ s }}</option>
         </select>
       </td>
     </tr>
