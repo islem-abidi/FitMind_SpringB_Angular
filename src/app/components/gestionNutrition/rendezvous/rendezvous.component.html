@@ -65,13 +65,16 @@
                     }">
                 {{ getStatutLabel(rendezVous.statut) }}
               </span>
+              <div *ngIf="rendezVous.statut !== StatutRendezVous.EN_COURS" class="text-warning small mt-1">
+                Seuls les rendez-vous avec statut "En cours" peuvent être modifiés
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Boutons -->
         <div class="mt-4 d-flex justify-content-center gap-3">
-          <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid">
+          <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid || (editMode && rendezVous.statut !== StatutRendezVous.EN_COURS)">
             <i class="bi" [class.bi-save]="editMode" [class.bi-plus-lg]="!editMode"></i>
             {{ editMode ? 'Modifier' : 'Ajouter' }}
           </button>
@@ -133,10 +136,13 @@
               <td>
                 <button class="btn btn-sm btn-primary" 
                         (click)="editRendezVous(rdv)"
-                        [disabled]="rdv.archived"
+                        [disabled]="rdv.archived || rdv.statut !== StatutRendezVous.EN_COURS"
                         title="Modifier">
                   <i class="bi bi-pencil"></i> Modifier
                 </button>
+                <span *ngIf="rdv.statut !== StatutRendezVous.EN_COURS" class="text-muted small ms-2">
+                  Non modifiable
+                </span>
               </td>
             </tr>
           </tbody>

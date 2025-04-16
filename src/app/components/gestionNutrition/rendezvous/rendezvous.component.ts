@@ -100,13 +100,24 @@ export class RendezvousComponent implements OnInit {
     return true;
   }
 
-  editRendezVous(rdv: RendezVous): void {
+  /*editRendezVous(rdv: RendezVous): void {
     if (rdv.archived) return;
     
     this.rendezVous = JSON.parse(JSON.stringify(rdv));
     this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
     this.editMode = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }*/
+    editRendezVous(rdv: RendezVous): void {
+      if (rdv.archived || rdv.statut !== StatutRendezVous.EN_COURS) {
+          alert("Vous ne pouvez modifier que les rendez-vous avec le statut 'EN_COURS'");
+          return;
+      }
+      
+      this.rendezVous = JSON.parse(JSON.stringify(rdv));
+      this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
+      this.editMode = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   resetForm(): RendezVous {
