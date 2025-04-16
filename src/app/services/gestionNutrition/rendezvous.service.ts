@@ -52,4 +52,12 @@ export class RendezvousService {
       })
     });
   }
+  // Ajoutez ces méthodes à votre service existant
+getArchivedRendezVous(): Observable<RendezVous[]> {
+  return this.http.get<RendezVous[]>(`${this.baseUrl}/retrieveArchivedRendezVous`);
+}
+
+restoreRendezVous(id: number): Observable<RendezVous> {
+  return this.http.put<RendezVous>(`${this.baseUrl}/restoreRendezVous/${id}`, {});
+}
 }

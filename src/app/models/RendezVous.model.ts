@@ -1,5 +1,5 @@
 export interface RendezVous {
-  idRendezVous?: number; // ID du rendez-vous, optionnel pour les nouveaux rendez-vous
+  idRendezVous: number; // ID du rendez-vous, optionnel pour les nouveaux rendez-vous
   dateHeure: string;
   duree: number;
   remarque: string;
