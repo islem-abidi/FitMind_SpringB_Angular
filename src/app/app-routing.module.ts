@@ -22,6 +22,7 @@ import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.c
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
 import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
+import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';  // Import du service
 
 
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
       { path: 'abonnementsback', component: AbonnementsbackComponent },
       { path: 'dossiers', component: AdminDossiersComponent },
+      { path: 'rendezvous', component: AdminRdvComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

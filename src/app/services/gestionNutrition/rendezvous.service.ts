@@ -44,7 +44,12 @@ export class RendezvousService {
     );
   }
 
-  archiveRendezVous(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/archiveRendezVous/${id}`);
+  archiveRendezVous(id: number): Observable<RendezVous> {
+    return this.http.put<RendezVous>(`${this.baseUrl}/archiveRendezVous/${id}`, null, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    });
   }
 }

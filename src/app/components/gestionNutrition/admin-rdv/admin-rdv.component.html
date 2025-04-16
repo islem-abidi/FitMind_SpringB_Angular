@@ -1,0 +1,43 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Administration des Rendez-vous</h2>
+  
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Date et Heure</th>
+          <th>Durée</th>
+          <th>Remarque</th>
+          <th>Statut</th>
+          <th>Archivé ?</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rdv of rendezvousList">
+          <td>{{ rdv.dateHeure | date:'short' }}</td>
+          <td>{{ rdv.duree }} minutes</td>
+          <td>{{ rdv.remarque }}</td>
+          <td>
+            <span [class.text-primary]="rdv.statut === statutRendezVousEnum.ACCEPTE"
+                  [class.text-warning]="rdv.statut === statutRendezVousEnum.EN_COURS"
+                  [class.text-danger]="rdv.statut === statutRendezVousEnum.REFUSE">
+              {{ rdv.statut }}
+            </span>
+          </td>
+          <td>
+            <span [class.text-success]="rdv.archived" [class.text-danger]="!rdv.archived">
+              {{ rdv.archived ? 'Oui' : 'Non' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-secondary"
+                    [disabled]="rdv.archived"
+                    (click)="archiveRendezVous(rdv.idRendezVous!)">
+              Archiver
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

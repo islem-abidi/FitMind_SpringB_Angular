@@ -25,7 +25,8 @@ import { AdminDossiersComponent } from './components/gestionNutrition/admin-doss
 import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component'
 import { RendezvousService } from './services/gestionNutrition/rendezvous.service';
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
-import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
+import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';
+import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';  // Import du service
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n
     AdminDossiersComponent,
     DossierNComponent,
     RendezvousComponent,
-    RendezvousNComponent
+    RendezvousNComponent,
+    AdminRdvComponent
   ],
   imports: [
     BrowserModule,

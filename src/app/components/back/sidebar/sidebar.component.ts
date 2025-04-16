@@ -19,6 +19,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/admin/abonnementsback', title: 'Abonnements', icon: 'ni ni-collection', class: '' },
 
   { path: '/admin/dossiers', title: 'dossiers', icon: 'ni ni-collection', class: '' },
+
+  { path: '/admin/rendezvous', title: 'RendezVous', icon: 'ni ni-collection', class: '' },
 ];
 
 @Component({
