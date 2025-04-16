@@ -20,6 +20,10 @@ import { BacktempComponent } from './components/backtemp/backtemp.component';
 import { AbonnementsbackComponent } from './components/abonnementsback/abonnementsback.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { StatabonnementComponent } from './components/statabonnement/statabonnement.component';
+import { NgChartsModule } from 'ng2-charts';
+import { AbonnementcardsComponent } from './components/abonnementcards/abonnementcards.component';
+import { RenouvellementAbonnementComponent } from './components/renouvellement-abonnement/renouvellement-abonnement.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { ToastrModule } from 'ngx-toastr';
     AdminLayoutComponent,
     AuthLayoutComponent,
     BacktempComponent,
-    AbonnementsbackComponent
+    AbonnementsbackComponent,
+    StatabonnementComponent,
+    AbonnementcardsComponent,
+    RenouvellementAbonnementComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +50,7 @@ import { ToastrModule } from 'ngx-toastr';
     RouterModule,
     NgbModule,
     ClipboardModule,
+    NgChartsModule,
     BrowserAnimationsModule,       // 🌀 Obligatoire
     ToastrModule.forRoot({         // ⚙️ Configuration de base
       timeOut: 3000,

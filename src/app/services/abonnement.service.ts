@@ -47,6 +47,18 @@ export class AbonnementService {
   getArchivedPaged(page = 0, size = 10, sortBy = 'dateCreation', direction = 'asc'): Observable<any> {
     return this.http.get<any>(`${BASE_URL}/retrieveArchivedAbonnementsPaged?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`);
   }
+  /*renouvelerAbonnementParUser(idUser: number, duree: string, type: string, stripeToken: string) {
+    return this.http.put<any>(
+      `${BASE_URL}/renouvelerByUser/${idUser}?duree=${duree}&type=${type}&stripeToken=${stripeToken}`, {}
+    );
+  }*/
+ 
   
-  
+    renouvelerAbonnementParUser(idUser: number, duree: string, type: string, stripeToken: string) {
+      return this.http.put<any>(
+        `${BASE_URL}/renouvelerByUser/${idUser}?duree=${duree}&type=${type}&stripeToken=${stripeToken}`, {}
+      );
+      
+    }
+ 
 }

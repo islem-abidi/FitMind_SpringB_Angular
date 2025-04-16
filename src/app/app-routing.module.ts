@@ -19,6 +19,9 @@ import { TablesComponent } from './backoff/pages/tables/tables.component';
 import { LoginComponent } from './backoff/pages/login/login.component';
 import { RegisterComponent } from './backoff/pages/register/register.component';
 import { AbonnementsbackComponent } from './components/abonnementsback/abonnementsback.component';
+import { StatabonnementComponent } from './components/statabonnement/statabonnement.component';
+import { AbonnementcardsComponent } from './components/abonnementcards/abonnementcards.component';
+import { RenouvellementAbonnementComponent } from './components/renouvellement-abonnement/renouvellement-abonnement.component';
 
 const routes: Routes = [
   // 👉 Partie Front (site public)
@@ -26,7 +29,9 @@ const routes: Routes = [
     path: '',
     component: TemplateComponent,
     children: [
-      { path: 'abonnements', component: AbonnementsComponent }
+      { path: 'abonnements', component: AbonnementsComponent },
+      { path: 'abonnements-cards', component: AbonnementcardsComponent },
+      { path: 'renouvellement', component: RenouvellementAbonnementComponent }
     ]
   },
 
@@ -43,7 +48,8 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'abonnementsback', component: AbonnementsbackComponent }
+      { path: 'abonnementsback', component: AbonnementsbackComponent },
+      {path: 'statabonnement',component: StatabonnementComponent}
 
     ]
   },
