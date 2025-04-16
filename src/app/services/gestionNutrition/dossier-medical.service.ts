@@ -38,9 +38,10 @@ export class DossierMedicalService {
     return this.http.put<DossierMedical>(`${this.apiUrl}/updateDossier`, dossier);
   }
 
-  archiveDossier(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/archiveDossier/${id}`);
-  }
+  // Remplacer la méthode archiveDossier existante par :
+archiveDossier(id: number): Observable<DossierMedical> {
+  return this.http.put<DossierMedical>(`${this.apiUrl}/archiveDossier/${id}`, {});
+}
 
   // Pour le client (ne voir que les dossiers non archivés)
   getDossiersNonArchives(): Observable<DossierMedical[]> {
@@ -52,4 +53,13 @@ export class DossierMedicalService {
     const params = new HttpParams().set('rdvRecommande', rdvRecommande.toString());
     return this.http.put<DossierMedical>(`${this.apiUrl}/updateRdvRecommande/${id}`, null, { params });
   }
+
+  // Ajoutez ces méthodes à votre service existant
+getArchivedDossiers(): Observable<DossierMedical[]> {
+  return this.http.get<DossierMedical[]>(`${this.apiUrl}/retrieveArchivedDossiers`);
+}
+
+restoreDossier(id: number): Observable<DossierMedical> {
+  return this.http.put<DossierMedical>(`${this.apiUrl}/restoreDossier/${id}`, {});
+}
 }
