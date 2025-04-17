@@ -23,7 +23,7 @@ import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossi
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
 import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
 import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';  // Import du service
-
+import { CalendarComponent } from './components/gestionNutrition/calendar/calendar.component';
 
 const routes: Routes = [
   {
@@ -35,6 +35,7 @@ const routes: Routes = [
       { path: 'dossier-nutritionniste', component: DossierNComponent },
       { path: 'rendez-vous', component: RendezvousComponent },
       { path: 'nutritionniste', component: RendezvousNComponent },
+      { path: 'calender', component: CalendarComponent },
     ]
   },
   {

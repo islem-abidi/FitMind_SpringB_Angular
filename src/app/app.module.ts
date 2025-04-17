@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateComponent } from './template/template.component';
@@ -22,12 +22,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AdminDossiersComponent } from './components/gestionNutrition/admin-dossiers/admin-dossiers.component';
-import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component'
-import { RendezvousService } from './services/gestionNutrition/rendezvous.service';
+import { DossierNComponent } from './components/gestionNutrition/dossier-n/dossier-n.component';
 import { RendezvousComponent } from './components/gestionNutrition/rendezvous/rendezvous.component';
 import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';
-import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';  // Import du service
-
+import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarComponent } from './components/gestionNutrition/calendar/calendar.component';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,20 +48,34 @@ import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin
     DossierNComponent,
     RendezvousComponent,
     RendezvousNComponent,
-    AdminRdvComponent
+    AdminRdvComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     BrowserAnimationsModule,
     NgbModule,
     ClipboardModule,
-    CommonModule
+    CommonModule,
+    FullCalendarModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true
+    })
+    ,
+    
   ],
-  providers: [],
+  providers: [
+    // Vos services peuvent être ajoutés ici si nécessaire
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,29 +21,28 @@ export class RendezvousComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    // Définir la date minimale comme date/heure actuelle
     this.minDate = this.formatDateTimeLocal(new Date());
   }
 
   ngOnInit(): void {
     const paramId = this.route.snapshot.paramMap.get('id');
-
     if (paramId && Number(paramId) > 0) {
       this.editMode = true;
       this.loadRendezVous(Number(paramId));
     } else {
       this.editMode = false;
-      this.rendezVous.dateHeure = this.minDate; // Initialiser avec la date minimale
+      this.rendezVous.dateHeure = this.minDate;
     }
-
     this.loadAllRendezVous();
   }
 
   loadRendezVous(id: number): void {
     this.rendezvousService.retrieveRendezVous(id).subscribe({
       next: (data) => {
-        data.dateHeure = this.formatDateTimeLocal(data.dateHeure);
-        this.rendezVous = data;
+        this.rendezVous = {
+          ...data,
+          dateHeure: this.formatDateTimeLocal(data.dateHeure)
+        };
       },
       error: (err) => console.error('Erreur lors du chargement du rendez-vous :', err)
     });
@@ -68,10 +67,9 @@ export class RendezvousComponent implements OnInit {
       return;
     }
 
-    // Vérification de la date
     const selectedDate = new Date(this.rendezVous.dateHeure);
     const now = new Date();
-    
+
     if (selectedDate < now) {
       alert("La date du rendez-vous ne peut pas être dans le passé");
       return;
@@ -100,10 +98,10 @@ export class RendezvousComponent implements OnInit {
 
   editRendezVous(rdv: RendezVous): void {
     if (rdv.archived || rdv.statut !== StatutRendezVous.EN_COURS) {
-        alert("Vous ne pouvez modifier que les rendez-vous avec le statut 'EN_COURS'");
-        return;
+      alert("Vous ne pouvez modifier que les rendez-vous avec le statut 'EN_COURS'");
+      return;
     }
-    
+
     this.rendezVous = JSON.parse(JSON.stringify(rdv));
     this.rendezVous.dateHeure = this.formatDateTimeLocal(this.rendezVous.dateHeure);
     this.editMode = true;
@@ -111,8 +109,10 @@ export class RendezvousComponent implements OnInit {
   }
 
   resetForm(): RendezVous {
+    const defaultDate = new Date();
+    defaultDate.setHours(9, 0, 0, 0);
     const newRdv: Partial<RendezVous> = {
-      dateHeure: this.minDate,
+      dateHeure: this.formatDateTimeLocal(defaultDate),
       duree: 30,
       remarque: '',
       etudiant: { idUser: 2 },
@@ -130,15 +130,19 @@ export class RendezvousComponent implements OnInit {
     this.loadAllRendezVous();
   }
 
+  // ❗ Correction ici : on ne modifie plus le fuseau horaire
   formatDateTimeLocal(dateStr: string | Date): string {
     const date = new Date(dateStr);
-    const offset = date.getTimezoneOffset();
-    const localDate = new Date(date.getTime() - offset * 60000);
-    return localDate.toISOString().slice(0, 16);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   getStatutLabel(statut: StatutRendezVous): string {
-    switch(statut) {
+    switch (statut) {
       case StatutRendezVous.EN_COURS: return 'En cours';
       case StatutRendezVous.ACCEPTE: return 'Accepté';
       case StatutRendezVous.REFUSE: return 'Refusé';

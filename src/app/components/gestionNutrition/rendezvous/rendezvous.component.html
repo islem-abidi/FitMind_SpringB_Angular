@@ -17,7 +17,8 @@
                    class="form-control" 
                    required 
                    #dateHeure="ngModel"
-                   [min]="minDate" />
+                   [min]="minDate"
+                   step="900"> <!-- Pas de 15 minutes -->
             <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="text-danger small mt-1">
               <div *ngIf="dateHeure.errors?.['required']">Ce champ est requis.</div>
               <div *ngIf="dateHeure.errors?.['min']">La date ne peut pas être dans le passé.</div>
