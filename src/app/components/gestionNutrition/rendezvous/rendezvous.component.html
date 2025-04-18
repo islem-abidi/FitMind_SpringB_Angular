@@ -3,6 +3,7 @@
   <div class="card shadow-lg border-0">
     <div class="card-body">
       <h2 class="card-title text-primary text-center mb-4">
+        <i class="bi bi-calendar-plus-fill me-2"></i>
         {{ editMode ? 'Modifier un Rendez-vous' : 'Ajouter un Rendez-vous' }}
       </h2>
 
@@ -10,15 +11,14 @@
         <div class="row g-3">
           <!-- Date et Heure -->
           <div class="col-md-6">
-            <label for="dateHeure" class="form-label">Date et Heure</label>
+            <label for="dateHeure" class="form-label fw-semibold">
+              <i class="bi bi-clock-history me-1 text-info"></i> Date et Heure
+            </label>
             <input type="datetime-local" id="dateHeure" 
-                   [(ngModel)]="rendezVous.dateHeure" 
-                   name="dateHeure"
-                   class="form-control" 
-                   required 
-                   #dateHeure="ngModel"
-                   [min]="minDate"
-                   step="900"> <!-- Pas de 15 minutes -->
+                   class="form-control border-info"
+                   [(ngModel)]="rendezVous.dateHeure"
+                   name="dateHeure" required #dateHeure="ngModel"
+                   [min]="minDate" step="900">
             <div *ngIf="dateHeure.invalid && (dateHeure.dirty || dateHeure.touched)" class="text-danger small mt-1">
               <div *ngIf="dateHeure.errors?.['required']">Ce champ est requis.</div>
               <div *ngIf="dateHeure.errors?.['min']">La date ne peut pas être dans le passé.</div>
@@ -27,9 +27,12 @@
 
           <!-- Durée -->
           <div class="col-md-6">
-            <label for="duree" class="form-label">Durée (minutes)</label>
-            <input type="number" id="duree" [(ngModel)]="rendezVous.duree" name="duree"
-                   class="form-control" required min="30" max="120" #duree="ngModel" />
+            <label for="duree" class="form-label fw-semibold">
+              <i class="bi bi-hourglass-split me-1 text-warning"></i> Durée (minutes)
+            </label>
+            <input type="number" id="duree" class="form-control border-warning"
+                   [(ngModel)]="rendezVous.duree" name="duree"
+                   required min="30" max="120" #duree="ngModel" />
             <div *ngIf="duree.invalid && (duree.dirty || duree.touched)" class="text-danger small mt-1">
               Durée requise (30-120 min).
             </div>
@@ -37,9 +40,12 @@
 
           <!-- Remarque -->
           <div class="col-12">
-            <label for="remarque" class="form-label">Remarque</label>
-            <textarea id="remarque" [(ngModel)]="rendezVous.remarque" name="remarque" 
-                      class="form-control" rows="3" required #remarque="ngModel"></textarea>
+            <label for="remarque" class="form-label fw-semibold">
+              <i class="bi bi-chat-left-text me-1 text-secondary"></i> Remarque
+            </label>
+            <textarea id="remarque" class="form-control border-secondary" rows="3"
+                      [(ngModel)]="rendezVous.remarque" name="remarque"
+                      required #remarque="ngModel"></textarea>
             <div *ngIf="remarque.invalid && (remarque.dirty || remarque.touched)" class="text-danger small mt-1">
               Ce champ est requis.
             </div>
@@ -47,18 +53,23 @@
 
           <!-- Rappel -->
           <div class="col-md-6">
-            <label for="rappel" class="form-label">Rappel</label>
-            <select id="rappel" [(ngModel)]="rendezVous.rappel" name="rappel" class="form-select">
+            <label for="rappel" class="form-label fw-semibold">
+              <i class="bi bi-bell-fill me-1 text-danger"></i> Rappel
+            </label>
+            <select id="rappel" class="form-select border-danger"
+                    [(ngModel)]="rendezVous.rappel" name="rappel">
               <option [ngValue]="true">Oui</option>
               <option [ngValue]="false">Non</option>
             </select>
           </div>
 
-          <!-- Affichage statut (lecture seule) -->
+          <!-- Statut -->
           <div class="col-md-6" *ngIf="editMode">
-            <label class="form-label">Statut</label>
+            <label class="form-label fw-semibold">
+              <i class="bi bi-info-circle-fill me-1 text-primary"></i> Statut
+            </label>
             <div class="form-control-plaintext">
-              <span class="badge" 
+              <span class="badge px-3 py-2 fs-6"
                     [ngClass]="{
                       'bg-warning': rendezVous.statut === StatutRendezVous.EN_COURS,
                       'bg-success': rendezVous.statut === StatutRendezVous.ACCEPTE,
@@ -75,12 +86,13 @@
 
         <!-- Boutons -->
         <div class="mt-4 d-flex justify-content-center gap-3">
-          <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid || (editMode && rendezVous.statut !== StatutRendezVous.EN_COURS)">
-            <i class="bi" [class.bi-save]="editMode" [class.bi-plus-lg]="!editMode"></i>
+          <button type="submit" class="btn btn-success px-4 shadow"
+                  [disabled]="form.invalid || (editMode && rendezVous.statut !== StatutRendezVous.EN_COURS)">
+            <i class="bi" [class.bi-save]="editMode" [class.bi-plus-circle-fill]="!editMode"></i>
             {{ editMode ? 'Modifier' : 'Ajouter' }}
           </button>
-          <button type="button" class="btn btn-outline-secondary px-4" (click)="resetAndReload()" *ngIf="editMode">
-            <i class="bi bi-x-lg"></i> Annuler
+          <button type="button" class="btn btn-outline-secondary px-4 shadow" (click)="resetAndReload()" *ngIf="editMode">
+            <i class="bi bi-x-circle"></i> Annuler
           </button>
         </div>
       </form>
@@ -90,8 +102,10 @@
   <!-- Liste des rendez-vous -->
   <div class="card mt-5 shadow border-0">
     <div class="card-body">
-      <h3 class="text-center text-secondary mb-4">Liste des Rendez-vous</h3>
-
+      <h3 class="text-center text-dark fw-bold mb-4">
+        <i class="bi bi-journal-text me-2"></i> Liste des Rendez-vous
+      </h3>
+      
       <!-- Loading spinner -->
       <div *ngIf="loading && allRendezVous.length === 0" class="text-center py-4">
         <div class="spinner-border text-primary" role="status">
@@ -106,49 +120,47 @@
       </div>
 
       <!-- Tableau -->
-      <div class="table-responsive" *ngIf="allRendezVous.length > 0">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Durée</th>
-              <th>Remarque</th>
-              <th>Statut</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let rdv of allRendezVous" [class.bg-light]="rdv.archived">
-              <td>{{ rdv.dateHeure | date:'medium' }}</td>
-              <td>{{ rdv.duree }} min</td>
-              <td class="text-truncate" style="max-width: 150px;" [title]="rdv.remarque">
-                {{ rdv.remarque }}
-              </td>
-              <td>
-                <span class="badge" 
-                      [ngClass]="{
-                        'bg-warning': rdv.statut === StatutRendezVous.EN_COURS,
-                        'bg-success': rdv.statut === StatutRendezVous.ACCEPTE,
-                        'bg-danger': rdv.statut === StatutRendezVous.REFUSE
-                      }">
-                  {{ getStatutLabel(rdv.statut) }}
-                </span>
-              </td>
-              <td>
-                <button class="btn btn-sm btn-primary" 
-                        (click)="editRendezVous(rdv)"
-                        [disabled]="rdv.archived || rdv.statut !== StatutRendezVous.EN_COURS"
-                        title="Modifier">
-                  <i class="bi bi-pencil"></i> Modifier
-                </button>
-                <span *ngIf="rdv.statut !== StatutRendezVous.EN_COURS" class="text-muted small ms-2">
-                  Non modifiable
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<div class="table-responsive" *ngIf="allRendezVous.length > 0">
+  <table class="table table-hover align-middle bg-light">
+    <thead class="table-light">
+      <tr>
+        <th><i class="bi bi-calendar-event"></i> Date</th>
+        <th><i class="bi bi-hourglass"></i> Durée</th>
+        <th><i class="bi bi-card-text"></i> Remarque</th>
+        <th><i class="bi bi-flag"></i> Statut</th>
+        <th><i class="bi bi-gear-fill"></i> Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rdv of allRendezVous" [class.bg-light]="rdv.archived">
+        <td>{{ rdv.dateHeure | date:'medium' }}</td>
+        <td>{{ rdv.duree }} min</td>
+        <td class="text-truncate" style="max-width: 150px;" [title]="rdv.remarque">
+          {{ rdv.remarque }}
+        </td>
+        <td>
+          <span class="badge px-3 py-2"
+                [ngClass]="{
+                  'bg-warning': rdv.statut === StatutRendezVous.EN_COURS,
+                  'bg-success': rdv.statut === StatutRendezVous.ACCEPTE,
+                  'bg-danger': rdv.statut === StatutRendezVous.REFUSE
+                }">
+            {{ getStatutLabel(rdv.statut) }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-outline-primary"
+                  (click)="editRendezVous(rdv)"
+                  [disabled]="rdv.archived || rdv.statut !== StatutRendezVous.EN_COURS"
+                  title="Modifier">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+          <span *ngIf="rdv.statut !== StatutRendezVous.EN_COURS" class="text-muted small ms-2">
+            Non modifiable
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+

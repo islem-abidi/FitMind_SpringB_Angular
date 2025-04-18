@@ -7,7 +7,7 @@
         <div class="row g-3">
           <!-- Maladies -->
           <div class="col-md-6">
-            <label class="form-label">Maladies</label>
+            <label class="form-label text-info"><i class="bi bi-virus"></i> Maladies</label>
             <input type="text" [(ngModel)]="dossier.maladies" name="maladies" class="form-control"
               placeholder="Ex: Diabète, Hypertension" required minlength="3" #maladies="ngModel" />
             <div *ngIf="maladies.invalid && (maladies.dirty || maladies.touched)" class="form-text text-danger">
@@ -18,7 +18,7 @@
 
           <!-- Objectif Santé -->
           <div class="col-md-6">
-            <label class="form-label">Objectif Santé</label>
+            <label class="form-label text-info"><i class="bi bi-heart-pulse"></i> Objectif Santé</label>
             <input type="text" [(ngModel)]="dossier.objectifSante" name="objectifSante" class="form-control"
               placeholder="Ex: Perdre 5kg" required minlength="3" #objectifSante="ngModel" />
             <div *ngIf="objectifSante.invalid && (objectifSante.dirty || objectifSante.touched)"
@@ -30,7 +30,7 @@
 
           <!-- Traitements -->
           <div class="col-md-6">
-            <label class="form-label">Traitements</label>
+            <label class="form-label text-info"><i class="bi bi-capsule"></i> Traitements</label>
             <input type="text" [(ngModel)]="dossier.traitements" name="traitements" class="form-control"
               placeholder="Ex: Médicament A" required minlength="3" #traitements="ngModel" />
             <div *ngIf="traitements.invalid && (traitements.dirty || traitements.touched)"
@@ -42,7 +42,7 @@
 
           <!-- tailles -->
           <div class="col-md-3">
-            <label class="form-label">tailles (cm)</label>
+            <label class="form-label text-info"><i class="bi bi-arrows-fullscreen"></i> Tailles (cm)</label>
             <input type="number" [(ngModel)]="dossier.tailles" name="tailles" class="form-control"
               placeholder="Ex: 170" required min="30" #tailles="ngModel" />
             <div *ngIf="tailles.invalid && (tailles.dirty || tailles.touched)" class="form-text text-danger">
@@ -53,7 +53,7 @@
 
           <!-- Poids -->
           <div class="col-md-3">
-            <label class="form-label">Poids (kg)</label>
+            <label class="form-label text-info"><i class="bi bi-weight"></i> Poids (kg)</label>
             <input type="number" [(ngModel)]="dossier.poids" name="poids" class="form-control"
              placeholder="Poids en kg" required #poids="ngModel" />
             <div *ngIf="poids.invalid && (poids.dirty || poids.touched)" class="form-text text-danger">
@@ -64,7 +64,7 @@
 
           <!-- Groupe Sanguin -->
           <div class="col-md-6">
-            <label class="form-label">Groupe Sanguin</label>
+            <label class="form-label text-info"><i class="bi bi-blood-drop"></i> Groupe Sanguin</label>
             <select [(ngModel)]="dossier.groupeSanguin" name="groupeSanguin" class="form-select" required
               #groupeSanguin="ngModel">
               <option value="">-- Sélectionnez --</option>
@@ -85,7 +85,7 @@
 
           <!-- Allergies -->
           <div class="col-md-6">
-            <label class="form-label">Allergies</label>
+            <label class="form-label text-info"><i class="bi bi-airplane-engines"></i> Allergies</label>
             <select [(ngModel)]="dossier.allergies" name="allergies" class="form-select" required #allergies="ngModel">
               <option value="">-- Sélectionnez --</option>
               <option value="POLLEN">Pollen</option>
@@ -106,7 +106,7 @@
 
           <!-- Bouton -->
           <div class="col-12 text-end">
-            <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid">Ajouter</button>
+            <button type="submit" class="btn btn-success px-4" [disabled]="form.invalid"><i class="bi bi-check-circle"></i> Ajouter</button>
           </div>
         </div>
       </form>
@@ -120,44 +120,49 @@
       Le nutritionniste a recommandé un rendez-vous pour votre dossier médical.
     </div>
     <button class="btn btn-primary" (click)="navigateToRendezVous()">
-      <i class="bi bi-calendar-plus me-2"></i>Prendre rendez-vous
+      <i class="bi bi-calendar-plus me-2"></i> Prendre rendez-vous
     </button>
   </div>
 
   <!-- Table -->
-  <div class="card shadow-lg border-0 mt-3">
-    <h4 class="text-center mb-3">Votre Dossier</h4>
+  <div class="card shadow-sm border-0 mt-4" style="background-color: #f8f9fa;">
+    <h4 class="text-center mb-4" style="color: #2d3436; font-weight: 600;">
+      🩺 <span style="color: #0984e3;">Résumé de votre Dossier Médical</span>
+    </h4>
     <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead class="table-primary text-center">
+      <table class="table table-hover table-striped align-middle text-center">
+        <thead style="background-color: #dfe6e9; color: #2d3436;">
           <tr>
-            <th>Maladies</th>
-            <th>Objectif Santé</th>
-            <th>Traitements</th>
-            <th>Poids</th>
-            <th>Taille</th>
-            <th>Groupe Sanguin</th>
-            <th>Allergies</th>
-            <th>IMC</th>
-            <th>Actions</th>
+            <th>🧬 Maladies</th>
+            <th>🎯 Objectif Santé</th>
+            <th>💊 Traitements</th>
+            <th>⚖️ Poids</th>
+            <th>📏 Taille</th>
+            <th>🩸 Groupe Sanguin</th>
+            <th>🚫 Allergies</th>
+            <th>📉 IMC</th>
+            <th>⚙️ Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let d of dossiers">
+          <tr *ngFor="let d of dossiers" style="background-color: #ffffff;">
             <td>{{ d.maladies }}</td>
-            <td>{{ d.objectifSante }}</td>
-            <td>{{ d.traitements }}</td>
-            <td>{{ d.poids }} kg</td>
-            <td>{{ d.tailles }} cm</td>
-            <td>{{ d.groupeSanguin }}</td>
-            <td>{{ d.allergies }}</td>
-            <td>{{ d.imc | number:'1.1-2' }}</td>
+            <td style="color: #00b894;"><strong>{{ d.objectifSante }}</strong></td>
+            <td style="color: #0984e3;">{{ d.traitements }}</td>
+            <td><span class="badge bg-danger text-white">{{ d.poids }} kg</span></td>
+            <td><span class="badge bg-warning text-dark">{{ d.tailles }} cm</span></td>
+            <td><span class="text-primary">{{ d.groupeSanguin }}</span></td>
+            <td><span class="text-danger">{{ d.allergies }}</span></td>
+            <td><span class="badge bg-info text-dark">{{ d.imc | number:'1.1-2' }}</span></td>
             <td>
-              <button (click)="editDossier(d)" class="btn btn-warning btn-sm">Modifier</button>
+              <button class="btn btn-sm btn-outline-primary" (click)="editDossier(d)">
+                ✏️ Modifier
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-</div>
+  
+  
