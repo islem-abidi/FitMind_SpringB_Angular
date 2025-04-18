@@ -7,6 +7,18 @@
         {{ editMode ? 'Modifier un Rendez-vous' : 'Ajouter un Rendez-vous' }}
       </h2>
 
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Message de succès -->
+      <div *ngIf="successMessage" class="alert alert-info">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        {{ successMessage }}
+      </div>
+
       <form (ngSubmit)="submitForm()" #form="ngForm">
         <div class="row g-3">
           <!-- Date et Heure -->

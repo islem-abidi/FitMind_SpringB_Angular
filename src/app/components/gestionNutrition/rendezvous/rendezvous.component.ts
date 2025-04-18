@@ -15,6 +15,8 @@ export class RendezvousComponent implements OnInit {
   loading = false;
   minDate: string;
   StatutRendezVous = StatutRendezVous;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private rendezvousService: RendezvousService,
@@ -62,7 +64,7 @@ export class RendezvousComponent implements OnInit {
     });
   }
 
-  submitForm(): void {
+  /*submitForm(): void {
     if (!this.validateForm()) {
       return;
     }
@@ -86,7 +88,47 @@ export class RendezvousComponent implements OnInit {
         error: (err) => console.error('Erreur ajout :', err)
       });
     }
-  }
+  }*/
+    submitForm(): void {
+      if (!this.validateForm()) {
+        return;
+      }
+  
+      const selectedDate = new Date(this.rendezVous.dateHeure);
+      const now = new Date();
+  
+      if (selectedDate < now) {
+        this.errorMessage = "La date du rendez-vous ne peut pas être dans le passé";
+        return;
+      }
+  
+      this.errorMessage = null;
+  
+      if (this.editMode && this.rendezVous.idRendezVous) {
+        this.rendezvousService.updateRendezVous(this.rendezVous.idRendezVous, this.rendezVous).subscribe({
+          next: () => this.resetAndReload(),
+          error: (err) => {
+            console.error('Erreur modification :', err);
+            this.errorMessage = err.error || "Une erreur est survenue lors de la modification";
+          }
+        });
+      } else {
+        this.rendezvousService.addRendezVous(this.rendezVous).subscribe({
+          next: (response: any) => {
+            if (response.message) {
+              this.successMessage = response.message;
+            }
+            this.resetAndReload();
+          },
+          error: (err) => {
+            console.error('Erreur ajout :', err);
+            this.errorMessage = err.error || "Une erreur est survenue lors de l'ajout";
+          }
+        });
+      }
+    }
+  
+  
 
   private validateForm(): boolean {
     if (!this.rendezVous.dateHeure || !this.rendezVous.duree || !this.rendezVous.remarque) {
