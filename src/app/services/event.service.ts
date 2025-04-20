@@ -29,12 +29,20 @@ export class EventService {
 
   createData(event: any, file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('event', JSON.stringify(event));
+  
+    const eventWithFormattedDates = {
+      ...event,
+      dateEvenement: this.datePipe.transform(event.dateEvenement, 'yyyy-MM-dd\'T\'HH:mm', 'Africa/Tunis'),
+      dateFin: this.datePipe.transform(event.dateFin, 'yyyy-MM-dd\'T\'HH:mm', 'Africa/Tunis')
+    };
+  
+    formData.append('event', JSON.stringify(eventWithFormattedDates));
     if (file) {
       formData.append('file', file);
     }
     return this.http.post(this.baseUrl, formData);
   }
+  
 
   updatedata(info: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/${info.idEvenement}`, info);
@@ -95,4 +103,25 @@ export class EventService {
   getInscriptionIdByUserAndEvent(userId: number, eventId: number): Observable<number> {
     return this.http.get<number>(`${this.inscriptionUrl}/findInscriptionId/${userId}/${eventId}`);
   }
+  getRecommendations(userId: number): Observable<Event[]> {
+    return this.http.get<Event[]>(`${this.baseUrl}/recommendation/${userId}`);
+  }
+  
+  
+  updateDataWithFile(event: any, file: File): Observable<any> {
+    const formData = new FormData();
+  
+    const eventWithFormattedDates = {
+      ...event,
+      dateEvenement: this.datePipe.transform(event.dateEvenement, 'yyyy-MM-dd\'T\'HH:mm', 'Africa/Tunis'),
+      dateFin: this.datePipe.transform(event.dateFin, 'yyyy-MM-dd\'T\'HH:mm', 'Africa/Tunis')
+    };
+  
+    formData.append('event', JSON.stringify(eventWithFormattedDates));
+    if (file) {
+      formData.append('file', file);
+    }
+    return this.http.put(`${this.baseUrl}/${event.idEvenement}`, formData);
+  }
+
   } 

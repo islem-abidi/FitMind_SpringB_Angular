@@ -28,7 +28,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DatePipe } from '@angular/common';
-import { EvenementUserComponent } from './components/Evenementsfront/evenement-user/evenement-user.component';           
+import { EvenementUserComponent } from './components/Evenementsfront/evenement-user/evenement-user.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,6 @@ import { EvenementUserComponent } from './components/Evenementsfront/evenement-u
     ListEventComponent ,
     AddEventComponent,
     EvenementUserComponent
-
 
 
 

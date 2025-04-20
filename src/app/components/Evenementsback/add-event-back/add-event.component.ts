@@ -43,32 +43,33 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.service.choixmenu === 'A') {
-      this.initForm();
-    }
-    this.title = this.service.choixmenu === 'A' ? 'Ajouter un événement' : 'Modifier un événement';
-
-    const current = this.service.formData.value;
+    const current = this.service.formData?.value;
+  
+    this.initForm(this.service.choixmenu === 'M' ? current : undefined);
+  
+    this.title = this.service.choixmenu === 'A'
+      ? 'Ajouter un événement'
+      : 'Modifier un événement';
+  
     if (this.service.choixmenu === 'M' && current.idEvenement) {
       this.imgURL = `http://localhost:8081/Evenement/api/events/images/${current.idEvenement}`;
     }
   }
-
-  initForm(): void {
+  
+  initForm(item?: any): void {
     this.service.formData = this.fb.group({
-      idEvenement: null,
-      titre: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      dateEvenement: ['', [Validators.required]],
-      dateFin: ['', [Validators.required]],
-      lieu: ['', [Validators.required]],
-      capaciteMax: [null, [Validators.required, Validators.min(1)]],
-      typeEvenement: ['', Validators.required]
+      idEvenement: [item?.idEvenement ?? null],
+      titre: [item?.titre ?? '', [Validators.required, Validators.minLength(3)]],
+      description: [item?.description ?? '', [Validators.required, Validators.minLength(10)]],
+      dateEvenement: [item?.dateEvenement ?? '', [Validators.required]],
+      dateFin: [item?.dateFin ?? '', [Validators.required]],
+      lieu: [item?.lieu ?? '', [Validators.required]],
+      capaciteMax: [item?.capaciteMax ?? null, [Validators.required, Validators.min(1)]],
+      typeEvenement: [item?.typeEvenement ?? '', Validators.required]
     }, {
       validators: this.validateDates.bind(this)
     });
-    
-
+  
     this.service.formData.get('lieu')?.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(value => {
@@ -79,6 +80,7 @@ export class AddEventComponent implements OnInit {
         }
       });
   }
+  
 
   searchSuggestions(query: string): void {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
@@ -114,12 +116,14 @@ export class AddEventComponent implements OnInit {
 
   addData(): void {
     const rawForm = this.service.formData.value;
+    const dateEvenement = new Date(rawForm.dateEvenement);
+const dateFin = new Date(rawForm.dateFin);
+  
     const event = {
       ...rawForm,
       typeEvenement: rawForm.typeEvenement.toUpperCase(),
-    // NE PAS faire de .toISOString()
-dateEvenement: rawForm.dateEvenement,
-dateFin: rawForm.dateFin
+      dateEvenement: rawForm.dateEvenement,
+  dateFin: rawForm.dateFin
 
     };
     
@@ -137,28 +141,29 @@ dateFin: rawForm.dateFin
   }
 
   updateData(): void {
-    const rawForm = this.service.formData.value;
-    const event = {
-      ...rawForm,
-      typeEvenement: rawForm.typeEvenement.toUpperCase(),
-     // NE PAS faire de .toISOString()
-dateEvenement: rawForm.dateEvenement,
-dateFin: rawForm.dateFin
+  const rawForm = this.service.formData.value;
+  const dateEvenement = new Date(rawForm.dateEvenement);
+  const dateFin = new Date(rawForm.dateFin);
+  const event = {
+    ...rawForm,
+    typeEvenement: rawForm.typeEvenement.toUpperCase(),
+    dateEvenement: rawForm.dateEvenement,
+  dateFin: rawForm.dateFin
+  };
 
+  this.service.updateDataWithFile(event, this.eventFile).subscribe({
+    next: () => {
+      this.toastr.success('Événement modifié avec succès');
+      this.onClose.emit();
+      this.service.getAll().subscribe(res => (this.service.list = res));
+    },
+    error: (err) => {
+      console.error(err);
+      this.toastr.error("Erreur lors de la mise à jour de l'événement");
+    }
+  });
+}
 
-    };
-    this.service.createData(event, this.eventFile).subscribe({
-      next: () => {
-        this.toastr.success('Événement modifié avec succès');
-        this.onClose.emit();
-        this.service.getAll().subscribe(res => (this.service.list = res));
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastr.error("Erreur lors de la mise à jour");
-      }
-    });
-  }
 
   onSelectFile(event: any): void {
     if (event.target.files.length > 0) {

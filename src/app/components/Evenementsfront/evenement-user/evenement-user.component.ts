@@ -24,7 +24,7 @@ interface TypeStat {
 export class EvenementUserComponent implements OnInit {
   events: any[] = [];
   searchText: string = '';
-  userId: number = 12;
+  userId: number = 1;
   inscriptions: Set<number> = new Set();
   lieuAffiche: string | null = null;
   hover: boolean = false;
@@ -42,6 +42,7 @@ inscriptionStatuses: Map<number, string> = new Map();
 inscriptionIds: Map<number, number> = new Map(); // Map eventId -> inscriptionId
 selectedQRCodeUrl: string | null = null;
 showQRCodeModal: boolean = false;
+recommendedEvents: any[] = [];
 
 
 
@@ -53,6 +54,7 @@ showQRCodeModal: boolean = false;
 
   ngOnInit(): void {
     this.loadEvents();
+    this.loadRecommendations();
   }
 
   loadEvents(): void {
@@ -713,7 +715,17 @@ closeQRCodeModal(): void {
   this.showQRCodeModal = false;
   this.selectedQRCodeUrl = null;
 }
-
+loadRecommendations(): void {
+  this.eventService.getRecommendations(this.userId).subscribe({
+    next: (res) => {
+      console.log("🔥 Recommandations reçues:", res); // <== AJOUTEZ CECI
+      this.recommendedEvents = res;
+    },
+    error: (err) => {
+      console.error("❌ Erreur lors de la récupération des recommandations", err);
+    }
+  });
 }
 
+}
 
