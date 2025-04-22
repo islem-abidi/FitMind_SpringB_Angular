@@ -1,0 +1,120 @@
+/* Arrière-plan général */
+body {
+  background-color: #f4f7fc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  background-color: transparent;
+  padding-bottom: 30px;
+}
+
+/* Titre */
+h2 {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+/* Cartes */
+.card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: none;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2e86de;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Bouton Réserver */
+.btn-primary {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: scale(1.03);
+}
+
+/* Bouton Retour */
+.retour-btn {
+  font-weight: 500;
+  padding: 10px 20px;
+  border: 2px solid #2e86de;
+  border-radius: 8px;
+  color: #2e86de;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.retour-btn:hover {
+  background-color: #2e86de;
+  color: white;
+}
+/* Importation de la police */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f7fc;
+  color: #2c3e50;
+}
+
+/* Titre principal */
+h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #1d3557;
+  letter-spacing: 0.5px;
+}
+
+/* Titres de cartes */
+.card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #2e86de;
+}
+
+/* Texte à l'intérieur des cartes */
+.card-text {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Boutons */
+.btn-primary {
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+}
+
+.retour-btn {
+  font-weight: 500;
+  font-size: 0.95rem;
+}

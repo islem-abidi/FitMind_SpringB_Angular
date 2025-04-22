@@ -1,0 +1,65 @@
+<app-navbarfront></app-navbarfront>
+<div class="container py-5">
+
+  <h2 class="text-center mb-5 fs-2 fw-bold text-dark">
+    🧾 <strong>Mes Réservations</strong>
+  </h2>
+
+
+    <div class="row g-4">
+      <button class="btn btn-outline-primary mb-4" (click)="telechargerPDF()">
+        📄 Télécharger en PDF
+      </button>
+
+    <div class="col-lg-4" *ngFor="let res of reservations">
+      <div class="card h-100 shadow-sm border-0 rounded-4 transition-hover">
+        <div class="card-body px-4 py-4">
+
+
+          <!-- Activité -->
+          <h5 class="text-primary fw-bold fs-5 mb-3">
+            🎯 <span class="text-decoration-underline">
+              {{ res.seance?.activite?.nomActivite || 'Activité non disponible' }}
+            </span>
+          </h5>
+
+          <!-- Détails -->
+          <ul class="list-unstyled text-muted fs-6 lh-lg">
+            <li>
+              <i class="bi bi-calendar3 me-2"></i><strong>Date :</strong> {{ res.seance?.dateSeance | date: 'longDate' }}
+            </li>
+            <li>
+              <i class="bi bi-clock me-2"></i><strong>Heure :</strong> {{ res.seance?.heureDebut }}
+            </li>
+            <li>
+              <i class="bi bi-geo-alt-fill me-2"></i><strong>Lieu :</strong> {{ res.seance?.lieu }}
+            </li>
+          </ul>
+
+          <!-- Statut -->
+          <div class="mb-3">
+            <span class="badge rounded-pill px-3 py-2 fs-6 shadow-sm"
+              [ngClass]="{
+                'bg-success': res.status === statusEnum.CONFIRMEE,
+                'bg-warning text-dark': res.status === statusEnum.EN_ATTENTE,
+                'bg-danger': res.status === statusEnum.ANNULEE
+              }">
+              {{ res.status }}
+            </span>
+          </div>
+
+          <!-- Action -->
+          <button class="btn btn-outline-danger w-100 fw-semibold py-2"
+            [disabled]="res.status === statusEnum.ANNULEE"
+            (click)="annulerReservation(res.id_reservation)">
+            ❌ Annuler la réservation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="reservations.length === 0" class="text-center text-muted mt-5 fs-5">
+    <p>😔 Vous n'avez encore aucune réservation.</p>
+  </div>
+</div>

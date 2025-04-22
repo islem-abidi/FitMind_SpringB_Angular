@@ -1,0 +1,43 @@
+<app-navbarfront></app-navbarfront>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Séances pour l'Activité {{ activiteNom }}</h2>
+  <div *ngIf="seances.length > 0; else noSeances">
+    <div class="row">
+      <div class="col-md-4 mb-4"  *ngFor="let seance of seances.filter(isSeanceValide); let i = index">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+            <h5 class="card-title">Séance {{ i + 1 }}</h5>
+            <p class="card-text"><strong>Date:</strong> {{ seance.dateSeance }}</p>
+            <p class="card-text"><strong>Heure de début:</strong> {{ seance.heureDebut }}</p>
+            <span class="badge bg-success" *ngIf="seance.capaciteDispo > 0">
+              {{ seance.capaciteDispo }} places restantes
+            </span>
+            <span class="badge bg-danger" *ngIf="seance.capaciteDispo === 0">
+              Complet
+            </span>
+
+            <button
+  class="btn mt-2 w-100"
+  [class.btn-primary]="seance.capaciteDispo > 0"
+  [class.btn-secondary]="seance.capaciteDispo === 0"
+  [disabled]="seance.capaciteDispo === 0"
+  (click)="reserverSeance(seance.id!)">
+  {{ seance.capaciteDispo === 0 ? 'Complet ❌' : 'Réserver' }}
+</button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="text-center mt-4">
+      <button class="btn btn-outline-secondary retour-btn" (click)="retour()">
+        ⬅️ Retour aux activités
+      </button>
+    </div>
+
+  </div>
+  <ng-template #noSeances>
+    <p class="text-center">Aucune séance disponible pour cette activité.</p>
+  </ng-template>
+</div>

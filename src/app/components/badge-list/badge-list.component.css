@@ -1,0 +1,16 @@
+.badges-container {
+  padding: 20px;
+  background-color: #f6f8fa;
+  border-radius: 8px;
+}
+
+.badge-item {
+  font-size: 18px;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.loading {
+  font-style: italic;
+  color: #888;
+}

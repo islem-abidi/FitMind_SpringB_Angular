@@ -1,0 +1,40 @@
+<app-navbarfront></app-navbarfront>
+<div class="container mt-5">
+
+  <h2 class="text-center mb-4">Nos Activités Sportives</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let activite of activites">
+
+      <div class="card h-100 shadow" (click)="afficherDetails(activite)">
+ <!-- 📌 Affiche le bandeau si c’est l’activité la plus réservée -->
+ <div
+        *ngIf="activite.id === activiteTopId && activite?.nbReservationsSemaine !== undefined"
+        class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-bottom-end shadow fw-semibold"
+        style="font-size: 0.85rem; z-index: 10;"
+      >
+        🌟 ACTIVITÉ LA PLUS RÉSERVÉE CETTE SEMAINE -
+        {{ activite.nbReservationsSemaine ?? 0 }} réservation{{ (activite.nbReservationsSemaine ?? 0) > 1 ? 's' : '' }}
+      </div>
+        <img
+        [src]="imageUrls[activite.id] || 'assets/images/default.jpg'"
+        class="card-img-top"
+        alt="{{ activite.nomActivite }}"
+        style="height: 200px; object-fit: cover;" />
+
+           <div class="card-body">
+          <h5 class="card-title">{{ activite.nomActivite }}</h5>
+          <p class="card-text">{{ activite.description }}</p>
+        </div>
+        <div class="card-footer text-muted text-center">
+          <span [ngClass]="{
+            'text-success': activite.statutActivite === 'ACTIVE',
+            'text-secondary': activite.statutActivite === 'INACTIVE'
+          }">
+            {{ activite.statutActivite }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
