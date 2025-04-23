@@ -29,6 +29,8 @@ import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarComponent } from './components/gestionNutrition/calendar/calendar.component';
 import { ToastrModule } from 'ngx-toastr';
+import { WeatherComponent } from './components/gestionNutrition/weather/weather.component';
+import { NutritionIAComponent } from './components/gestionNutrition/nutrition-ia/nutrition-ia.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,9 @@ import { ToastrModule } from 'ngx-toastr';
     RendezvousComponent,
     RendezvousNComponent,
     AdminRdvComponent,
-    CalendarComponent
+    CalendarComponent,
+    WeatherComponent,
+    NutritionIAComponent
   ],
   imports: [
     BrowserModule,

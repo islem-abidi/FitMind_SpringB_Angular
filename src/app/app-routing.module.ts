@@ -24,6 +24,8 @@ import { RendezvousComponent } from './components/gestionNutrition/rendezvous/re
 import { RendezvousNComponent } from './components/gestionNutrition/rendezvous-n/rendezvous-n.component';  // Import du service
 import { AdminRdvComponent } from './components/gestionNutrition/admin-rdv/admin-rdv.component';  // Import du service
 import { CalendarComponent } from './components/gestionNutrition/calendar/calendar.component';
+import { WeatherComponent } from './components/gestionNutrition/weather/weather.component';
+import { NutritionIAComponent } from './components/gestionNutrition/nutrition-ia/nutrition-ia.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,9 @@ const routes: Routes = [
       { path: 'rendez-vous', component: RendezvousComponent },
       { path: 'nutritionniste', component: RendezvousNComponent },
       { path: 'calender', component: CalendarComponent },
+
+      { path: 'weather', component: WeatherComponent },
+      { path: 'IA', component: NutritionIAComponent },
     ]
   },
   {

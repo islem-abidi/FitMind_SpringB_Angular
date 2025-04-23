@@ -1,0 +1,58 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Prédiction Nutritionnelle</h2>
+  
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <label class="form-label">Activité</label>
+        <select class="form-select" [(ngModel)]="activity">
+          <option value="musculation">Musculation</option>
+          <option value="running">Course</option>
+          <option value="cycling">Cyclisme</option>
+          <option value="swimming">Natation</option>
+        </select>
+      </div>
+  
+      <div class="col-md-3">
+        <label class="form-label">Durée (min)</label>
+        <input type="number" class="form-control" [(ngModel)]="duration">
+      </div>
+  
+      <div class="col-md-3">
+        <label class="form-label">Température (°C)</label>
+        <input type="number" class="form-control" [(ngModel)]="temperature">
+      </div>
+  
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="btn btn-primary w-100" (click)="getPrediction()" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Calculer</span>
+          <span *ngIf="isLoading">
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            Calcul...
+          </span>
+        </button>
+      </div>
+    </div>
+  
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="result" class="card">
+      <div class="card-header bg-primary text-white">
+        Résultats
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Calories:</strong> {{ result.calories | number:'1.0-2' }} kcal
+          </li>
+          <li class="list-group-item">
+            <strong>Eau:</strong> {{ result.water | number:'1.0-2' }} litres
+          </li>
+          <li class="list-group-item">
+            <strong>IMC:</strong> {{ result.imc | number:'1.0-2' }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
