@@ -24,7 +24,7 @@ interface TypeStat {
 export class EvenementUserComponent implements OnInit {
   events: any[] = [];
   searchText: string = '';
-  userId: number = 1;
+  userId: number = 3;
   inscriptions: Set<number> = new Set();
   lieuAffiche: string | null = null;
   hover: boolean = false;
