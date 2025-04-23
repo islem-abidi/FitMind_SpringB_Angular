@@ -1,82 +1,110 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-// Front (site vitrine)
 import { TemplateComponent } from './template/template.component';
 import { AbonnementsComponent } from './components/abonnements/abonnements.component';
+import { AbonnementcardsComponent } from './components/abonnementcards/abonnementcards.component';
+import { RenouvellementAbonnementComponent } from './components/renouvellement-abonnement/renouvellement-abonnement.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { VerifyCodeComponent } from './components/verify-code/verify-code.component';
+import { UserprofileeComponent } from './components/user-profilee/user-profilee.component';
+import { AjoutReclamationComponent } from './components/ajout-reclamation/ajout-reclamation.component';
 
-// Auth / Admin layouts (chargés dynamiquement)
-import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layout.component';
-import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
-
-// Back office affichage type Argon
 import { BacktempComponent } from './components/backtemp/backtemp.component';
 import { DashboardComponent } from './backoff/pages/dashboard/dashboard.component';
 import { IconsComponent } from './backoff/pages/icons/icons.component';
 import { MapsComponent } from './backoff/pages/maps/maps.component';
 import { UserProfileComponent } from './backoff/pages/user-profile/user-profile.component';
 import { TablesComponent } from './backoff/pages/tables/tables.component';
-import { LoginComponent } from './backoff/pages/login/login.component';
-import { RegisterComponent } from './backoff/pages/register/register.component';
+import { LoginComponent as AdminLoginComponent } from './backoff/pages/login/login.component';
+import { RegisterComponent as AdminRegisterComponent } from './backoff/pages/register/register.component';
 import { AbonnementsbackComponent } from './components/abonnementsback/abonnementsback.component';
+import { AdminReclamationsComponent } from './components/admin-reclamations/admin-reclamations.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { StatabonnementComponent } from './components/statabonnement/statabonnement.component';
+
+import { AdminLayoutComponent } from './backoff/layouts/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from './backoff/layouts/auth-layout/auth-layout.component';
+import { CoachChatComponent } from './components/coach-chat/coach-chat.component';
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
 
 const routes: Routes = [
-  // 👉 Partie Front (site public)
   {
     path: '',
     component: TemplateComponent,
     children: [
-      { path: 'abonnements', component: AbonnementsComponent }
+      // public
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'verify-code', component: VerifyCodeComponent },
+      { path: 'userprofilee', component: UserprofileeComponent },
+
+      // private (auth required)
+      { path: 'abonnements', component: AbonnementsComponent, canActivate: [authGuard] },
+      { path: 'abonnements-cards', component: AbonnementcardsComponent, canActivate: [authGuard] },
+      { path: 'renouvellement', component: RenouvellementAbonnementComponent, canActivate: [authGuard] },
+      { path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
+      { path: 'coach', component: CoachChatComponent }
+
+
     ]
   },
 
-  // 👉 Partie Back office (vue Argon Dashboard avec BacktempComponent)
   {
     path: 'admin',
     component: BacktempComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRole: 'Admin' },
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'icons', component: IconsComponent },
       { path: 'maps', component: MapsComponent },
       { path: 'user-profile', component: UserProfileComponent },
       { path: 'tables', component: TablesComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'abonnementsback', component: AbonnementsbackComponent }
-
+      { path: 'login', component: AdminLoginComponent },
+      { path: 'register', component: AdminRegisterComponent },
+      { path: 'abonnementsback', component: AbonnementsbackComponent },
+      { path: 'users', component: UserListComponent },
+      { path: 'reclamations', component: AdminReclamationsComponent },
+      { path: 'statabonnement', component: StatabonnementComponent }
     ]
   },
 
-  // (Optionnel) Si tu gardes les anciens layouts dynamiques
   {
     path: 'admin-old',
     component: AdminLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('./backoff/layouts/admin-layout/admin-layout.module')
-          .then(m => m.AdminLayoutModule)
+        loadChildren: () =>
+          import('./backoff/layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
       }
     ]
   },
+
   {
     path: 'auth',
     component: AuthLayoutComponent,
     children: [
       {
         path: '',
-        loadChildren: () => import('./backoff/layouts/auth-layout/auth-layout.module')
-          .then(m => m.AuthLayoutModule)
+        loadChildren: () =>
+          import('./backoff/layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
       }
     ]
   },
 
-  // 🔁 Redirection si rien de matché
-  {
-    path: '**',
-    redirectTo: ''
-  }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

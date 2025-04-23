@@ -11,8 +11,7 @@ import { loadStripe, Stripe, StripeCardElement } from '@stripe/stripe-js'; // St
   styleUrls: ['./abonnements.component.css']
 })
 export class AbonnementsComponent {
-  idUser!: number;
-  userEmail: string = '';
+  
   typeAbonnement = '';
   dureeAbonnement = '';
   montant!: number;
@@ -90,7 +89,11 @@ card!: StripeCardElement;
       });
     }  */
      // 👉 Méthode pour vider les champs
-     async ajouterAbonnement() {
+
+
+
+     //hadhi a5r wa7da
+     /*async ajouterAbonnement() {
       const { paymentMethod, error } = await this.stripe!.createPaymentMethod({
         type: 'card',
         card: this.card
@@ -117,15 +120,48 @@ card!: StripeCardElement;
       this.abonnementService.add(abonnement).subscribe({
         next: () => {
           this.toastr.success('✅ Abonnement ajouté avec succès 🎉');
+          //this.resetForm();
         },
         error: () => {
           this.toastr.error('❌ Erreur d’ajout');
         }
       });
-    }
+    }*/
+      async ajouterAbonnement() {
+        const { paymentMethod, error } = await this.stripe!.createPaymentMethod({
+          type: 'card',
+          card: this.card
+        });
+      
+        if (error) {
+          this.toastr.error('Erreur de carte : ' + error.message);
+          return;
+        }
+      
+        const abonnement = {
+          typeAbonnement: this.typeAbonnement,
+          dureeAbonnement: this.dureeAbonnement,
+          montant: this.montant,
+          modePaiement: this.modePaiement,
+          
+        };
+      
+        this.abonnementService.add(abonnement).subscribe({
+          next: (res) => {
+            console.log("✅ BACKEND OK:", res);
+            this.toastr.success('✅ Abonnement ajouté avec succès 🎉');
+            this.resetForm();
+          },
+          error: (err) => {
+            console.log("❌ BACKEND ERROR:", err);
+            const message = err?.error?.message || 'Erreur inconnue';
+            this.toastr.error(message, 'Erreur');
+          }
+        });
+                }
+      
     
   resetForm(): void {
-    this.idUser = 0;
     this.typeAbonnement = '';
     this.dureeAbonnement = '';
     this.montant = 0;

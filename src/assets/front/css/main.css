@@ -16,13 +16,72 @@
   --heading-font: "Jost",  sans-serif;
   --nav-font: "Poppins",  sans-serif;
 }
+/* Global dark mode */
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark-mode .coach-container {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #333;
+}
+
+body.dark-mode .chat-box {
+  background-color: #222;
+  border-color: #444;
+}
+
+body.dark-mode .bubble.user {
+  background-color: #388e3c;
+  color: white;
+}
+
+body.dark-mode .bubble.coach {
+  background-color: #333;
+  color: white;
+}
+
+body.dark-mode .typing {
+  background-color: #444;
+}
+
+body.dark-mode textarea {
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #555;
+}
+
+body.dark-mode button {
+  background-color: #444;
+  color: white;
+  border: 1px solid #777;
+}
+
+body.dark-mode .theme-toggle {
+  background-color: #444;
+  color: white;
+  border: 1px solid #fff;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root { 
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #37517e; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #47b2e4; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --heading-color: #9b1d1d; /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #707070; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
@@ -30,7 +89,7 @@
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
   --nav-color: #ffffff;  /* The default color of the main navmenu links */
-  --nav-hover-color: #47b2e4; /* Applied to main navmenu links when they are hovered over or active */
+  --nav-hover-color: #707070; /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #444444; /* Used for navigation links of the dropdown items in the navigation menu. */
@@ -45,10 +104,10 @@
 }
 
 .dark-background {
-  --background-color: #37517e;
+  --background-color: #9b1d1d;
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --surface-color: #4668a2;
+  --surface-color: #9b1d1d;
   --contrast-color: #ffffff;
 }
 
@@ -143,7 +202,7 @@ h6 {
 # Global Header
 --------------------------------------------------------------*/
 .header {
-  --background-color: #3d4d6a;
+  --background-color: #9b1d1d;
   --heading-color: #ffffff;
   color: var(--default-color);
   background-color: var(--background-color);

@@ -6,6 +6,9 @@
           <!-- En-tête -->
           <div class="card-header border-0">
             <h3 class="mb-0 text-primary">📋 Liste des Abonnements</h3>
+            <button class="btn btn-outline-secondary" [routerLink]="['/admin/statabonnement']">
+              <i class="fas fa-chart-pie"></i> Statistiques
+            </button>
           </div>
   
           <!-- Recherche & tri -->
@@ -22,6 +25,9 @@
                 <option value="dateCreation">Date création</option>
                 <option value="statut">Statut</option>
                 <option value="montant">Montant</option>
+                <option value="typeAbonnement">Type</option>
+                <option value="dureeAbonnement">Durée</option>
+
               </select>
               <button class="btn btn-outline-primary" (click)="toggleSortDirection()">
                 <i class="fas fa-sort"></i> {{ direction === 'asc' ? 'Ascendant' : 'Descendant' }}
@@ -34,7 +40,7 @@
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th>ID</th>
+                  <!--<th>ID</th>-->
                   <th>Nom</th>
                   <th>Date Création</th>
                   <th>Statut</th>
@@ -42,27 +48,34 @@
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="abonnements.length > 0; else noData">
                 <tr *ngFor="let ab of abonnements">
-                  <td>{{ ab.idAbonnement }}</td>
                   <td>{{ ab.user?.nom }}</td>
                   <td>{{ ab.dateCreation | date: 'short' }}</td>
                   <td>{{ ab.statut }}</td>
                   <td>{{ ab.dureeAbonnement }}</td>
                   <td>
-                    <!-- Si non archivé : bouton Archiver -->
                     <button *ngIf="!showArchived" class="btn btn-sm btn-danger" (click)="archiver(ab.idAbonnement)">
                       <i class="fas fa-archive"></i> Archiver
                     </button>
-                  
-                    <!-- Si archivé : bouton Restaurer -->
                     <button *ngIf="showArchived" class="btn btn-sm btn-success" (click)="restaurer(ab.idAbonnement)">
                       <i class="fas fa-undo"></i> Restaurer
                     </button>
                   </td>
-                  
                 </tr>
               </tbody>
+              
+              <!-- 🔁 fallback si aucun résultat -->
+              <ng-template #noData>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                      <i class="fas fa-info-circle"></i> Aucun abonnement trouvé.
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+              
             </table>
           </div>
   
@@ -83,6 +96,7 @@
                   </button>
                 </li>
               </ul>
+              
             </nav>
   
           </div>

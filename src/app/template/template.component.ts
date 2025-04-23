@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var AOS: any;
 declare var GLightbox: any;
@@ -10,8 +11,40 @@ declare var Swiper: any;
   styleUrls: ['./template.component.css']
 })
 export class TemplateComponent implements AfterViewInit {
+  constructor(public router: Router) {}
 
-  ngAfterViewInit(): void {
+  isHomePage(): boolean {
+    const path = this.router.url.split('?')[0].split('#')[0];
+    return path === '/';
+  }
+  
+ ngAfterViewInit(): void {
+  // AOS animations
+  AOS.init();
+
+  // Lightbox
+  GLightbox({ selector: '.glightbox' });
+
+  // Swiper slider full background fade
+  new Swiper('.init-swiper', {
+    loop: true,
+    speed: 1000,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    effect: 'fade',
+    fadeEffect: { crossFade: true }
+  });
+}
+
+  
+
+  /*ngAfterViewInit(): void {
     // AOS animations
     AOS.init();
 
@@ -37,5 +70,5 @@ export class TemplateComponent implements AfterViewInit {
         1200: { slidesPerView: 6, spaceBetween: 120 }
       }
     });
-  }
+  }*/
 }

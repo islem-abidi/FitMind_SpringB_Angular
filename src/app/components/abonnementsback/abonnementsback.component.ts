@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { AbonnementService } from '../../services/abonnement.service';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-abonnementsback',
   templateUrl: './abonnementsback.component.html',
@@ -17,24 +17,33 @@ abonnements: any[] = [];
   searchKeyword: string = '';
   showArchived = false;
 
-
   constructor(private abonnementService: AbonnementService) {}
 
   ngOnInit(): void {
+    this.currentPage = 0;
+
     this.loadAbonnements();
   }
 
   loadAbonnements(): void {
-    this.abonnementService.getPaged(this.currentPage, this.size, this.sortBy, this.direction).subscribe(response => {
-      this.abonnements = response.content;
-      this.totalPages = response.totalPages;
-    });
+    console.log("🔁 Chargement page", this.currentPage); // ajoute ce debug
+    this.abonnementService.getPaged(this.currentPage, this.size, this.sortBy, this.direction)
+      .subscribe(response => {
+        console.log("📦 Données reçues :", response); // 🧪 vérifie bien ici
+        this.abonnements = response.content;
+        this.totalPages = response.totalPages;
+      });
   }
+  
 
   changePage(page: number): void {
-    this.currentPage = page;
-    this.loadAbonnements();
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.refreshCurrentList();
+    }
   }
+  
+  
 
   /*changeSorting(event: Event): void {
     const target = event.target as HTMLSelectElement;

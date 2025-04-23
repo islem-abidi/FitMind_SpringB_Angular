@@ -13,7 +13,7 @@ export class PaymentService {
   createPaymentIntent(data: any) {
     return this.http.post<any>('http://localhost:8081/api/payment/create-payment-intent', data);
   }
-
+  
   async getStripe(): Promise<Stripe | null> {
     return await this.stripePromise;
   }

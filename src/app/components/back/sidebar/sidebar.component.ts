@@ -17,6 +17,9 @@ export const ROUTES: RouteInfo[] = [
   { path: '/admin/login', title: 'Login', icon: 'ni-key-25 text-info', class: '' },
   { path: '/admin/register', title: 'Register', icon: 'ni-circle-08 text-pink', class: '' },
   { path: '/admin/abonnementsback', title: 'Abonnements', icon: 'ni ni-collection', class: '' },
+  { path: 'users', title: 'Users', icon: 'ni ni-circle-08 text-pink', class: '' },
+  { path : '/admin/reclamations', title: 'Reclamations', icon: 'ni ni-circle-08 text-pink', class: '' },
+
 ];
 
 @Component({
