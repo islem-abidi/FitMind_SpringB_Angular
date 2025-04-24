@@ -1,0 +1,113 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+  email = '';
+  password = '';
+  loading = false;
+  countdown = '';
+  intervalId: any = null;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit(): void {
+    const stored = localStorage.getItem('blockedUntil');
+    if (stored) this.startCountdownTimer(stored);
+  }
+
+  startCountdownTimer(until: string) {
+    const blockedTime = new Date(until);
+    localStorage.setItem('blockedUntil', blockedTime.toISOString());
+
+    this.intervalId = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = blockedTime.getTime() - now;
+
+      if (distance <= 0) {
+        clearInterval(this.intervalId);
+        this.countdown = '';
+        localStorage.removeItem('blockedUntil');
+        return;
+      }
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      this.countdown = `${minutes}m ${seconds < 10 ? '0' + seconds : seconds}s restantes`;
+
+      this.toastr.clear(); // clear previous toastr to prevent stacking
+    }, 1000);
+  }
+
+  onLogin(): void {
+    const savedUntil = localStorage.getItem('blockedUntil');
+    if (savedUntil) {
+      const now = new Date().getTime();
+      const untilTime = new Date(savedUntil).getTime();
+      if (untilTime > now) {
+        this.startCountdownTimer(savedUntil);
+        return;
+      } else {
+        localStorage.removeItem('blockedUntil');
+      }
+    }
+
+    this.loading = true;
+    const loginPayload = { email: this.email, password: this.password };
+
+    this.authService.login(loginPayload).subscribe({
+      next: (res: any) => {
+        const { token, role, banned } = res;
+        this.loading = false;
+
+        if (banned) {
+          this.toastr.error("🚫 Votre compte a été banni.");
+          return;
+        }
+
+        this.authService.saveSession(token, role);
+        localStorage.setItem('jwt_token', token);
+        clearInterval(this.intervalId);
+        localStorage.removeItem('blockedUntil');
+
+        if (role === 'Admin') {
+          this.toastr.success("Connexion réussie", "Bienvenue Admin");
+          this.router.navigate(['/admin/dashboard']);
+        } else if (role === 'Etudiant') {
+          this.toastr.success("Connexion réussie", "Bienvenue Étudiant");
+          this.router.navigate(['/']);
+        }else if (role === 'Coach') {
+          this.toastr.success("Connexion réussie", "Bienvenue Coach");
+          this.router.navigate(['/']);
+        } else {
+          alert('Rôle non autorisé');
+        }
+      },
+
+      error: (err) => {
+        this.loading = false;
+        const msg = err.error;
+
+        if (typeof msg === 'string' && msg.includes('temporairement bloqué')) {
+          const match = msg.match(/jusqu'à (.*?)$/);
+          if (match) {
+            const until = match[1];
+            this.startCountdownTimer(until);
+          }
+        } else {
+          this.toastr.warning("Identifiants invalides", "Erreur de connexion");
+        }
+      }
+    });
+  }
+}

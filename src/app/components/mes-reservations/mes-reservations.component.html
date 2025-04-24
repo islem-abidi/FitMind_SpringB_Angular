@@ -1,0 +1,11 @@
+<div *ngIf="reservations.length > 0; else noReservations">
+  <ul>
+    <li *ngFor="let r of reservations">
+      📅 {{ r.dateReservation }} - 🏋️ {{ r.seance }}
+    </li>
+  </ul>
+</div>
+
+<ng-template #noReservations>
+  <p>😔 Vous n'avez encore aucune réservation.</p>
+</ng-template>
