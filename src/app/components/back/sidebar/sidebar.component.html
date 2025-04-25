@@ -5,6 +5,10 @@
       aria-controls="sidenav-collapse-main">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <button (click)="onLogout()" class="btn btn-danger">
+      Logout
+    </button>
+    
 
     <!-- Brand -->
     <a class="navbar-brand pt-0" routerLinkActive="active" [routerLink]="['/admin/dashboard']">

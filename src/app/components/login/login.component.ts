@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   countdown = '';
   intervalId: any = null;
+  showPassword = false;
 
   constructor(
     private authService: AuthService,
@@ -22,13 +23,13 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const stored = localStorage.getItem('blockedUntil');
+    const stored = sessionStorage.getItem('blockedUntil');
     if (stored) this.startCountdownTimer(stored);
   }
 
   startCountdownTimer(until: string) {
     const blockedTime = new Date(until);
-    localStorage.setItem('blockedUntil', blockedTime.toISOString());
+    sessionStorage.setItem('blockedUntil', blockedTime.toISOString());
 
     this.intervalId = setInterval(() => {
       const now = new Date().getTime();
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
       if (distance <= 0) {
         clearInterval(this.intervalId);
         this.countdown = '';
-        localStorage.removeItem('blockedUntil');
+        sessionStorage.removeItem('blockedUntil');
         return;
       }
 
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    const savedUntil = localStorage.getItem('blockedUntil');
+    const savedUntil = sessionStorage.getItem('blockedUntil');
     if (savedUntil) {
       const now = new Date().getTime();
       const untilTime = new Date(savedUntil).getTime();
@@ -58,7 +59,7 @@ export class LoginComponent implements OnInit {
         this.startCountdownTimer(savedUntil);
         return;
       } else {
-        localStorage.removeItem('blockedUntil');
+        sessionStorage.removeItem('blockedUntil');
       }
     }
 
@@ -76,9 +77,9 @@ export class LoginComponent implements OnInit {
         }
 
         this.authService.saveSession(token, role);
-        localStorage.setItem('jwt_token', token);
+        sessionStorage.setItem('jwt_token', token);
         clearInterval(this.intervalId);
-        localStorage.removeItem('blockedUntil');
+        sessionStorage.removeItem('blockedUntil');
 
         if (role === 'Admin') {
           this.toastr.success("Connexion réussie", "Bienvenue Admin");
@@ -88,8 +89,14 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
         }else if (role === 'Coach') {
           this.toastr.success("Connexion réussie", "Bienvenue Coach");
-          this.router.navigate(['/']);
-        } else {
+          this.router.navigate(['/coach-admin']);
+        }
+        else if (role === 'Nutritionniste') {
+          this.toastr.success("Connexion réussie", "Bienvenue Nutritionniste");
+          this.router.navigate(['/**']);
+        }
+       
+         else {
           alert('Rôle non autorisé');
         }
       },

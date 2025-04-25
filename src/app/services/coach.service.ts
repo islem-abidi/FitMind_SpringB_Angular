@@ -23,7 +23,7 @@ export class CoachService {
     return fetch('http://localhost:8081/PIdev/chat/history/pdf', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     })
       .then(response => response.blob())

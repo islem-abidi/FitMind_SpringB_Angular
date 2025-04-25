@@ -14,15 +14,15 @@ export class AuthService {
      private router: Router ,
   ) {}
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
   login(credentials: { email: string; password: string }) {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
   saveSession(token: string, role: string): void {
-    localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('role', role);
     this.isLoggedInSubject.next(true);
     console.log('🧪 Token payload:', this.getDecodedToken());
 
@@ -34,13 +34,13 @@ export class AuthService {
     return payload.sub;
   }
   getCurrentUserEmail(): string | null {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) return null;
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.sub; // c'est l'email
   }
   getCurrentUser() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     return this.http.get('http://localhost:8081/PIdev/user/me', {
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -58,13 +58,13 @@ export class AuthService {
   }
 
   getDecodedToken(): any {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) return null;
     const payload = token.split('.')[1];
     return JSON.parse(atob(payload));
   }
   getCurrentUserRole() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.role;
@@ -72,12 +72,12 @@ export class AuthService {
     return null;
   }
   getToken(): string | null {
-    return localStorage.getItem('jwt_token');
+    return sessionStorage.getItem('jwt_token');
   }
 
 
   getRole(): string | null {
-    return localStorage.getItem('role');
+    return sessionStorage.getItem('role');
   }
 
   isAuthenticated(): boolean {
@@ -97,7 +97,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.clear();
+    sessionStorage.clear();
     this.isLoggedInSubject.next(false);
     this.router.navigate(['/login']);
   }

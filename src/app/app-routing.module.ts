@@ -38,6 +38,9 @@ import { SeancebackComponent } from './components/seanceback/seanceback.componen
 import { ActivitesComponent } from './components/activites/activites.component';
 import { SeanceoffComponent } from './components/seanceoff/seanceoff.component';
 import { MesReservationsComponent } from './components/mes-reservations/mes-reservations.component';
+import { AboutComponent } from './components/about/about.component';
+import { ListEventComponent } from './components/Evenementsback/list-event-back/list-event.component';
+import { EvenementUserComponent } from './components/Evenementsfront/evenement-user/evenement-user.component';
 
 const routes: Routes = [
   {
@@ -52,16 +55,19 @@ const routes: Routes = [
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'verify-code', component: VerifyCodeComponent },
       { path: 'userprofilee', component: UserprofileeComponent },
+      {path : 'about', component: AboutComponent},
 
       // private (auth required)
       { path: 'abonnements', component: AbonnementsComponent, canActivate: [authGuard] },
-      { path: 'abonnements-cards', component: AbonnementcardsComponent, canActivate: [authGuard] },
+      { path: 'abonnements-cards', component: AbonnementcardsComponent },
       { path: 'renouvellement', component: RenouvellementAbonnementComponent, canActivate: [authGuard] },
       { path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
       { path: 'activite', component: ActivitesComponent, canActivate: [authGuard] },
       { path: 'seance', component: SeanceoffComponent, canActivate: [authGuard] },
-      { path: 'seances/:activiteId', component: SeanceoffComponent, canActivate: [authGuard]  }, // Route pour afficher les séances
-      {path:'mesReservations',component:MesReservationsComponent},
+      {path:'mesReservations',component:MesReservationsComponent ,canActivate: [authGuard]},
+      { path: 'seances/:activiteId', component: SeanceoffComponent , canActivate: [authGuard]},
+      { path: 'abonnements', component: AbonnementsComponent, canActivate: [authGuard] },
+      { path: 'evenements', component: EvenementUserComponent, canActivate: [authGuard] },
 
       { path: 'coach', component: CoachChatComponent }
 
@@ -87,11 +93,23 @@ const routes: Routes = [
       { path: 'users', component: UserListComponent },
       { path: 'reclamations', component: AdminReclamationsComponent },
       { path: 'statabonnement', component: StatabonnementComponent },
-      { path: 'activite-back', component: ActiviteBackComponent },
-      { path: 'seanceback/:id', component: SeancebackComponent },
+      { path: 'list-event', component: ListEventComponent },
+
     ]
   },
+  {
+    path: 'coach-admin',
+    component: BacktempComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRoles: ['Coach'] }, // ✅ seulement Coach
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'activite-back', component: ActiviteBackComponent, canActivate: [authGuard] },
+      { path: 'seanceback/:id', component: SeancebackComponent ,canActivate: [authGuard]},
 
+    ]
+  },
+  
   {
     path: 'admin-old',
     component: AdminLayoutComponent,

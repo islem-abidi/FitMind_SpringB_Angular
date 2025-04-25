@@ -20,8 +20,8 @@ export class AbonnementcardsComponent {
   }
 
   /*allerVersRenouvellement(abonnement: any): void {
-    // Optionnel : stocker les données dans localStorage
-    localStorage.setItem('abonnementARenouveler', JSON.stringify(abonnement));
+    // Optionnel : stocker les données dans sessionStorage
+    sessionStorage.setItem('abonnementARenouveler', JSON.stringify(abonnement));
     this.router.navigate(['/renouvellement', 1]); // ID fictif
   }*/
     allerVersRenouvellement(): void {

@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class VerifyCodeComponent {
   code = '';
-  email = localStorage.getItem('pendingEmail') || ''; // stocké après register
+  email = sessionStorage.getItem('pendingEmail') || ''; // stocké après register
   error = '';
   success = '';
   showResend = false;
@@ -23,7 +23,7 @@ export class VerifyCodeComponent {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.email = params['email'] || localStorage.getItem('pendingEmail') || '';
+      this.email = params['email'] || sessionStorage.getItem('pendingEmail') || '';
       console.log('📩 Email utilisé pour vérification :', this.email);
     });
   }
@@ -47,7 +47,7 @@ export class VerifyCodeComponent {
         this.success = '✔️ Vérification réussie. Redirection...';
         this.error = '';
         this.loadingVerify = false;
-        localStorage.removeItem('pendingEmail');
+        sessionStorage.removeItem('pendingEmail');
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {

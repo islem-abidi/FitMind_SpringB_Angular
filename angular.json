@@ -27,7 +27,9 @@
             "styles": [
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.css",
-              "src/assets/back/scss/argon.scss"
+              "src/assets/back/scss/argon.scss",
+              "node_modules/leaflet/dist/leaflet.css"
+
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -44,8 +46,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "30kb",
+                  "maximumError": "40kb"
                 }
               ],
               "outputHashing": "all"

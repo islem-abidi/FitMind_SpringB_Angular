@@ -1,25 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 declare interface RouteInfo {
   path: string;
   title: string;
   icon: string;
   class: string;
+  roles: string[]; 
 }
 
-export const ROUTES: RouteInfo[] = [
-  { path: '/admin/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '' },
-  { path: '/admin/icons', title: 'Icons', icon: 'ni-planet text-blue', class: '' },
-  { path: '/admin/maps', title: 'Maps', icon: 'ni-pin-3 text-orange', class: '' },
-  { path: '/admin/user-profile', title: 'User Profile', icon: 'ni-single-02 text-yellow', class: '' },
-  { path: '/admin/tables', title: 'Tables', icon: 'ni-bullet-list-67 text-red', class: '' },
-  { path: '/admin/login', title: 'Login', icon: 'ni-key-25 text-info', class: '' },
-  { path: '/admin/register', title: 'Register', icon: 'ni-circle-08 text-pink', class: '' },
-  { path: '/admin/abonnementsback', title: 'Abonnements', icon: 'ni ni-collection', class: '' },
-  { path: 'users', title: 'Users', icon: 'ni ni-circle-08 text-pink', class: '' },
-  { path : '/admin/reclamations', title: 'Reclamations', icon: 'ni ni-circle-08 text-pink', class: '' },
-  { path : '/admin/activite-back', title: 'Activites', icon: 'ni ni-circle-08 text-pink', class: '' },
+const ROUTES: RouteInfo[] = [
+  { path: '/admin/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '', roles: ['Admin'] },
+  { path: '/admin/icons', title: 'Icons', icon: 'ni-planet text-blue', class: '', roles: ['Admin'] },
+  { path: '/admin/maps', title: 'Maps', icon: 'ni-pin-3 text-orange', class: '', roles: ['Admin'] },
+  { path: '/admin/user-profile', title: 'User Profile', icon: 'ni-single-02 text-yellow', class: '', roles: ['Admin'] },
+  { path: '/admin/tables', title: 'Tables', icon: 'ni-bullet-list-67 text-red', class: '', roles: ['Admin'] },
+  { path: '/admin/login', title: 'Login', icon: 'ni-key-25 text-info', class: '', roles: ['Admin'] },
+  { path: '/admin/register', title: 'Register', icon: 'ni-circle-08 text-pink', class: '', roles: ['Admin'] },
+  { path: '/admin/abonnementsback', title: 'Abonnements', icon: 'ni ni-collection', class: '', roles: ['Admin'] },
+  { path: 'users', title: 'Users', icon: 'ni ni-circle-08 text-pink', class: '', roles: ['Admin'] },
+  { path: '/admin/reclamations', title: 'Reclamations', icon: 'ni ni-circle-08 text-pink', class: '', roles: ['Admin'] },
+  { path: '/coach-admin/activite-back', title: 'Activites', icon: 'ni ni-circle-08 text-pink', class: '', roles: ['Coach'] },
+  { path: '/coach-admin/seances/:activiteId', title: 'Activites', icon: 'ni ni-circle-08 text-pink', class: '', roles: ['Coach'] },
+  { path: '/admin/list-event', title: 'Événements', icon: 'ni-calendar-grid-58 text-info', class: '',  roles: ['Admin']  },
+
 
 ];
 
@@ -32,12 +37,22 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[] = [];
   public isCollapsed = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.router.events.subscribe(() => {
+    const role = this.authService.getRole();
+
+    if (role) {
+      this.menuItems = ROUTES.filter(menuItem => menuItem.roles.includes(role));
+    } else {
+      this.menuItems = []; 
+    }
+        this.router.events.subscribe(() => {
       this.isCollapsed = true;
     });
+  }
+  onLogout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

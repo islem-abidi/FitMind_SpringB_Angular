@@ -56,7 +56,7 @@ getReservationsByUser(userId: number) {
   });
 }
   getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 

@@ -17,7 +17,7 @@ export class UserprofileeComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('jwt_token'); // Assurez-vous que le token est stocké avec cette clé
+    const token = sessionStorage.getItem('jwt_token'); // Assurez-vous que le token est stocké avec cette clé
     if (!token) {
       this.errorMsg = '❌ Aucun token trouvé. Veuillez vous connecter.';
       return;
@@ -49,7 +49,7 @@ export class UserprofileeComponent implements OnInit {
   }
 
   saveChanges() {
-    const token = localStorage.getItem('jwt_token');
+    const token = sessionStorage.getItem('jwt_token');
     if (!token) {
       this.errorMsg = '❌ Aucun token trouvé. Veuillez vous reconnecter.';
       return;

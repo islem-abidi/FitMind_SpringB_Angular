@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent {
   currentPassword = '';

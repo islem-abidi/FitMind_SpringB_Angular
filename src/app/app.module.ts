@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
+import { CommonModule } from '@angular/common'; // <<== Ajout nécessaire
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +48,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { SeancebackComponent } from './components/seanceback/seanceback.component';
 import { SeanceoffComponent } from './components/seanceoff/seanceoff.component';
 import { MesReservationsComponent } from './components/mes-reservations/mes-reservations.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { MesReservationsComponent } from './components/mes-reservations/mes-rese
     AbonnementsbackComponent,
     LoginComponent,
     RegisterComponent,
+    AppComponent,
     UserListComponent,
     VerifyCodeComponent,
     AjoutReclamationComponent,
@@ -80,7 +83,8 @@ import { MesReservationsComponent } from './components/mes-reservations/mes-rese
     FilterPipe,
     SeancebackComponent,
     SeanceoffComponent,
-    MesReservationsComponent
+    MesReservationsComponent,
+    AboutComponent
 
   ],
   imports: [
@@ -92,6 +96,7 @@ import { MesReservationsComponent } from './components/mes-reservations/mes-rese
     RouterModule,
     BrowserAnimationsModule,
     NgbModule,
+    CommonModule,
     ClipboardModule,
     RecaptchaV3Module,
     ToastrModule.forRoot({

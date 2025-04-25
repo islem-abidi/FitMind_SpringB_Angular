@@ -104,7 +104,7 @@ filtrerSeancesActivesEtArchivees() {
   }
 }
 reserverSeance(seanceId: number) {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   if (!token) {
     this.toastr.error("⚠️ Connexion requise pour réserver.");
     return;
