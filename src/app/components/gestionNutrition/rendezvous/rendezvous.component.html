@@ -103,8 +103,8 @@
             <i class="bi" [class.bi-save]="editMode" [class.bi-plus-circle-fill]="!editMode"></i>
             {{ editMode ? 'Modifier' : 'Ajouter' }}
           </button>
-          <button type="button" class="btn btn-outline-secondary px-4 shadow" (click)="resetAndReload()" *ngIf="editMode">
-            <i class="bi bi-x-circle"></i> Annuler
+          <button class="btn btn-primary mt-3" (click)="navigateTodossier()">
+            <i class="bi bi-file-medical me-2"></i>Retour au dossier médical
           </button>
         </div>
       </form>

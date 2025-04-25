@@ -13,6 +13,15 @@
         <option value="swimming">Natation</option>
         <option value="pilates">Pilates</option>
         <option value="gym">gym</option>
+        <option value="yoga">yoga</option>
+        <option value="aerobic">aerobic</option>
+        <option value="zumba">zumba</option>
+        <option value="tennis">tennis</option>
+        <option value="basketball">basketball</option>
+        <option value="football">football</option>
+        <option value="boxe">boxe</option>
+        <option value="danse">danse</option>
+        <option value="volleyball">volleyball</option>
       </select>
     </div>
 
@@ -29,18 +38,18 @@
       </label>
       <input type="text" class="form-control" [(ngModel)]="city" placeholder="Paris">
     </div>
-
-    <div class="col-md-3 d-flex align-items-end">
-      <button class="btn btn-primary w-100" (click)="getPrediction()" [disabled]="isLoading">
-        <span *ngIf="!isLoading">
-          <i class="bi bi-bar-chart-line me-1"></i> Calculer
-        </span>
-        <span *ngIf="isLoading">
-          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-          Calcul...
-        </span>
-      </button>
-    </div>
+    <button class="btn btn-primary w-100" (click)="getPrediction()" [disabled]="isLoading">
+      <span *ngIf="!isLoading">
+        <i class="bi bi-bar-chart-line me-1"></i> Calculer
+      </span>
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        Calcul...
+      </span>
+    </button>
+    <button class="btn btn-primary mt-3" (click)="navigateTodossier()">
+      <i class="bi bi-file-medical me-2"></i>Retour au dossier médical
+    </button>
   </div>
 
   <div *ngIf="error" class="alert alert-danger">

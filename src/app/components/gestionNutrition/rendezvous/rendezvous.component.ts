@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RendezvousService } from 'src/app/services/gestionNutrition/rendezvous.service';
 import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
-
+import { ToastrService } from 'ngx-toastr'; 
 @Component({
   selector: 'app-rendezvous',
   templateUrl: './rendezvous.component.html',
@@ -21,7 +21,8 @@ export class RendezvousComponent implements OnInit {
   constructor(
     private rendezvousService: RendezvousService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.minDate = this.formatDateTimeLocal(new Date());
   }
@@ -194,5 +195,14 @@ export class RendezvousComponent implements OnInit {
 
   hasRendezVousEnCours(): boolean {
     return this.allRendezVous.some(rdv => rdv.statut === StatutRendezVous.EN_COURS);
+  }
+
+  navigateTodossier(): void {
+    this.router.navigate(['/dossier-medical']).then(nav => {
+      console.log('Navigation vers dossier médical réussie');
+    }).catch(err => {
+      console.error('Erreur de navigation:', err);
+      this.toastr.error('Impossible d\'accéder au dossier médical', 'Erreur');
+    });
   }
 }

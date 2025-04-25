@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DossierMedicalService } from 'src/app/services/gestionNutrition/dossier-medical.service';
-
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dossier-n',
   templateUrl: './dossier-n.component.html',
@@ -9,7 +10,19 @@ import { DossierMedicalService } from 'src/app/services/gestionNutrition/dossier
 export class DossierNComponent implements OnInit {
   dossiers: any[] = [];
 
-  constructor(private dossierService: DossierMedicalService) {}
+  constructor(private dossierService: DossierMedicalService,
+        private router: Router,
+        private toastr: ToastrService 
+  ) {}
+  navigateToRendezVous(): void {
+    this.router.navigate(['/nutritionniste']).then(nav => {
+      console.log('Navigation vers nutritionniste réussie');
+    }).catch(err => {
+      console.error('Erreur de navigation:', err);
+      this.toastr.error('Impossible d\'accéder à la page nutritionniste', 'Erreur');
+    });
+  }
+
 
   ngOnInit(): void {
     this.getAllDossiers();

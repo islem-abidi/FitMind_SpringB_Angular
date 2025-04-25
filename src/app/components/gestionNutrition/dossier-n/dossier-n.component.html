@@ -54,6 +54,9 @@
                 ></i>
                 {{ dossier.rdvRecommande ? 'Annuler RDV' : 'Recommander RDV' }}
               </button>
+              <button class="btn btn-primary mt-3" (click)="navigateToRendezVous()">
+                <i class="bi bi-file-medical me-2"></i>naviger vers la liste des rendez-vous
+              </button>
             </td>
           </tr>
         </tbody>

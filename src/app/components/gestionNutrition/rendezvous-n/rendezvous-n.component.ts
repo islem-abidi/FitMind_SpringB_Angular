@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RendezvousService } from 'src/app/services/gestionNutrition/rendezvous.service';
 import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
-
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-rendezvous-n',
   templateUrl: './rendezvous-n.component.html',
@@ -11,7 +12,20 @@ export class RendezvousNComponent implements OnInit {
   rendezvousList: RendezVous[] = [];
   statutOptions = Object.values(StatutRendezVous); // ["EN_ATTENTE", "ACCEPTE", "REFUSE", etc.]
 
-  constructor(private rendezvousService: RendezvousService) {}
+  constructor(private rendezvousService: RendezvousService,
+    private router: Router,
+        private toastr: ToastrService
+  ) {}
+
+  navigateTodossierN(): void {
+    this.router.navigate(['/dossier-nutritionniste']).then(nav => {
+      console.log('Navigation vers dossier médical réussie');
+    }).catch(err => {
+      console.error('Erreur de navigation:', err);
+      this.toastr.error('Impossible d\'accéder au dossier médical', 'Erreur');
+    });
+  }
+  
 
   ngOnInit(): void {
     this.loadRendezVous();

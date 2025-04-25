@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NutritionIAService } from 'src/app/services/gestionNutrition/nutrition-ia.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr'; 
 
 @Component({
   selector: 'app-nutrition-ia',
@@ -16,7 +18,11 @@ export class NutritionIAComponent {
   isLoading = false;
   error: string | null = null;
 
-  constructor(private nutritionIAService: NutritionIAService) {}
+  constructor(
+    private nutritionIAService: NutritionIAService,
+    private router: Router,
+    private toastr: ToastrService // Ajout de l'injection manquante
+  ) {}
 
   getPrediction() {
     this.isLoading = true;
@@ -37,6 +43,15 @@ export class NutritionIAComponent {
         this.error = err.error?.error || 'Erreur lors de la prédiction';
         this.isLoading = false;
       }
+    });
+  }
+
+  navigateTodossier(): void {
+    this.router.navigate(['/dossier-medical']).then(nav => {
+      console.log('Navigation vers dossier médical réussie');
+    }).catch(err => {
+      console.error('Erreur de navigation:', err);
+      this.toastr.error('Impossible d\'accéder au dossier médical', 'Erreur');
     });
   }
 }
