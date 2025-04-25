@@ -1,0 +1,49 @@
+<h2 class="my-4">📋 Liste des réclamations</h2>
+
+<table class="table table-bordered table-hover align-middle">
+  <thead class="table-dark text-center">
+    <tr>
+      <th>Nom Étudiant</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Statut</th>
+      <th>Action</th>
+      <th>Archivage</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let r of reclamations" class="text-center">
+      <td>
+        {{r.nomUtilisateur}}
+            <td>{{ r.typeReclamation }}</td>
+      <td>{{ r.description }}</td>
+      <td>
+        <span class="badge"
+              [ngClass]="{
+                'bg-success': r.statut === 'Résolue',
+                'bg-danger': r.statut === 'Non_Résolue',
+                'bg-warning text-dark': r.statut === 'En_Cours'
+              }">
+          {{ r.statut }}
+        </span>
+      </td>
+      <td>
+        <select class="form-select" [(ngModel)]="r.statut" (change)="updateStatut(r.id, r.statut)">
+          <option *ngFor="let s of statutOptions" [value]="s">{{ s }}</option>
+        </select>
+      </td>
+      <td>
+        <button *ngIf="!r.archived" class="btn btn-sm btn-outline-danger"
+                (click)="archiveReclamation(r)">
+          🗃️ Archiver
+        </button>
+      
+        <button *ngIf="r.archived" class="btn btn-sm btn-outline-success"
+                (click)="restoreReclamation(r)">
+          ♻️ Restaurer
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
