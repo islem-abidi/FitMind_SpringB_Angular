@@ -93,14 +93,20 @@ export class DossierMedicalComponent implements OnInit {
     this.dossier = { ...d };
     this.editMode = true;
   }
+  navigateToCalendar(): void {
+    this.router.navigate(['/calender']);
+  }
+  navigateToIA(): void {
+    this.router.navigate(['/IA']);
+  }
 
-  archiveDossier(id: number): void {
+  /*archiveDossier(id: number): void {
     this.dossierService.archiveDossier(id).subscribe(() => {
       this.fetchAllDossiers();
       this.dossier = this.resetForm();
       this.editMode = false;
     });
-  }
+  }*/
 
   resetForm(): DossierMedical {
     return {

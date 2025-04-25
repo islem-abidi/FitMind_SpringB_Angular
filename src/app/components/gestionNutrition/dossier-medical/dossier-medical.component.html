@@ -127,7 +127,7 @@
   <!-- Table -->
   <div class="card shadow-sm border-0 mt-4" style="background-color: #f8f9fa;">
     <h4 class="text-center mb-4" style="color: #2d3436; font-weight: 600;">
-      🩺 <span style="color: #0984e3;">Résumé de votre Dossier Médical</span>
+      🩺 <span style="color: #0984e3;">votre Dossier Médical</span>
     </h4>
     <div class="table-responsive">
       <table class="table table-hover table-striped align-middle text-center">
@@ -158,6 +158,15 @@
               <button class="btn btn-sm btn-outline-primary" (click)="editDossier(d)">
                 ✏️ Modifier
               </button>
+              <button class="btn btn-sm btn-outline-secondary" (click)="navigateToCalendar()" 
+                      title="Voir le calendrier">
+                <i class="bi bi-calendar-week"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" (click)="navigateToIA()" 
+        title="Voir le besoin en eau et calories">
+  <i class="bi bi-cpu"></i>
+</button>
+
             </td>
           </tr>
         </tbody>

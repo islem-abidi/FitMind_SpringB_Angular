@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {NutritionIAService} from 'src/app/services/gestionNutrition/nutrition-ia.service';
+import { NutritionIAService } from 'src/app/services/gestionNutrition/nutrition-ia.service';
+
 @Component({
   selector: 'app-nutrition-ia',
   templateUrl: './nutrition-ia.component.html',
@@ -9,23 +10,24 @@ export class NutritionIAComponent {
   dossierId = 1;
   activity = 'musculation';
   duration = 60;
-  temperature = 25;
-  
+  city = 'Tunis';
+
   result: any;
   isLoading = false;
   error: string | null = null;
 
-  constructor(private NutritionIAService: NutritionIAService) {}
+  constructor(private nutritionIAService: NutritionIAService) {}
 
   getPrediction() {
     this.isLoading = true;
     this.error = null;
-    
-    this.NutritionIAService.getPrediction(
+    this.result = null;
+
+    this.nutritionIAService.getPrediction(
       this.dossierId,
       this.activity,
       this.duration,
-      this.temperature
+      this.city
     ).subscribe({
       next: (data) => {
         this.result = data;

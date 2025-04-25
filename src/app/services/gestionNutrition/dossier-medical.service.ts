@@ -24,7 +24,9 @@ export interface DossierMedical {
 export class DossierMedicalService {
   private apiUrl = 'http://localhost:8080/PIdev/api/dossierMedical'; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    
+  }
 
   getAllDossiers(): Observable<DossierMedical[]> {
     return this.http.get<DossierMedical[]>(`${this.apiUrl}/retrieveAllDossiers`);

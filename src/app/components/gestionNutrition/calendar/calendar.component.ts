@@ -7,6 +7,7 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 import { RendezvousService } from 'src/app/services/gestionNutrition/rendezvous.service';
 import { RendezVous, StatutRendezVous } from 'src/app/models/RendezVous.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+  
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     editable: true,
@@ -42,11 +44,21 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private rendezvousService: RendezvousService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadRendezVous();
+  }
+
+  navigateTodossier(): void {
+    this.router.navigate(['/dossier-medical']).then(nav => {
+      console.log('Navigation vers dossier médical réussie');
+    }).catch(err => {
+      console.error('Erreur de navigation:', err);
+      this.toastr.error('Impossible d\'accéder au dossier médical', 'Erreur');
+    });
   }
 
   loadRendezVous(): void {
@@ -56,7 +68,10 @@ export class CalendarComponent implements OnInit {
         this.calendarOptions.events = events;
         this.setupReminders(rdvs);
       },
-      error: (err) => console.error('Erreur lors du chargement des rendez-vous', err)
+      error: (err) => {
+        console.error('Erreur lors du chargement des rendez-vous', err);
+        this.toastr.error('Erreur lors du chargement des rendez-vous', 'Erreur');
+      }
     });
   }
 
@@ -79,15 +94,14 @@ export class CalendarComponent implements OnInit {
 
   private getEventColor(statut: StatutRendezVous): string {
     switch(statut) {
-      case StatutRendezVous.ACCEPTE: return '#99e699'; // Vert
-      case StatutRendezVous.EN_COURS: return '#99ccff'; // Bleu
-      case StatutRendezVous.REFUSE: return '#ff9999'; // Rouge
-      default: return '#ffcc99'; // Orange
+      case StatutRendezVous.ACCEPTE: return '#99e699';
+      case StatutRendezVous.EN_COURS: return '#99ccff';
+      case StatutRendezVous.REFUSE: return '#ff9999';
+      default: return '#ffcc99';
     }
   }
 
   private setupReminders(rdvs: RendezVous[]): void {
-    // Clear existing timeouts
     Object.values(this.notificationTimeouts).forEach(timeout => clearTimeout(timeout));
     this.notificationTimeouts = {};
 
@@ -96,7 +110,7 @@ export class CalendarComponent implements OnInit {
     rdvs.forEach(rdv => {
       if (rdv.statut === StatutRendezVous.ACCEPTE && rdv.rappel) {
         const rdvDate = new Date(rdv.dateHeure);
-        const reminderTime = new Date(rdvDate.getTime() - 10 * 60000); // 10 minutes avant
+        const reminderTime = new Date(rdvDate.getTime() - 10 * 60000);
         
         if (reminderTime > now) {
           const timeout = reminderTime.getTime() - now.getTime();
@@ -114,7 +128,7 @@ export class CalendarComponent implements OnInit {
       `Vous avez un rendez-vous dans 10 minutes: ${rdv.remarque}`,
       'Rappel de rendez-vous',
       {
-        timeOut: 10000, // 10 secondes
+        timeOut: 10000,
         positionClass: 'toast-top-right',
         progressBar: true
       }
@@ -127,7 +141,6 @@ export class CalendarComponent implements OnInit {
     const rappel = event.extendedProps.rappel;
 
     if (statut === StatutRendezVous.ACCEPTE && rappel) {
-      // Ajouter une icône de rappel à l'événement
       const reminderIcon = document.createElement('i');
       reminderIcon.className = 'bi bi-alarm ms-2';
       reminderIcon.title = 'Rappel activé (10 min avant)';
@@ -137,5 +150,5 @@ export class CalendarComponent implements OnInit {
         titleEl.appendChild(reminderIcon);
       }
     }
-  }
+  } 
 }
