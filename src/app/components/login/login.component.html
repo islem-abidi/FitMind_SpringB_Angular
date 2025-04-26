@@ -1,0 +1,44 @@
+<!-- src/app/components/login/login.component.html -->
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Connexion</h2>
+
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="w-50 mx-auto">
+
+    <div class="form-group mb-3">
+      <label>Email</label>
+      <input type="email" name="email" [(ngModel)]="email" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Mot de passe</label>
+      <input type="password" name="password" [(ngModel)]="password" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100" [disabled]="loading || countdown">
+      <span *ngIf="!loading">Se connecter</span>
+      <span *ngIf="loading">
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        Connexion...
+      </span>
+    </button>
+
+    <!-- ⏳ Blocage affiché dynamiquement -->
+    <div *ngIf="countdown" class="alert alert-warning text-center mt-3">
+      <span class="text-danger fw-bold">
+        <i class="fas fa-lock fa-bounce me-2"></i>
+        🔒 Connexion bloquée : {{ countdown }}
+      </span>
+    </div>
+
+    <div class="text-center mt-3">
+      <span>Pas encore inscrit ?</span>
+      <a [routerLink]="['/register']" class="text-decoration-none">Créer un compte</a>
+    </div>
+
+    <div class="text-end mt-2">
+      <a [routerLink]="['/forgot-password']" class="text-decoration-none text-muted">Mot de passe oublié ?</a>
+    </div>
+
+  </form>
+</div>
