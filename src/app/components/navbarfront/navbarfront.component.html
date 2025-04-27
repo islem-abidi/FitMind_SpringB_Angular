@@ -1,0 +1,42 @@
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+    <a routerLink="/" class="logo d-flex align-items-center">
+      <h1 class="sitename">FitMind</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu d-flex align-items-center">
+      <ul class="d-flex align-items-center mb-0">
+        <li><a href="#hero" class="nav-link active">Accueil</a></li>
+        <li><a routerLink="/about" class="nav-link">À propos</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/abonnements-cards" class="nav-link">Abonnements</a></li>
+
+        <li *ngIf="isLoggedIn"><a routerLink="/coach" class="nav-link">Coach IA</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/activite" class="nav-link">Activités</a></li>
+        <li *ngIf="isLoggedIn"><a routerLink="/evenements" class="nav-link">Evenement</a></li>
+
+        <li *ngIf="isLoggedIn"><a routerLink="/reclamation" class="nav-link">Mes réclamations</a></li>
+
+        <li *ngIf="isLoggedIn"><a routerLink="/mesReservations" class="nav-link">Réservations</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+
+        <li *ngIf="!isLoggedIn">
+          <a routerLink="/login" class="btn-login">Se connecter</a>
+        </li>
+ 
+        <li *ngIf="isLoggedIn" class="dropdown">
+          
+          <a href="#"><span>👤 Profil</span> <i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a routerLink="/userprofilee">Mon Profil</a></li>
+            <li><a routerLink="/change-password">Changer mot de passe</a></li>
+            <li><a (click)="logout()">Se déconnecter</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+  </div>
+</header>
