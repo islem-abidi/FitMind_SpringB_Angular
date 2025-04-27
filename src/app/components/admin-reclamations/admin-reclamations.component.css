@@ -1,0 +1,13 @@
+.table {
+    font-size: 0.9rem;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  thead.thead-dark th {
+    background-color: #343a40;
+    color: #fff;
+  }
+  
