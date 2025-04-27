@@ -1,0 +1,63 @@
+.about-hero {
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url('src/assets/front/img/SPORT1.webp') center/cover no-repeat;
+    position: relative;
+  }
+  
+  .about-hero .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .about-box {
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 800px;
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  .icon-pillars {
+    font-size: 3rem;
+    color: #B3001B;
+  }
+  
+  .about-team img {
+    object-fit: cover;
+    border: 3px solid #B3001B;
+  }
+  
+  .team-member {
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #B3001B;
+  }
+  
+  p, h4 {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

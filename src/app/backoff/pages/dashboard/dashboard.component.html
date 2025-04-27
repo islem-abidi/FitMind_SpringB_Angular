@@ -1,0 +1,90 @@
+<div class="container mt-4">
+
+  <!-- 📊 Bloc statistiques utilisateurs -->
+  <div class="row mb-4">
+    <!-- Total utilisateurs -->
+    <div class="col-lg-4 col-md-6 mb-3">
+      <div class="card card-stats shadow h-100">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title text-muted text-uppercase mb-2">Total utilisateurs</h5>
+              <h2 class="mb-0">{{ totalUsers || 0 }}</h2>
+              <small class="text-muted">👨 {{ countBySexe['Homme'] || 0 }} / 👩 {{ countBySexe['Femme'] || 0 }}</small>
+            </div>
+            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+          <div class="mt-3">
+            <p class="mb-1"><strong>Rôles :</strong></p>
+            <p class="mb-0 text-sm">
+              👨‍🎓 Étudiants : {{ countByRole['Etudiant'] || 0 }}<br>
+              🛠 Admins : {{ countByRole['Admin'] || 0 }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphique connexions -->
+    <div class="col-lg-8 col-md-6 mb-3">
+      <div class="card shadow h-100">
+        <div class="card-header bg-white border-0">
+          <h6 class="mb-0 text-primary">📊 Connexions par jour</h6>
+        </div>
+        <div class="card-body">
+          <canvas id="chart-logins" height="150"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ✅ Disponibilité IA -->
+<div class="row mb-4">
+  <div class="col-lg-12">
+    <div class="card shadow">
+      <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">🧠 État de l'IA</h5>
+        <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2"
+                (click)="checkIA()" [disabled]="isCheckingIA">
+          🔄 Vérifier
+          <div *ngIf="isCheckingIA" class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+        </button>
+      </div>
+      <div class="card-body d-flex align-items-center gap-3">
+        <span class="dot-status" [ngStyle]="{ 'background-color': iaOk ? 'green' : 'red' }"></span>
+        <span class="fs-6">{{ iaStatus || 'En attente...' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 🔥 Activité & logout -->
+  <div class="row">
+    <!-- Activité -->
+    <div class="col-lg-6 mb-3">
+      <div class="card shadow h-100">
+        <div class="card-header bg-white border-0">
+          <h6 class="mb-0 text-success">🔥 Utilisateurs actifs (7 derniers jours)</h6>
+        </div>
+        <div class="card-body">
+          <canvas id="chart-activity" height="150"></canvas>
+        </div>
+        <div class="card-footer text-center">
+          <span class="badge bg-info text-dark">
+            📅 Dernière activité moyenne : {{ avgLastSeenDays.toFixed(1) }} jours
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Déconnexion -->
+    <div class="col-lg-6 mb-3 d-flex align-items-end">
+      <button class="btn btn-outline-danger w-100" (click)="logout()">🚪 Se déconnecter</button>
+    </div>
+  </div>
+</div>
