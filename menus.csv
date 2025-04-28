@@ -1,0 +1,32 @@
+idMenu,nomMenu,statut,nutritionniste,plats,features
+1,Menu 1,VALIDE,,escalope grillé brik Fruit rouz jerbi ,Menu 1 VALIDE  escalope grillé brik Fruit rouz jerbi 
+2,Menu  2,VALIDE,,rouz jerbi  escalope grillé couscous jus,Menu  2 VALIDE  rouz jerbi  escalope grillé couscous jus
+3,Menu  3,VALIDE,,salade tunisienne couscous escalope grillé brik,Menu  3 VALIDE  salade tunisienne couscous escalope grillé brik
+4,Menu  4,REJETE,,Fruit couscous soupe spaghetti,Menu  4 REJETE  Fruit couscous soupe spaghetti
+5,Menu  5,VALIDE,,Fruit escalope grillé yaourt salade tunisienne spaghetti jus,Menu  5 VALIDE  Fruit escalope grillé yaourt salade tunisienne spaghetti jus
+6,Menu  6,REJETE,,yaourt couscous rouz jerbi ,Menu  6 REJETE  yaourt couscous rouz jerbi 
+7,Menu 7,EN_ATTENTE,,jus rouz jerbi  escalope grillé couscous yaourt salade tunisienne,Menu 7 EN_ATTENTE  jus rouz jerbi  escalope grillé couscous yaourt salade tunisienne
+8,Menu 8,EN_ATTENTE,,brik salade tunisienne escalope grillé yaourt jus,Menu 8 EN_ATTENTE  brik salade tunisienne escalope grillé yaourt jus
+9,Menu 9,VALIDE,,jus yaourt brik rouz jerbi  soupe,Menu 9 VALIDE  jus yaourt brik rouz jerbi  soupe
+10,Menu 10,VALIDE,,Fruit rouz jerbi  soupe brik,Menu 10 VALIDE  Fruit rouz jerbi  soupe brik
+12,Menu  12,EN_ATTENTE,,Fruit salade tunisienne brik yaourt spaghetti soupe,Menu  12 EN_ATTENTE  Fruit salade tunisienne brik yaourt spaghetti soupe
+21,Menu Test 1,REJETE,,Plat Test 5 Plat Test 9 Plat Test 6 Plat Test 7,Menu Test 1 REJETE  Plat Test 5 Plat Test 9 Plat Test 6 Plat Test 7
+22,Menu Test 2,EN_ATTENTE,,Plat Test 7 Plat Test 3 Plat Test 8,Menu Test 2 EN_ATTENTE  Plat Test 7 Plat Test 3 Plat Test 8
+23,Menu Test 3,REJETE,,Plat Test 9 Plat Test 6 Plat Test 7 Plat Test 10 Plat Test 4 Plat Test 3,Menu Test 3 REJETE  Plat Test 9 Plat Test 6 Plat Test 7 Plat Test 10 Plat Test 4 Plat Test 3
+24,Menu Test 4,VALIDE,,Plat Test 6 Plat Test 7 Plat Test 8 Plat Test 2,Menu Test 4 VALIDE  Plat Test 6 Plat Test 7 Plat Test 8 Plat Test 2
+25,Menu Test 5,EN_ATTENTE,,Plat Test 1 Plat Test 3 Plat Test 9,Menu Test 5 EN_ATTENTE  Plat Test 1 Plat Test 3 Plat Test 9
+26,Menu Test 6,EN_ATTENTE,,Plat Test 2 Plat Test 4 Plat Test 5 Plat Test 7 Plat Test 10,Menu Test 6 EN_ATTENTE  Plat Test 2 Plat Test 4 Plat Test 5 Plat Test 7 Plat Test 10
+27,Menu Test 7,EN_ATTENTE,,Plat Test 5 Plat Test 10 Plat Test 4 Plat Test 9 Plat Test 1 Plat Test 6,Menu Test 7 EN_ATTENTE  Plat Test 5 Plat Test 10 Plat Test 4 Plat Test 9 Plat Test 1 Plat Test 6
+28,Menu Test 8,VALIDE,,Plat Test 5 Plat Test 4 Plat Test 1 Plat Test 9,Menu Test 8 VALIDE  Plat Test 5 Plat Test 4 Plat Test 1 Plat Test 9
+29,Menu Test 9,VALIDE,,Plat Test 1 Plat Test 4 Plat Test 6 Plat Test 5 Plat Test 2 Plat Test 10,Menu Test 9 VALIDE  Plat Test 1 Plat Test 4 Plat Test 6 Plat Test 5 Plat Test 2 Plat Test 10
+30,Menu Test 10,REJETE,,Plat Test 3 Plat Test 10 Plat Test 2 Plat Test 9,Menu Test 10 REJETE  Plat Test 3 Plat Test 10 Plat Test 2 Plat Test 9
+31,Menu Test 11,REJETE,,Plat Test 2 Plat Test 7 Plat Test 9,Menu Test 11 REJETE  Plat Test 2 Plat Test 7 Plat Test 9
+32,Menu Test 12,REJETE,,Plat Test 5 Plat Test 9 Plat Test 1 Plat Test 2 Plat Test 3 Plat Test 10,Menu Test 12 REJETE  Plat Test 5 Plat Test 9 Plat Test 1 Plat Test 2 Plat Test 3 Plat Test 10
+33,Menu Test 13,EN_ATTENTE,,Plat Test 9 Plat Test 3 Plat Test 5 Plat Test 7,Menu Test 13 EN_ATTENTE  Plat Test 9 Plat Test 3 Plat Test 5 Plat Test 7
+34,Menu Test 14,VALIDE,,Plat Test 4 Plat Test 1 Plat Test 10,Menu Test 14 VALIDE  Plat Test 4 Plat Test 1 Plat Test 10
+35,Menu Test 15,EN_ATTENTE,,Plat Test 10 Plat Test 1 Plat Test 2 Plat Test 5 Plat Test 6,Menu Test 15 EN_ATTENTE  Plat Test 10 Plat Test 1 Plat Test 2 Plat Test 5 Plat Test 6
+36,Menu Test 16,EN_ATTENTE,,Plat Test 4 Plat Test 7 Plat Test 2 Plat Test 6 Plat Test 9,Menu Test 16 EN_ATTENTE  Plat Test 4 Plat Test 7 Plat Test 2 Plat Test 6 Plat Test 9
+37,Menu Test 17,VALIDE,,Plat Test 7 Plat Test 1 Plat Test 8 Plat Test 9 Plat Test 4 Plat Test 6,Menu Test 17 VALIDE  Plat Test 7 Plat Test 1 Plat Test 8 Plat Test 9 Plat Test 4 Plat Test 6
+38,Menu Test 18,REJETE,,Plat Test 10 Plat Test 7 Plat Test 4,Menu Test 18 REJETE  Plat Test 10 Plat Test 7 Plat Test 4
+39,Menu Test 19,REJETE,,Plat Test 2 Plat Test 10 Plat Test 9 Plat Test 8,Menu Test 19 REJETE  Plat Test 2 Plat Test 10 Plat Test 9 Plat Test 8
+40,Menu Test 20,VALIDE,,Plat Test 2 Plat Test 8 Plat Test 4,Menu Test 20 VALIDE  Plat Test 2 Plat Test 8 Plat Test 4
