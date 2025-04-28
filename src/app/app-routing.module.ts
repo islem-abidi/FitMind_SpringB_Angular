@@ -42,6 +42,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ListEventComponent } from './components/Evenementsback/list-event-back/list-event.component';
 import { EvenementUserComponent } from './components/Evenementsfront/evenement-user/evenement-user.component';
 import { ReservationBackComponent } from './components/reservation-back/reservation-back.component';
+import { ConfirmReservationComponent } from './components/confirm-reservation/confirm-reservation.component';
 const routes: Routes = [
   {
     path: '',
@@ -62,8 +63,10 @@ const routes: Routes = [
       { path: 'abonnements-cards', component: AbonnementcardsComponent, canActivate: [authGuard] },
       { path: 'renouvellement', component: RenouvellementAbonnementComponent, canActivate: [authGuard] },
       { path: 'reclamation', component: AjoutReclamationComponent, canActivate: [authGuard] },
-      { path: 'activite', component: ActivitesComponent, canActivate: [authGuard] },
+      { path: 'activite', component: ActivitesComponent},
       { path: 'evenements', component: EvenementUserComponent ,canActivate: [authGuard] } ,
+      { path: 'seance', component: SeanceoffComponent, canActivate: [authGuard] },
+      { path: 'confirm-reservation', component: ConfirmReservationComponent },
 
       { path: 'seance', component: SeanceoffComponent, canActivate: [authGuard] },
       { path: 'seances/:activiteId', component: SeanceoffComponent, canActivate: [authGuard]  }, // Route pour afficher les séances

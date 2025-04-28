@@ -1,0 +1,43 @@
+#sidenav-main .navbar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #5e72e4; /* Bleu-violet FitMind */
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+#sidenav-main .navbar-brand:hover {
+  color: #6f42c1; /* léger effet hover plus violet */
+}
+
+/* Uniformiser la couleur des icônes */
+#sidenav-main .nav-link i {
+  color: #5e72e4;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+/* Couleur du texte */
+#sidenav-main .nav-link {
+  color: #5e72e4;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Hover & Active */
+#sidenav-main .nav-link:hover,
+#sidenav-main .nav-link.active {
+  background: linear-gradient(90deg, #6f42c1, #5e72e4);
+  color: white;
+  box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);
+}
+
+#sidenav-main .nav-link:hover i,
+#sidenav-main .nav-link.active i {
+  color: white;
+}

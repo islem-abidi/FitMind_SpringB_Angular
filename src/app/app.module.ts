@@ -55,6 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReservationBackComponent } from './components/reservation-back/reservation-back.component';
+import { ConfirmReservationComponent } from './components/confirm-reservation/confirm-reservation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,8 +92,8 @@ import { ReservationBackComponent } from './components/reservation-back/reservat
     ListEventComponent ,
     AddEventComponent,
     EvenementUserComponent,
-    ReservationBackComponent
-
+    ReservationBackComponent,
+    ConfirmReservationComponent
 
   ],
   imports: [

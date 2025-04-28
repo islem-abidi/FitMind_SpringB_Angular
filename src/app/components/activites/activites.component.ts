@@ -51,21 +51,15 @@ export class ActivitesComponent {
       }
     });
 
-
     this.route.queryParams.subscribe(params => {
       const reservationId = params['reservationId'];
       if (reservationId) {
-        console.log("📦 ID de réservation reçu :", reservationId);
         this.http.put(`http://localhost:8081/PIdev/reservations/confirm-reservation/${reservationId}`, null)
-          .subscribe({
+        .subscribe({
             next: () => {
-              this.message = "✅ Votre réservation a été confirmée avec succès.";
-              this.toastr.success(this.message);
+              this.toastr.success('✅ Votre réservation est confirmée !');
+              this.router.navigate(['/activite']); // Redirection après confirmation
             },
-            error: () => {
-              this.message = "❌ Une erreur est survenue lors de la confirmation.";
-              this.toastr.error(this.message);
-            }
           });
       }
     });
@@ -88,7 +82,6 @@ export class ActivitesComponent {
       },
       error: (err) => {
         console.error("❌ Erreur lors de la récupération de l'utilisateur connecté :", err);
-        this.toastr.error("Utilisateur non authentifié", "Erreur");
       }
     });
   }

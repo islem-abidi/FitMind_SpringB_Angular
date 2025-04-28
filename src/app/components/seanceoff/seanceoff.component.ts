@@ -51,6 +51,7 @@ export class SeanceoffComponent {
     this.route.queryParams.subscribe(params => {
       const reservationId = params['reservationId'];
       if (reservationId) {
+        // Cette partie à supprimer
         this.http.put(`http://localhost:8081/PIdev/reservations/confirm-reservation/${reservationId}`, null)
           .subscribe({
             next: () => this.toastr.success('✅ Votre réservation est confirmée !'),
@@ -58,8 +59,7 @@ export class SeanceoffComponent {
           });
       }
     });
-
-      this.seances.sort((a, b) => {
+         this.seances.sort((a, b) => {
         const heureA = new Date(`1970-01-01T${a.heureDebut}`).getTime();
         const heureB = new Date(`1970-01-01T${b.heureDebut}`).getTime();
         return heureA - heureB; // tri croissant, mettre `b - a` pour décroissant
@@ -102,12 +102,17 @@ filtrerSeancesActivesEtArchivees() {
       this.seancesActives.push(seance);
     }
   }
-}
-reserverSeance(seanceId: number) {
+}reserverSeance(seanceId: number) {
   const token = sessionStorage.getItem('token');
   if (!token) {
     this.toastr.error("⚠️ Connexion requise pour réserver.");
     return;
+  }
+
+  const confirmed = window.confirm("📩 Veux-tu confirmer ta réservation ? Un email te sera envoyé.");
+
+  if (!confirmed) {
+    return; // l'utilisateur a annulé => on stoppe ici
   }
 
   const params = new HttpParams().set('seanceId', seanceId.toString());
@@ -121,10 +126,11 @@ reserverSeance(seanceId: number) {
     next: () => this.toastr.success("📧 Un email de confirmation a été envoyé."),
     error: (err) => {
       console.error("❌ Erreur lors de la réservation :", err);
-      this.toastr.error("Réservation échouée !");
+      this.toastr.error("❌ Réservation échouée !");
     }
   });
 }
+
 
   formatHeure(heure: string): string {
     const date = new Date(`1970-01-01T${heure}`);

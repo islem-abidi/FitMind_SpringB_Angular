@@ -31,24 +31,6 @@ export class LoginComponent implements OnInit {
     const stored = sessionStorage.getItem('blockedUntil');
     if (stored) this.startCountdownTimer(stored);
 
-
-    this.route.queryParams.subscribe(params => {
-      const reservationId = params['reservationId'];
-      if (reservationId) {
-        console.log("📦 ID de réservation reçu :", reservationId);
-        this.http.put(`http://localhost:8081/PIdev/reservations/confirm-reservation/${reservationId}`, null)
-          .subscribe({
-            next: () => {
-              this.message = "✅ Votre réservation a été confirmée avec succès.";
-              this.toastr.success(this.message);
-            },
-            error: () => {
-              this.message = "❌ Une erreur est survenue lors de la confirmation.";
-              this.toastr.error(this.message);
-            }
-          });
-      }
-    });
   }
 
   startCountdownTimer(until: string) {
